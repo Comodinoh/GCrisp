@@ -24,9 +24,13 @@ fn bool start(int width, int height, String title, int target_fps)
   rl::setWindowState(rl::FLAG_VSYNC_HINT);
   rl::setWindowState(rl::FLAG_MSAA_4X_HINT);
 
-  debug_font = rl::loadFontEx("resources/fonts/ttf/ArnoPro-Display.ttf", 64, null, 0);
-  rl::setTextureFilter(debug_font.texture, TextureFilter.BILINEAR);
-  rl::genTextureMipmaps(&debug_font.texture);
+  debug_font = rl::loadFontEx("resources/fonts/ttf/font8.ttf", 64, null, 0);
+
+  if(rl::isFontReady(debug_font))
+  {
+    rl::setTextureFilter(debug_font.texture, TextureFilter.BILINEAR);
+    rl::genTextureMipmaps(&debug_font.texture);
+  }
 
  return true;  
 }
@@ -61,8 +65,8 @@ fn void render()
       rl::clearBackground({0, 0, 0, 255});
       if(DEBUG)
       {
-        debug_string.appendfn("FPS: %d", rl::getFPS());
-        debug_string.appendfn("UPS: %d", ups);
+        debug_string.appendfn("Fps: %d", rl::getFPS());
+        debug_string.appendfn("Ups: %d", ups);
 
         //String str_copy = debug_string.copy_str();
 
@@ -79,7 +83,7 @@ fn void render()
        // {
          // io::printfn("%d", line);
           ZString str = debug_string.zstr_view();
-          int size = 32;
+          int size = 48;
           int spacing = 1;
           rl::setTextLineSpacing(4+(int)rl::measureTextEx(debug_font, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*)_+{}:\"<>?|~", size, spacing).y);
           rl::drawTextEx(debug_font, str ,{10, 10}, size, 1, {255, 255, 255 ,255});

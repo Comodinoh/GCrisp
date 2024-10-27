@@ -11,6 +11,7 @@ all: ${TARGET}
 
 ${TARGET}: ${SRCS}
 	${C3} ${C3FLAGS} -o $@ compile ${SRCS}
+	
 
 clean:
 	rm ${TARGET}
