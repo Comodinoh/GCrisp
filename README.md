@@ -18,4 +18,5 @@ To Be Done.
 - Improve font rendering
 - Add size and resolution customization
 - Make script parser
+- Optimize, improve and clean code
 
