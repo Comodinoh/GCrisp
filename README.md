@@ -6,7 +6,8 @@
  
  Run ``make`` in the cloned folder.
  The binary ``gcrisp`` should have been created in the folder you're in.
-## Windows and OSX - To Be Done
+## Windows and OSX
+To Be Done.
 
 # GOALS
 - Implement custom rendering raylib wrappers
