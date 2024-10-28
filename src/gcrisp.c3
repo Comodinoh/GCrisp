@@ -6,7 +6,7 @@ import gcrisp::engine;
 
 fn int main(String[] args)
 {
-  engine::start(1280, 720, "Hello world!", 60);
-  engine::loop();
+  core::start(1280, 720, "Hello world!", 60);
+  core::loop();
   return 0;
 }
