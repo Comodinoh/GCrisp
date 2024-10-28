@@ -8,5 +8,12 @@
  The binary ``gcrisp`` should have been created in the folder you're in.
 
 # GOALS
+- Implement custom rendering raylib wrappers
+- Implement custom character rendering
+- Implement effects and animations
+- Implement background rendering
+- Add easy-to-use API for scene creation
 - Improve font rendering
+- Add size and resolution customization
+- Make script parser
 
