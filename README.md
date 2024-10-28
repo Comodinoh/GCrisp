@@ -11,6 +11,7 @@ To Be Done.
 
 # GOALS
 - Implement custom rendering raylib wrappers
+- Write own custom shaders for image filtering and stuff
 - Implement custom character rendering
 - Implement effects and animations
 - Implement background rendering
