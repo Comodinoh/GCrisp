@@ -11,6 +11,7 @@ int w_height;
 int ups;
 DString debug_string = DString{};
 Font debug_font;
+Shader font_shader;//TODO: Do something with the shader
 
 
 fn bool start(int width, int height, String title, int target_fps)
@@ -21,20 +22,24 @@ fn bool start(int width, int height, String title, int target_fps)
   w_width = width;
   w_height = height;
 
-  rl::initWindow(w_width, w_height, (ZString)w_title);
-  rl::setWindowState(rl::FLAG_VSYNC_HINT);
-  rl::setWindowState(rl::FLAG_MSAA_4X_HINT);
+  rl::setConfigFlags(rl::FLAG_VSYNC_HINT | rl::FLAG_MSAA_4X_HINT);
 
-  debug_font = rl::loadFontEx("resources/fonts/ttf/font8.ttf", 512, null, 0);
+  rl::initWindow(w_width, w_height, (ZString)w_title);
+
+  debug_font = rl::loadFontEx("resources/fonts/ttf/font8.ttf", 64, null, 0);
 
   if(rl::isFontReady(debug_font))
   {
-    //rl::setTextureFilter(debug_font.texture, TextureFilter.BILINEAR);
-    Image tex_image = rl::loadImageFromTexture(debug_font.texture);
-    rl::imageBlurGaussian(&tex_image, 4);
-    debug_font.texture = rl::loadTextureFromImage(tex_image);
+    rl::setTextureFilter(debug_font.texture, TextureFilter.BILINEAR);
+   // Image tex_image = rl::loadImageFromTexture(debug_font.texture);
+    //rl::imageBlurGaussian(&tex_image, 4);
+    //debug_font.texture = rl::loadTextureFromImage(tex_image);
     rl::genTextureMipmaps(&debug_font.texture);
   }
+
+
+
+  font_shader = rl::loadShader("resources/shaders/font-vert.glsl", "resources/shaders/font-frag.glsl");
 
  return true;  
 }
@@ -66,23 +71,31 @@ fn void update()
 
 fn void render()
 {
-  rl::beginDrawing();
-    {
-      rl::clearBackground({0, 0, 0, 255});
+ 
+
+      rl::beginDrawing();
+
+      rl::clearBackground({0, 0, 0, 1});
+
       if(constants::DEBUG)
       {
         debug_string.appendfn("Fps: %d", rl::getFPS());
         debug_string.appendfn("Ups: %d", ups);
 
         ZString str = debug_string.zstr_view();
-        int size = 48;
+        int size = 64;
         int spacing = 1;
+        rl::beginShaderMode(font_shader);
+
         rl::setTextLineSpacing(4+(int)rl::measureTextEx(debug_font, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*)_+{}:\"<>?|~", size, spacing).y);
-        rl::drawTextEx(debug_font, str ,{10, 10}, size, 1, {255, 255, 255 ,255});
+        rl::drawTextEx(debug_font, str ,{10, 10}, size, 1, {0, 124, 255 ,255});
+
+        rl::endShaderMode();
         debug_string.clear();
       }
-    }
-  rl::endDrawing();
+
+
+      rl::endDrawing();
 }
 
 fn void loop(){
