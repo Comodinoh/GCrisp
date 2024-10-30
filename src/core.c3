@@ -23,6 +23,7 @@ fn bool start(int width, int height, String title, int target_fps)
   w_height = height;
 
   rl::setConfigFlags(rl::FLAG_VSYNC_HINT | rl::FLAG_MSAA_4X_HINT);
+  rl::setTraceLogLevel(constants::DEBUG ? TraceLogLevel.INFO : TraceLogLevel.DEBUG);
 
   rl::initWindow(w_width, w_height, (ZString)w_title);
 
