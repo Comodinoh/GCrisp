@@ -9,12 +9,13 @@
 ## Windows and OSX
 To Be Done.
 
-# GOALS
+# TODO
 - Implement custom rendering raylib wrappers
 - Write shaders for heavy gpu effects
 - Implement custom character rendering
 - ~Add easy-to-use API for script and scene creation~
 - Add built-in actions for backgrounds, character rendering, effects, etc.
+- Move character, effects, background code outside of main script module
 - Improve font rendering
 - Add size and resolution customization
 - Make script parser
