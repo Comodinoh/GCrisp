@@ -15,9 +15,9 @@ To Be Done.
 - Implement custom character rendering
 - Implement effects and animations
 - Implement background rendering
-- Add easy-to-use API for scene creation
+- ~Add easy-to-use API for script and scene creation~
 - Improve font rendering
 - Add size and resolution customization
 - Make script parser
-- Optimize, improve and clean code
+- Implement better memory management and resolve memory leaks
 
