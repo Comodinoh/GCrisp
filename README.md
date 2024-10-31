@@ -11,13 +11,13 @@ To Be Done.
 
 # GOALS
 - Implement custom rendering raylib wrappers
-- Write own custom shaders for image filtering and stuff
+- Write shaders for heavy gpu effects
 - Implement custom character rendering
-- Implement effects and animations
-- Implement background rendering
 - ~Add easy-to-use API for script and scene creation~
+- Add built-in actions for backgrounds, character rendering, effects, etc.
 - Improve font rendering
 - Add size and resolution customization
 - Make script parser
+- Create a good parsing language and structure for scripting
 - Implement better memory management and resolve memory leaks
 
