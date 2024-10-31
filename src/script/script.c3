@@ -6,6 +6,7 @@ import std::collections::list;
 import std::collections::map;
 import raylib5::rl;
 
+def Action = fn void(any[]);
 def ActionPair = Pair(<any[], Action>);
 def ActionList = List(<ActionPair>);
 def SceneList = List(<Scene>);
@@ -45,17 +46,6 @@ struct Character
   String name;
 }
 
-interface Action
-{
-  fn void execute(any[] args);
-}
-
-struct VoidAction(Action)
-{
-  int t; // Can't declare empty structs
-
-}
-
 fn void ScriptProgram.changeScript(&self, String script)
 {
   assert(self.scripts.has_key(script), "Tried changing to a null script");
@@ -92,7 +82,7 @@ fn void Script.update(&self)
   Timeline timeline = currentScene.timeline;
   ActionPair actionPair = timeline.actions.get(timeline.currentAction);
 
-  actionPair.second.execute(actionPair.first);
+  actionPair.second(actionPair.first);
   
   if(!currentScene.nextAction()) 
   {
@@ -137,11 +127,6 @@ fn bool Scene.nextAction(&self)
   usz actions = timeline.actions.len();
   timeline.currentAction++;
   return timeline.currentAction < actions;
-}
-
-fn void VoidAction.execute(&self, any[] args) @dynamic
-{
-  logger::log("HELLO");
 }
 
 fn Scene Scene.unregister(&self, int position)
