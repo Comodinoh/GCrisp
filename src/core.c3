@@ -4,6 +4,7 @@ import std::io;
 import raylib5::rl;
 import gcrisp::engine::logger;
 import gcrisp::engine::constants;
+import gcrisp::engine::script;
 
 String w_title;
 int w_width;
@@ -12,9 +13,10 @@ int ups;
 DString debug_string = DString{};
 Font debug_font;
 Shader font_shader;//TODO: Do something with the shader
+ScriptProgram program;
 
 
-fn bool start(int width, int height, String title, int target_fps)
+fn bool start(int width, int height, String title)
 {
 
   w_title = title;
@@ -42,14 +44,31 @@ fn bool start(int width, int height, String title, int target_fps)
 
   font_shader = rl::loadShader("resources/shaders/font-vert.glsl", "resources/shaders/font-frag.glsl");
 
- return true;  
+
+  Script script;
+  script.done = mem::malloc(bool.sizeof);
+  *script.done = false;
+
+  Scene scene;
+  
+  scene.register(ActionPair{{}, &&VoidAction{}});
+
+  script.scenes.push(scene);
+
+  program.scripts["main"] = script;
+  program.currentScript = "main";
+
+  return true;
 }
 
 fn void stop()
 {
   logger::log("Called stop function: Cleaning up...");
 
+  program.dispose();
+
   rl::unloadFont(debug_font);
+  rl::unloadShader(font_shader);
 
   rl::closeWindow();
 }
@@ -68,6 +87,7 @@ fn void resize(int n_width, int n_height)
 
 fn void update()
 {
+  program.update();
 }
 
 fn void render()
@@ -100,6 +120,11 @@ fn void render()
 }
 
 fn void loop(){
+
+  defer {
+    stop();
+  }
+
   float target_ms = 0.01666;
   float delta = 0.0;
   int updates = 0;
@@ -127,5 +152,4 @@ fn void loop(){
 
   logger::log("Game loop exited");
 
-  stop();
 }
