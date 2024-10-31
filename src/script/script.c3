@@ -7,7 +7,7 @@ import std::collections::map;
 import raylib5::rl;
 
 def Action = fn void(any[]);
-def ActionPair = Pair(<any[], Action>);
+def ActionPair = Pair(<Action, any[]>);
 def ActionList = List(<ActionPair>);
 def SceneList = List(<Scene>);
 def Scripts = HashMap(<String, Script>);
@@ -78,12 +78,11 @@ fn void ScriptProgram.dispose(&self)
 fn void Script.update(&self)
 {
   Scene currentScene = self.scenes.get(self.currentScene);
-
   Timeline timeline = currentScene.timeline;
   ActionPair actionPair = timeline.actions.get(timeline.currentAction);
 
-  actionPair.second(actionPair.first);
-  
+  actionPair.first(actionPair.second);
+
   if(!currentScene.nextAction()) 
   {
     logger::log("Done with current scene, switching...");
