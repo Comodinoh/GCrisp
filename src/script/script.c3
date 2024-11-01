@@ -12,7 +12,7 @@ def ActionPair = Pair(<Action, ArgPair>);
 def ActionList = List(<ActionPair>);
 def SceneList = List(<Scene>);
 def Scripts = HashMap(<String, Script>);
-def Condition = bool;
+def Condition = fn bool(Scene*);
 
 struct ScriptProgram
 {
@@ -75,9 +75,9 @@ fn void Script.update(&self)
   ActionPair actionPair = timeline.actions.get(timeline.currentAction);
   ArgPair argPair = actionPair.second;
   
-  if(argPair.second) actionPair.first(argPair.first);
+  if(argPair.second(&currentScene)) actionPair.first(argPair.first);
 
-  if(!currentScene.nextAction()) 
+  if(!currentScene.nextAction())
   {
     logger::log("Done with current scene, switching...");
     if(!self.nextScene())
@@ -137,4 +137,15 @@ fn Scene* Scene.register(&self, ActionPair... actions)
   }
   self.timeline.actions.add_array(actions);
   return self;
+}
+
+fn ActionPair createAction(Action actionFunc, any[] args, Condition condition)
+{
+  ArgPair argPair = {args, condition};
+  return {actionFunc, argPair};
+}
+
+fn bool noCondition(Scene* scene)
+{
+  return true;
 }

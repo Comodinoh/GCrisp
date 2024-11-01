@@ -45,17 +45,20 @@ fn bool start(int width, int height, String title)
   font_shader = rl::loadShader("resources/shaders/font-vert.glsl", "resources/shaders/font-frag.glsl");
 
 
-  Script script;
-  script.done = mem::malloc(bool.sizeof);
-  *script.done = false;
+  Script scr;
+  scr.done = mem::malloc(bool.sizeof);
+  *scr.done = false;
 
   Scene scene;
+
+  ActionPair action = script::createAction(fn(args) => logger::log("Hello! This is a script."), {}, &script::noCondition);
+
+  scene.register(action);
   
-  scene.register({fn(args) => logger::log("Hey! This is running from a script."), {{}, true}});
 
-  script.scenes.push(scene);
+  scr.scenes.push(scene);
 
-  program.scripts["main"] = script;
+  program.scripts["main"] = scr;
   program.currentScript = "main";
 
   return true;
