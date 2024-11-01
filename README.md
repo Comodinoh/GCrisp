@@ -13,6 +13,7 @@ To Be Done.
 - Implement custom rendering raylib wrappers
 - Write shaders for heavy gpu effects
 - Implement custom character rendering
+- Implement functionality for conditional actions and branching
 - ~Add easy-to-use API for script and scene creation~
 - Add built-in actions for backgrounds, character rendering, effects, etc.
 - Move character, effects, background code outside of main script module
