@@ -7,7 +7,7 @@ import std::collections::map;
 import raylib5::rl;
 
 def Action = fn void(any[]);
-def ArgPair = Pair(<any[], bool>);
+def ArgPair = Pair(<any[], Condition>);
 def ActionPair = Pair(<Action, ArgPair>);
 def ActionList = List(<ActionPair>);
 def SceneList = List(<Scene>);
