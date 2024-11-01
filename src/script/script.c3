@@ -2,17 +2,13 @@ module gcrisp::engine::script;
 
 import gcrisp::engine::data;
 import gcrisp::engine::logger;
+import gcrisp::engine::script::actions;
 import std::collections::list;
 import std::collections::map;
 import raylib5::rl;
 
-def Action = fn void(any[]);
-def ArgPair = Pair(<any[], Condition>);
-def ActionPair = Pair(<Action, ArgPair>);
-def ActionList = List(<ActionPair>);
-def SceneList = List(<Scene>);
+def Scenes = List(<Scene>);
 def Scripts = HashMap(<String, Script>);
-def Condition = fn bool(Scene*);
 
 struct ScriptProgram
 {
@@ -22,7 +18,7 @@ struct ScriptProgram
 
 struct Script
 {
-  SceneList scenes;
+  Scenes scenes;
   usz currentScene;
   bool* done;
 }
@@ -35,7 +31,7 @@ struct Scene
 
 struct Timeline
 {
-  ActionList actions;
+  Actions actions;
   usz currentAction;
 }
 
@@ -75,7 +71,7 @@ fn void Script.update(&self)
   ActionPair actionPair = timeline.actions.get(timeline.currentAction);
   ArgPair argPair = actionPair.second;
   
-  if(argPair.second(&currentScene)) actionPair.first(argPair.first);
+  if(argPair.second(&currentScene)) actionPair.first(...argPair.first);
 
   if(!currentScene.nextAction())
   {
@@ -132,20 +128,9 @@ fn Scene* Scene.register(&self, ActionPair... actions)
 {
   if(actions.len == 0) 
   {
-    logger::log("Called Scene.register on empty actions", .log_level = TraceLogLevel.WARNING);
+    logger::log("Tried calling Scene.register on empty actions", .log_level = TraceLogLevel.WARNING);
     return self;
   }
   self.timeline.actions.add_array(actions);
   return self;
-}
-
-fn ActionPair createAction(Action actionFunc, any[] args, Condition condition)
-{
-  ArgPair argPair = {args, condition};
-  return {actionFunc, argPair};
-}
-
-fn bool noCondition(Scene* scene)
-{
-  return true;
 }

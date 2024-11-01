@@ -51,7 +51,7 @@ fn bool start(int width, int height, String title)
 
   Scene scene;
 
-  ActionPair action = script::createAction(fn(args) => logger::log("Hello! This is a script."), {}, &script::noCondition);
+  ActionPair action = actions::createAction(fn(args) => logger::log("Hello! This is a script."));
 
   scene.register(action);
   
