@@ -7,10 +7,12 @@ import std::collections::map;
 import raylib5::rl;
 
 def Action = fn void(any[]);
-def ActionPair = Pair(<Action, any[]>);
+def ArgPair = Pair(<any[], bool>);
+def ActionPair = Pair(<Action, ArgPair>);
 def ActionList = List(<ActionPair>);
 def SceneList = List(<Scene>);
 def Scripts = HashMap(<String, Script>);
+def Condition = bool;
 
 struct ScriptProgram
 {
@@ -35,15 +37,6 @@ struct Timeline
 {
   ActionList actions;
   usz currentAction;
-}
-
-/**
-* TODO: Subject to change
-**/
-struct Character
-{
-  Texture2D texture;
-  String name;
 }
 
 fn void ScriptProgram.changeScript(&self, String script)
@@ -80,8 +73,9 @@ fn void Script.update(&self)
   Scene currentScene = self.scenes.get(self.currentScene);
   Timeline timeline = currentScene.timeline;
   ActionPair actionPair = timeline.actions.get(timeline.currentAction);
-
-  actionPair.first(actionPair.second);
+  ArgPair argPair = actionPair.second;
+  
+  if(argPair.second) actionPair.first(argPair.first);
 
   if(!currentScene.nextAction()) 
   {
@@ -138,7 +132,7 @@ fn Scene* Scene.register(&self, ActionPair... actions)
 {
   if(actions.len == 0) 
   {
-    logger::log("Called Scene.register on empty actions", .log_level = TraceLogLevel.DEBUG);
+    logger::log("Called Scene.register on empty actions", .log_level = TraceLogLevel.WARNING);
     return self;
   }
   self.timeline.actions.add_array(actions);

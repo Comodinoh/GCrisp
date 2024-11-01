@@ -51,7 +51,7 @@ fn bool start(int width, int height, String title)
 
   Scene scene;
   
-  scene.register({fn(args) => logger::log("Hey! This is running from a script."), {}});
+  scene.register({fn(args) => logger::log("Hey! This is running from a script."), {{}, true}});
 
   script.scenes.push(scene);
 
