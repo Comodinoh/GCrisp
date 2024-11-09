@@ -2,13 +2,27 @@
 
 #include <sys/types.h>
 #include <stdlib.h>
+#include <string>
 #define ENGINE_NAME "GCrisp"
 
-typedef struct GCrispCoreInfo
-{
-  char* game_name;
-  ushort game_version; 
-} GCrispCoreInfo;
+namespace gcrisp {
+  typedef struct GCrispCoreInfo
+  {
+    std::string game_name;
+    ushort game_version; 
+  } GCrispCoreInfo;
 
-GCrispCoreInfo* gcrisp_core_start(char* game_name, ushort game_version);
+  class GameEngine
+  {
+  private:
+    
+  public:
+    GameEngine(GCrispCoreInfo info);
+    ~GameEngine();
+
+    GCrispCoreInfo game_info;
+    void start();
+  };
+}
+
 
