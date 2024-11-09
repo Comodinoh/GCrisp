@@ -19,7 +19,7 @@ target_link_directories(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
   PUBLIC
-  SDL3)
+  SDL3::SDL3)
 
 add_subdirectory(lib)
 
