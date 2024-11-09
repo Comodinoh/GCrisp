@@ -12,6 +12,15 @@ target_include_directories(${PROJECT_NAME}
   PUBLIC
   lib/SDL/include)
 
+target_link_directories(${PROJECT_NAME}
+  PRIVATE
+  lib/SDL/src
+  )
+
+target_link_libraries(${PROJECT_NAME}
+  PUBLIC
+  SDL)
+
 add_subdirectory(lib)
 
 
