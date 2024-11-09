@@ -1,14 +1,14 @@
-#pragma
+#pragma once
 
 #include <sys/types.h>
 #include <stdlib.h>
 #define ENGINE_NAME "GCrisp"
 
-struct GCrispCoreInfo
+typedef struct GCrispCoreInfo
 {
   char* game_name;
   ushort game_version; 
-};
+} GCrispCoreInfo;
 
-struct GCrispCoreInfo* gcrisp_core_start(char* game_name, ushort game_version);
+GCrispCoreInfo* gcrisp_core_start(char* game_name, ushort game_version);
 
