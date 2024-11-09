@@ -8,7 +8,7 @@ add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
 
 target_include_directories(${PROJECT_NAME} 
   PUBLIC
-  src)
+  include)
 
 add_subdirectory(lib)
 
