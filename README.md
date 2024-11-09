@@ -1,6 +1,6 @@
 # Usage
 ## Linux
-__Note:__ needs CMake >= 3.30.4
+__Note:__ needs CMake >= 3.30.4 and Make
 
 To use GCrisp in your project, you can import it with CMake by making a submodule:
 ```bash
@@ -24,7 +24,7 @@ Now you can use the headers of the library :
 
 # Building & Installing
 ## Linux
-__Note__: needs CMake >= 3.30.4 and SDL3
+__Note__: needs CMake >= 3.30.4, Make and SDL3
 ****
 
 ### Building
