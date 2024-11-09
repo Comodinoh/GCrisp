@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.30.5)
 
-add_library(gcrisp STATIC src/core.c)
+file(GLOB_RECURSE SRC_FILES src/*.cpp)
+add_library(gcrisp STATIC ${SRC_FILES})
 
 target_include_directories(${PROJECT_NAME} 
   PUBLIC
-  ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+  src)
+target_link_directories(${PROJECT_NAME} PRIVATE src)
 
