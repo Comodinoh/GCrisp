@@ -8,7 +8,9 @@ add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
 
 target_include_directories(${PROJECT_NAME} 
   PUBLIC
-  include)
+  include
+  PUBLIC
+  lib/SDL/include)
 
 add_subdirectory(lib)
 
