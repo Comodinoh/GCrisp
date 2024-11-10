@@ -15,13 +15,16 @@ namespace gcrisp {
   class GameEngine
   {
   private:
-    
+         
   public:
     GameEngine(GCrispCoreInfo info);
     ~GameEngine();
 
     GCrispCoreInfo game_info;
-    void start();
+
+    void Start();
+    void Update();
+    void Render();
   };
 }
 
