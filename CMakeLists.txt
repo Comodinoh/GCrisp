@@ -10,7 +10,7 @@ add_subdirectory(lib)
 
 target_include_directories(${PROJECT_NAME} 
   PUBLIC
-  include
+  src
   PUBLIC
   lib/SDL/include
  )
