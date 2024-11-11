@@ -18,3 +18,15 @@ private:
 };
 
 };
+
+// Core log macros
+#define GC_CORE_FATAL(...)   ::gcrisp::Log::GetCoreLogger()->fatal(__VA__ARGS__)
+#define GC_CORE_ERROR(...)   ::gcrisp::Log::GetCoreLogger()->error(__VA__ARGS__)
+#define GC_CORE_WARN(...)    ::gcrisp::Log::GetCoreLogger()->warn(__VA__ARGS__)
+#define GC_CORE_INFO(...)    ::gcrisp::Log::GetCoreLogger()->info(__VA__ARGS__)
+#define GC_CORE_TRACE(...)   ::gcrisp::Log::GetCoreLogger()->trace(__VA__ARGS__)
+
+#define GC_ERROR(...)        ::gcrisp::Log::GetClientLogger()->error(__VA__ARGS__)
+#define GC_WARN(...)         ::gcrisp::Log::GetClientLogger()->warn(__VA__ARGS__)
+#define GC_INFO(...)         ::gcrisp::Log::GetClientLogger()->info(__VA__ARGS__)
+#define GC_TRACE(...)        ::gcrisp::Log::GetClientLogger()->trace(__VA__ARGS__)
