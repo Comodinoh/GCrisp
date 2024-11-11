@@ -1,5 +1,6 @@
 #pragma once
 
+#include <GCrisp/core.h>
 
 namespace gcrisp {
 
@@ -15,5 +16,5 @@ public:
 Application* CreateApplication();
 
 
-}
+};
 
