@@ -22,6 +22,7 @@ target_link_directories(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
   PUBLIC
+  spdlog::spdlog_header_only
   SDL3::SDL3
   glad
   glm)
