@@ -1,4 +1,5 @@
 #include <GCrisp/Application.h>
+#include <GCrisp/Events/KeyEvent.h>
 
 namespace gcrisp{
 
