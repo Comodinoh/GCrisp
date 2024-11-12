@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <spdlog/spdlog.h>
-#include <GCrisp/core.h>
+#include <GCrisp/Core.h>
 
 namespace gcrisp {
 
@@ -26,6 +26,7 @@ private:
 #define GC_CORE_INFO(...)    ::gcrisp::Log::GetCoreLogger()->info(__VA__ARGS__)
 #define GC_CORE_TRACE(...)   ::gcrisp::Log::GetCoreLogger()->trace(__VA__ARGS__)
 
+// App log macros
 #define GC_ERROR(...)        ::gcrisp::Log::GetClientLogger()->error(__VA__ARGS__)
 #define GC_WARN(...)         ::gcrisp::Log::GetClientLogger()->warn(__VA__ARGS__)
 #define GC_INFO(...)         ::gcrisp::Log::GetClientLogger()->info(__VA__ARGS__)

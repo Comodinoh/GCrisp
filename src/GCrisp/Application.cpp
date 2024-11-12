@@ -1,4 +1,4 @@
-#include <GCrisp/application.h>
+#include <GCrisp/Application.h>
 
 namespace gcrisp{
 
