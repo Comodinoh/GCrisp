@@ -36,4 +36,19 @@ private:
   int m_RepeatCount;
 };
 
+class KeyReleasedEvent : public KeyEvent
+{ 
+public:
+  KeyReleasedEvent(int keycode) : KeyEvent(keycode) {}
+
+  std::string ToString() const override
+  {
+    std::stringstream stream;
+    stream << "KeyReleasedEvent: " << m_KeyCode;
+    return stream.str();
+  }
+
+  EVENT_CLASS_TYPE(KeyReleased)
+};
+
 }
