@@ -3,11 +3,11 @@
 
 namespace gcrisp{
 
-Application::Application()
+Application::Application() 
 {
 }
 
-Application::~Application()
+Application::~Application() 
 {
 }
 

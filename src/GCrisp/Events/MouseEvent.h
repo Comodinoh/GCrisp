@@ -1,6 +1,5 @@
 #pragma once
 
-#include <sstream>
 #include <GCrisp/Core.h>
 #include "Event.h"
 

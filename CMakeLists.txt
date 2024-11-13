@@ -30,6 +30,8 @@ target_link_libraries(${PROJECT_NAME}
   glad
   glm)
 
+target_precompile_headers(${PROJECT_NAME} PUBLIC src/gcpch.h)
+
 
 
 

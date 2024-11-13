@@ -1,7 +1,7 @@
 #pragma once
 
+#include <GCrisp/Core.h>
 #include "Event.h"
-#include <sstream>
 
 namespace gcrisp{
 
