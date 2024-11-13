@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 3.30.5)
+cmake_minimum_required(VERSION 2.8...3.30.5)
 
 project(gcrisp)
 set(CMAKE_CXX_STANDARD 20)
@@ -16,11 +16,11 @@ cmake_dependent_option(GCRISP_BUILD_WIN32 "Build support for Win32" ON "WIN32" O
 cmake_dependent_option(GCRISP_BUILD_POSIX "Build support for Posix/Linux" ON "UNIX;NOT APPLE" OFF)
 
 if(GCRISP_BUILD_WIN32)
-  message(STATUS "Building for Windows")
+  message(STATUS "${PROJECT_NAME}: Building for Windows")
 endif()
 
-if(GCRISP_BUILD_LINUX)
-  message(STATUS "Building for Posix")
+if(GCRISP_BUILD_POSIX)
+  message(STATUS "${PROJECT_NAME}: Building for Posix")
 endif()
 
 add_subdirectory(lib)

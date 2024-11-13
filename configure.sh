@@ -1,3 +1,3 @@
 #!/bin/sh
 
-cmake -S . -B out
+cmake -S . -B out -Wno-deprecated
