@@ -2,9 +2,7 @@
 
 #include <GCrisp/Core.h>
 #include <functional>
-#include <ostream>
 #include <string>
-#include <spdlog/fmt/ostr.h>
 
 namespace gcrisp{
 
