@@ -14,19 +14,11 @@ add_subdirectory(lib)
 target_include_directories(${PROJECT_NAME} 
   PUBLIC
   src
-  PUBLIC
-  lib/SDL/include
  )
-
-target_link_directories(${PROJECT_NAME}
-  PRIVATE
-  lib/SDL/src
-  )
 
 target_link_libraries(${PROJECT_NAME}
   PUBLIC
   spdlog::spdlog_header_only
-  SDL3::SDL3
   glad
   glm)
 
