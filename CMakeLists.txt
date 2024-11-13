@@ -23,7 +23,6 @@ if(GCRISP_BUILD_LINUX)
   message(STATUS "Building for Posix")
 endif()
 
+add_subdirectory(lib)
 
 add_subdirectory(src)
-
-add_subdirectory(lib)
