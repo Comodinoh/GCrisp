@@ -2,6 +2,7 @@
 
 #include <GCrisp/Core.h>
 #include <functional>
+#include <ostream>
 #include <string>
 
 namespace gcrisp{
@@ -68,5 +69,10 @@ public:
 private:
   Event& m_Event;
 };
+
+inline std::ostream& operator<<(std::ostream& os, const Event& e)
+{
+  return os << e.ToString();
+}
 
 }
