@@ -2,5 +2,5 @@
 
 mkdir -p out
 cd out
-make
+cmake --build . -j
 
