@@ -1,29 +1,29 @@
-cmake_minimum_required(VERSION 3.30.5)
-project(gcrisp)
 
+cmake_minimum_required(VERSION 3.30.5)
+
+project(gcrisp)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-file(GLOB_RECURSE SRC_FILES src/*.cpp)
-add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
+
+include(CMakeDependentOption)
+
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+
+cmake_dependent_option(GCRISP_BUILD_WIN32 "Build support for Win32" ON "WIN32" OFF)
+cmake_dependent_option(GCRISP_BUILD_POSIX "Build support for Posix/Linux" ON "UNIX;NOT APPLE" OFF)
+
+if(GCRISP_BUILD_WIN32)
+  message(STATUS "Building for Windows")
+endif()
+
+if(GCRISP_BUILD_LINUX)
+  message(STATUS "Building for Posix")
+endif()
+
+
+add_subdirectory(src)
 
 add_subdirectory(lib)
-
-target_include_directories(${PROJECT_NAME} 
-  PUBLIC
-  src
- )
-
-target_link_libraries(${PROJECT_NAME}
-  PUBLIC
-  spdlog::spdlog_header_only
-  glad
-  glm)
-
-target_precompile_headers(${PROJECT_NAME} PUBLIC src/gcpch.h)
-
-
-
-
