@@ -37,7 +37,7 @@ target_link_libraries(${PROJECT_NAME}
   spdlog::spdlog_header_only
   glad
   glm
-  glfw3)
+  glfw)
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC src/gcpch.h)
 
