@@ -19,9 +19,9 @@ file(GLOB_RECURSE SRC_FILES src/GCrisp/*.cpp)
 list(APPEND SOURCES)
 
 
-add_library(${CMAKE_PROJECT_NAME} STATIC ${SRC_FILES})
+add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
 
-target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
+target_compile_definitions(${PROJECT_NAME} PRIVATE
     $<$<CONFIG:Debug>:_GCRISP_DEBUG>
     $<$<CONFIG:Release>:_GCRISP_RELEASE>
 
@@ -31,40 +31,40 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
 
 add_subdirectory(lib)
 
-target_include_directories(${CMAKE_PROJECT_NAME} 
+target_include_directories(${PROJECT_NAME} 
   PUBLIC
   src
  )
 
-target_link_libraries(${CMAKE_PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME}
   PUBLIC
   spdlog::spdlog_header_only
   glad
   glm
   glfw3)
 
-target_precompile_headers(${CMAKE_PROJECT_NAME} PUBLIC src/gcpch.h)
+target_precompile_headers(${PROJECT_NAME} PUBLIC src/gcpch.h)
 
 
 if(GCRISP_BUILD_WIN32)
-  message(STATUS "${PROJECT_NAME}: Building for Windows")
+  message(STATUS "${PROJECT_NAME}: Building for Windows systems")
 
-  target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE _GCRISP_WIN32)
-  target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE platform/Windows)
+  target_compile_definitions(${PROJECT_NAME} PRIVATE _GCRISP_WIN32)
+  target_include_directories(${PROJECT_NAME} PRIVATE platform/Windows)
 
   file(GLOB_RECURSE WINDOWS_SRC_FILES platform/Windows/*.cpp)
   
-  target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${WINDOWS_SRC_FILES})
+  target_sources(${PROJECT_NAME} PRIVATE ${WINDOWS_SRC_FILES})
 endif()
 
 if(GCRISP_BUILD_POSIX)
-  message(STATUS "${PROJECT_NAME}: Building for Posix")
+  message(STATUS "${PROJECT_NAME}: Building for Posix systems")
 
-  target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE _GCRISP_POSIX)
-  target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE platform/Linux)
+  target_compile_definitions(${PROJECT_NAME} PRIVATE _GCRISP_POSIX)
+  target_include_directories(${PROJECT_NAME} PRIVATE platform/Linux)
 
   file(GLOB_RECURSE LINUX_SRC_FILES platform/Linux/*.cpp)
-  target_sources(${CMAKE_PROJECT_NAME} PUBLIC ${LINUX_SRC_FILES})
+  target_sources(${PROJECT_NAME} PUBLIC ${LINUX_SRC_FILES})
 endif()
 
 
