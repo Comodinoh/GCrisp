@@ -1,5 +1,5 @@
 #include <GCrisp/Core.h>
-#include <LinuxWindow.h>
+#include "LinuxWindow.h"
 
 namespace gcrisp{
 

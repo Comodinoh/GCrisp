@@ -15,13 +15,9 @@ cmake_dependent_option(GCRISP_BUILD_WIN32 "Build support for Win32" ON "WIN32" O
 cmake_dependent_option(GCRISP_BUILD_POSIX "Build support for Posix/Linux" ON "UNIX;NOT APPLE" OFF)
 
 file(GLOB_RECURSE SRC_FILES src/GCrisp/*.cpp)
-
-list(APPEND SOURCES)
-
-
 add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE
+target_compile_definitions(${PROJECT_NAME} PUBLIC
     $<$<CONFIG:Debug>:_GCRISP_DEBUG>
     $<$<CONFIG:Release>:_GCRISP_RELEASE>
 
@@ -49,8 +45,8 @@ target_precompile_headers(${PROJECT_NAME} PUBLIC src/gcpch.h)
 if(GCRISP_BUILD_WIN32)
   message(STATUS "${PROJECT_NAME}: Building for Windows systems")
 
-  target_compile_definitions(${PROJECT_NAME} PRIVATE _GCRISP_WIN32)
-  target_include_directories(${PROJECT_NAME} PRIVATE platform/Windows)
+  target_compile_definitions(${PROJECT_NAME} PUBLIC _GCRISP_WIN32)
+  target_include_directories(${PROJECT_NAME} PUBLIC platform/Windows)
 
   file(GLOB_RECURSE WINDOWS_SRC_FILES platform/Windows/*.cpp)
   
@@ -60,8 +56,8 @@ endif()
 if(GCRISP_BUILD_POSIX)
   message(STATUS "${PROJECT_NAME}: Building for Posix systems")
 
-  target_compile_definitions(${PROJECT_NAME} PRIVATE _GCRISP_POSIX)
-  target_include_directories(${PROJECT_NAME} PRIVATE platform/Linux)
+  target_compile_definitions(${PROJECT_NAME} PUBLIC _GCRISP_POSIX)
+  target_include_directories(${PROJECT_NAME} PUBLIC platform/Linux)
 
   file(GLOB_RECURSE LINUX_SRC_FILES platform/Linux/*.cpp)
   target_sources(${PROJECT_NAME} PUBLIC ${LINUX_SRC_FILES})
