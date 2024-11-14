@@ -9,32 +9,25 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(CMakeDependentOption)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+option(GC_ENABLE_ASSERTS "Enable assert checking" OFF)
 
 cmake_dependent_option(GCRISP_BUILD_WIN32 "Build support for Win32" ON "WIN32" OFF)
 cmake_dependent_option(GCRISP_BUILD_POSIX "Build support for Posix/Linux" ON "UNIX;NOT APPLE" OFF)
 
-if(GCRISP_BUILD_WIN32)
-  message(STATUS "${PROJECT_NAME}: Building for Windows")
-endif()
+file(GLOB_RECURSE SRC_FILES src/GCrisp/*.cpp)
 
-if(GCRISP_BUILD_POSIX)
-  message(STATUS "${PROJECT_NAME}: Building for Posix")
-endif()
+list(APPEND SOURCES)
 
 
-file(GLOB_RECURSE SRC_FILES src/*.cpp)
 add_library(${CMAKE_PROJECT_NAME} STATIC ${SRC_FILES})
 
-if(GCRISP_BUILD_WIN32)
-  target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE _GCRISP_WIN32)
+target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Debug>:_GCRISP_DEBUG>
+    $<$<CONFIG:Release>:_GCRISP_RELEASE>
 
-  list(APPEND glfw_PKG_LIBS "-lgdi32")
-endif()
-
-if(GCRISP_BUILD_POSIX)
-  target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE _GCRISP_POSIX)
-endif()
-
+    $<$<CONFIG:RelWithDebInfo>:_GCRISP_DEBUG>
+    $<$<CONFIG:MinSizeRel>:_GCRISP_RELEASE>
+)
 
 add_subdirectory(lib)
 
@@ -51,4 +44,27 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
   glfw3)
 
 target_precompile_headers(${CMAKE_PROJECT_NAME} PUBLIC src/gcpch.h)
+
+
+if(GCRISP_BUILD_WIN32)
+  message(STATUS "${PROJECT_NAME}: Building for Windows")
+
+  target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE _GCRISP_WIN32)
+  target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE platform/Windows)
+
+  file(GLOB_RECURSE WINDOWS_SRC_FILES platform/Windows/*.cpp)
+  
+  target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${WINDOWS_SRC_FILES})
+endif()
+
+if(GCRISP_BUILD_POSIX)
+  message(STATUS "${PROJECT_NAME}: Building for Posix")
+
+  target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE _GCRISP_POSIX)
+  target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE platform/Linux)
+
+  file(GLOB_RECURSE LINUX_SRC_FILES platform/Linux/*.cpp)
+  target_sources(${CMAKE_PROJECT_NAME} PUBLIC ${LINUX_SRC_FILES})
+endif()
+
 

@@ -1,6 +1,5 @@
 #!/bin/sh
 
-mkdir -p out
-cd out
-cmake --build . -j
+str="$1"
+
 

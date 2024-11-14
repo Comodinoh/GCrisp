@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GCrisp/Events/Event.h"
+#include <GCrisp/Events/Event.h>
 #include <GCrisp/Core.h>
 
 namespace gcrisp{
@@ -29,7 +29,7 @@ public:
 
   virtual void SetEventCallback(const EventCallbackFunc& callback) = 0;
   virtual void SetVSync(bool enabled) = 0;
-  virtual bool IsVSync() const = 0;
+  virtual bool HasVSync() const = 0;
 
   static Window* Create(const WindowProps& props = WindowProps());
 };
