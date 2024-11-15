@@ -34,13 +34,13 @@ target_link_libraries(${PROJECT_NAME}
   glm
   glfw)
 
-target_precompile_headers(${PROJECT_NAME} PRIVATE src/gcpch.h)
+target_precompile_headers(${PROJECT_NAME} PUBLIC src/gcpch.h)
 
 
 if(GCRISP_BUILD_WIN32)
   message(STATUS "${PROJECT_NAME}: Building for Windows systems")
 
-  target_compile_definitions(${PROJECT_NAME} PUBLIC _GCRISP_WIN32)
+  target_compile_definitions(${PROJECT_NAME} PUBLIC GC_WIN32)
   target_include_directories(${PROJECT_NAME} PUBLIC platform/Windows)
 
   file(GLOB_RECURSE WINDOWS_SRC_FILES platform/Windows/*.cpp)
@@ -51,11 +51,11 @@ endif()
 if(GCRISP_BUILD_POSIX)
   message(STATUS "${PROJECT_NAME}: Building for Posix systems")
 
-  target_compile_definitions(${PROJECT_NAME} PUBLIC _GCRISP_POSIX)
+  target_compile_definitions(${PROJECT_NAME} PUBLIC GC_POSIX)
   target_include_directories(${PROJECT_NAME} PUBLIC platform/Linux)
 
   file(GLOB_RECURSE LINUX_SRC_FILES platform/Linux/*.cpp)
-  target_sources(${PROJECT_NAME} PUBLIC ${LINUX_SRC_FILES})
+  target_sources(${PROJECT_NAME} PRIVATE ${LINUX_SRC_FILES})
 endif()
 
 
