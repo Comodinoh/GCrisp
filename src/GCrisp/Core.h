@@ -3,11 +3,9 @@
 #define ENGINE_NAME "GCrisp"
 
 #ifndef GC_RELEASE
-  #define GC_ASSERT(x, ...) {if(!(x)) {GC_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak();}}
-  #define GC_CORE_ASSERT(x, ...) {if(!(x)) {GC_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak();}}
+  #define GC_ASSERT(x){assert(x);}
 #else
-  #define GC_ASSERT(x, ...)
-  #define GC_CORE_ASSERT(x, ...)
+  #define GC_ASSERT(x)
 #endif
 
 #define BIT(x) (1 << x)

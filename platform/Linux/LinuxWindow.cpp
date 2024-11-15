@@ -31,6 +31,7 @@ void LinuxWindow::Init(const WindowProps& props)
   if(!s_GLFWInitialized)
   {
     int success = glfwInit();
+    GC_ASSERT(success);
 
     s_GLFWInitialized = true;
   }

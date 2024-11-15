@@ -9,7 +9,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(CMakeDependentOption)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
-option(GC_ENABLE_ASSERTS "Enable assert checking" OFF)
 
 cmake_dependent_option(GCRISP_BUILD_WIN32 "Build support for Win32" ON "WIN32" OFF)
 cmake_dependent_option(GCRISP_BUILD_POSIX "Build support for Posix/Linux" ON "UNIX;NOT APPLE" OFF)
@@ -19,7 +18,6 @@ add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_RELEASE)
-  message(STATUS "${PROJECT_NAME}: Selected Release target")
 endif()
 
 add_subdirectory(lib)
@@ -36,7 +34,7 @@ target_link_libraries(${PROJECT_NAME}
   glm
   glfw)
 
-target_precompile_headers(${PROJECT_NAME} PUBLIC src/gcpch.h)
+target_precompile_headers(${PROJECT_NAME} PRIVATE src/gcpch.h)
 
 
 if(GCRISP_BUILD_WIN32)

@@ -1,5 +1,5 @@
-#!/bin/sh
+#!/bin/bash
 
-str="$1"
-
-
+mkdir -p out
+cd out
+cmake --build . -j 

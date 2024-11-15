@@ -1,5 +1,5 @@
 #!/bin/bash
 
-mkdir -p out/release
-cd out/release
-cmake --build .. -j --config Release
+mkdir -p out
+cd out
+cmake -DCMAKE_BUILD_TYPE=Release -S .. -B .

@@ -2,4 +2,4 @@
 
 mkdir -p out
 cd out
-cmake --build . -j --config Debug
+cmake -DCMAKE_BUILD_TYPE=Debug -S .. -B .

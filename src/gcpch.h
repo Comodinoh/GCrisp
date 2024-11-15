@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <functional>
 #include <sstream>
+#include <cassert>
 
 #include <string>
 #include <vector>
@@ -13,5 +14,3 @@
 #include <unordered_set>
 
 #include <GCrisp/Log.h>
-
-
