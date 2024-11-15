@@ -17,13 +17,10 @@ cmake_dependent_option(GCRISP_BUILD_POSIX "Build support for Posix/Linux" ON "UN
 file(GLOB_RECURSE SRC_FILES src/GCrisp/*.cpp)
 add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
 
-target_compile_definitions(${PROJECT_NAME} PUBLIC
-    $<$<CONFIG:Debug>:_GCRISP_DEBUG>
-    $<$<CONFIG:Release>:_GCRISP_RELEASE>
-
-    $<$<CONFIG:RelWithDebInfo>:_GCRISP_DEBUG>
-    $<$<CONFIG:MinSizeRel>:_GCRISP_RELEASE>
-)
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+  target_compile_definitions(${PROJECT_NAME} PUBLIC GC_RELEASE)
+  message(STATUS "${PROJECT_NAME}: Selected Release target")
+endif()
 
 add_subdirectory(lib)
 
