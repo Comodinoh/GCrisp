@@ -89,7 +89,7 @@ void LinuxWindow::Init(const WindowProps& props)
       }
       case GLFW_REPEAT:
       {
-          KeyPressedEvent event(key, 0);
+          KeyPressedEvent event(key, 1);
           data.EventCallback(event);
           break;
       }

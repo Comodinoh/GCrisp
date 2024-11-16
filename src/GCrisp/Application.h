@@ -3,8 +3,8 @@
 #include "GCrisp/Events/ApplicationEvent.h"
 #include "GCrisp/GWindow.h"
 #include <GCrisp/Core.h>
+#include <GCrisp/LayerStack.h>
 #include <GCrisp/Events/Event.h>
-#include <memory>
 
 namespace gcrisp {
 
@@ -18,11 +18,15 @@ public:
 
   void OnEvent(Event& e);
 
+  void PushLayer(Layer* layer);
+  void PushOverlay(Layer* overlay);
+
 private:
   bool OnWindowClose(WindowCloseEvent& e);
 
   std::unique_ptr<Window> m_Window;
   bool m_Running = true;
+  LayerStack m_LayerStack;
 };
 
 Application* CreateApplication();
