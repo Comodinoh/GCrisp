@@ -10,7 +10,9 @@ include(CMakeDependentOption)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(GCRISP_BUILD_TESTS "Build tests" ON)
+
 set(IMGUI_DIR lib/imgui)
+set(IMGUI_IMPL_OPENGL_LOADER_GLAD ON)
 
 cmake_dependent_option(GCRISP_BUILD_WIN32 "Build support for Win32" ON "WIN32" OFF)
 cmake_dependent_option(GCRISP_BUILD_POSIX "Build support for Posix/Linux" ON "UNIX;NOT APPLE" OFF)
