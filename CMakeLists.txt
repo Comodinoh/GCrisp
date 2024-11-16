@@ -10,12 +10,18 @@ include(CMakeDependentOption)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(GCRISP_BUILD_TESTS "Build tests" ON)
+set(IMGUI_DIR lib/imgui)
 
 cmake_dependent_option(GCRISP_BUILD_WIN32 "Build support for Win32" ON "WIN32" OFF)
 cmake_dependent_option(GCRISP_BUILD_POSIX "Build support for Posix/Linux" ON "UNIX;NOT APPLE" OFF)
 
 file(GLOB_RECURSE SRC_FILES src/GCrisp/*.cpp)
-add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
+file(GLOB IMGUI_SRC ${IMGUI_DIR}/*.cpp)
+
+set(IMGUI_BACKENDS ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp)
+
+add_library(${PROJECT_NAME} STATIC ${SRC_FILES} ${IMGUI_SRC} 
+  ${IMGUI_BACKENDS_SRC} ${IMGUI_DIR}/misc/cpp/imgui_stdlib.cpp)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_RELEASE)
@@ -26,6 +32,7 @@ add_subdirectory(lib)
 target_include_directories(${PROJECT_NAME} 
   PUBLIC
   lib/glfw/include
+  lib/imgui
   src
  )
 
@@ -38,9 +45,9 @@ if(GCRISP_BUILD_WIN32)
   file(GLOB_RECURSE WINDOWS_SRC_FILES platform/Windows/*.cpp)
   
   target_sources(${PROJECT_NAME} PUBLIC ${WINDOWS_SRC_FILES})
-endif()
 
-if(GCRISP_BUILD_POSIX)
+  list(APPEND IMGUI_BACKENDS ${IMGUI_DIR}/backends/imgui_impl_win32.cpp)
+elseif(GCRISP_BUILD_POSIX)
   message(STATUS "${PROJECT_NAME}: Building for Posix systems")
 
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_POSIX)
@@ -59,6 +66,8 @@ target_link_libraries(${PROJECT_NAME}
   spdlog::spdlog_header_only
   glm
 )
+
+target_sources(${PROJECT_NAME} PRIVATE ${IMGUI_BACKENDS})
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC src/gcpch.h)
 
