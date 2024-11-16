@@ -3,6 +3,7 @@
 #include "GCrisp/GWindow.h"
 #include <GCrisp/Application.h>
 #include <GCrisp/Events/KeyEvent.h>
+#include <glad/glad.h>
 
 namespace gcrisp{
 
@@ -23,6 +24,9 @@ void Application::Run()
 {
   while(m_Running)
   {
+
+    glClearColor(1, 0, 0, 1);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     for(Layer* layer : m_LayerStack)
     {
@@ -48,7 +52,6 @@ void Application::OnEvent(Event& e)
 
   dispatcher.Dispatch<WindowCloseEvent>(BIND_FN(OnWindowClose));
   
-  GC_CORE_TRACE("{0}", e);
 
   for(auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
   {

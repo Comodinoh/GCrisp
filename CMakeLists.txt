@@ -50,6 +50,8 @@ if(GCRISP_BUILD_POSIX)
   target_sources(${PROJECT_NAME} PUBLIC ${LINUX_SRC_FILES})
 endif()
 
+add_definitions(-DGLFW_INCLUDE_NONE)
+
 target_link_libraries(${PROJECT_NAME}
   PUBLIC
   glad

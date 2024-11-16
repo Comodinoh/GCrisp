@@ -1,8 +1,10 @@
 #pragma once
 
+#include "GLFW/glfw3.h"
 #include <GCrisp/Core.h>
 #include <GCrisp/GWindow.h>
-#include <GLFW/glfw3.h>
+
+struct GLFWwindow;
 
 namespace gcrisp{
 

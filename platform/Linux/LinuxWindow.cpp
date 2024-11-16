@@ -1,11 +1,12 @@
 #include <GCrisp/Core.h>
 #include "LinuxWindow.h"
 #include "GCrisp/Log.h"
-#include "GLFW/glfw3.h"
 #include <GCrisp/Events/ApplicationEvent.h>
 #include <GCrisp/Events/MouseEvent.h>
 #include <GCrisp/Events/KeyEvent.h>
-#include <X11/X.h>
+#include <glad/glad.h>
+#include "GLFW/glfw3.h"
+
 
 namespace gcrisp{
 
@@ -51,6 +52,10 @@ void LinuxWindow::Init(const WindowProps& props)
 
   m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
   glfwMakeContextCurrent(m_Window);
+
+  int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+  GC_ASSERT(status);
+
   glfwSetWindowUserPointer(m_Window, &m_Data);
   SetVSync(true);
 
