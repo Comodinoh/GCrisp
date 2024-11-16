@@ -25,18 +25,9 @@ add_subdirectory(lib)
 
 target_include_directories(${PROJECT_NAME} 
   PUBLIC
+  lib/glfw/include
   src
  )
-
-target_link_libraries(${PROJECT_NAME}
-  PUBLIC
-  spdlog::spdlog_header_only
-  glad
-  glm
-  glfw)
-
-target_precompile_headers(${PROJECT_NAME} PUBLIC src/gcpch.h)
-
 
 if(GCRISP_BUILD_WIN32)
   message(STATUS "${PROJECT_NAME}: Building for Windows systems")
@@ -46,7 +37,7 @@ if(GCRISP_BUILD_WIN32)
 
   file(GLOB_RECURSE WINDOWS_SRC_FILES platform/Windows/*.cpp)
   
-  target_sources(${PROJECT_NAME} PRIVATE ${WINDOWS_SRC_FILES})
+  target_sources(${PROJECT_NAME} PUBLIC ${WINDOWS_SRC_FILES})
 endif()
 
 if(GCRISP_BUILD_POSIX)
@@ -56,11 +47,20 @@ if(GCRISP_BUILD_POSIX)
   target_include_directories(${PROJECT_NAME} PUBLIC platform/Linux)
 
   file(GLOB_RECURSE LINUX_SRC_FILES platform/Linux/*.cpp)
-  target_sources(${PROJECT_NAME} PRIVATE ${LINUX_SRC_FILES})
+  target_sources(${PROJECT_NAME} PUBLIC ${LINUX_SRC_FILES})
 endif()
+
+target_link_libraries(${PROJECT_NAME}
+  PUBLIC
+  glad
+  glfw
+  spdlog::spdlog_header_only
+  glm
+)
+
+target_precompile_headers(${PROJECT_NAME} PUBLIC src/gcpch.h)
 
 if(GCRISP_BUILD_TESTS)
   add_subdirectory(test)
 endif()
-
 
