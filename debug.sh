@@ -2,4 +2,4 @@
 
 mkdir -p out
 cd out
-cmake -DCMAKE_BUILD_TYPE=Debug -S .. -B .
+cmake -DCMAKE_BUILD_TYPE=Debug -DGCRISP_BUILD_TESTS=yes -S .. -B .
