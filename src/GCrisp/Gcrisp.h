@@ -1,7 +1,7 @@
 #pragma once
 
-#include "GCrisp/Application.h"
-#include "GCrisp/Log.h"
+#include <GCrisp/Application.h>
+#include <GCrisp/Log.h>
 #include <GLFW/glfw3.h>
 
 // Entry point

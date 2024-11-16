@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.30.4)
+
+project(gcrisp-test)
+
+file(GLOB_RECURSE SRC src/*.cpp)
+add_executable(${PROJECT_NAME} ${SRC})
+
+target_link_libraries(${PROJECT_NAME} gcrisp)

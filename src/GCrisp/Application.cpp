@@ -1,7 +1,6 @@
 #include "GCrisp/GWindow.h"
 #include <GCrisp/Application.h>
 #include <GCrisp/Events/KeyEvent.h>
-#include <memory>
 
 namespace gcrisp{
 

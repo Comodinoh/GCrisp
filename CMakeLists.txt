@@ -9,6 +9,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(CMakeDependentOption)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+option(GCRISP_BUILD_TESTS "Build tests" ON)
 
 cmake_dependent_option(GCRISP_BUILD_WIN32 "Build support for Win32" ON "WIN32" OFF)
 cmake_dependent_option(GCRISP_BUILD_POSIX "Build support for Posix/Linux" ON "UNIX;NOT APPLE" OFF)
@@ -56,6 +57,10 @@ if(GCRISP_BUILD_POSIX)
 
   file(GLOB_RECURSE LINUX_SRC_FILES platform/Linux/*.cpp)
   target_sources(${PROJECT_NAME} PRIVATE ${LINUX_SRC_FILES})
+endif()
+
+if(GCRISP_BUILD_TESTS)
+  add_subdirectory(test)
 endif()
 
 
