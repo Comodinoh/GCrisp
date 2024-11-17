@@ -9,9 +9,14 @@ namespace gcrisp{
 
 #define BIND_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
+Application* Application::s_Instance = nullptr;
+
 Application::Application() 
 {
-  m_Window = std::unique_ptr<Window>(Window::Create());
+  GC_ASSERT(!s_Instance)
+  s_Instance = this;
+
+  m_Window = std::unique_ptr<Window>(Window::Create(OpenGL));
   m_Window->SetEventCallback(BIND_FN(OnEvent));
 
 }

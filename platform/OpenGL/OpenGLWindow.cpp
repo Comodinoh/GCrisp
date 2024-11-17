@@ -1,5 +1,5 @@
 #include <GCrisp/Core.h>
-#include "LinuxWindow.h"
+#include "OpenGLWindow.h"
 #include "GCrisp/Log.h"
 #include <GCrisp/Events/ApplicationEvent.h>
 #include <GCrisp/Events/MouseEvent.h>
@@ -17,28 +17,23 @@ static void GLFWErrorCallback(int error, const char* desc)
   GC_CORE_ERROR("GLFW Error: {0}: {1}", error, desc);
 }
 
-Window* Window::Create(const WindowProps& props)
-{
-  return new LinuxWindow(props);
-}
-
-LinuxWindow::LinuxWindow(const WindowProps& props)
+OpenGLWindow::OpenGLWindow(const WindowProps& props)
 {
   Init(props);
 }
 
-LinuxWindow::~LinuxWindow()
+OpenGLWindow::~OpenGLWindow()
 {
   Shutdown();
 }
 
-void LinuxWindow::Init(const WindowProps& props)
+void OpenGLWindow::Init(const WindowProps& props)
 {
   m_Data.Title = props.Title;
   m_Data.Width = props.Width;
   m_Data.Height = props.Height;
 
-  GC_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
+  GC_CORE_INFO("Creating OpenGL window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
   if(!s_GLFWInitialized)
   {
@@ -136,18 +131,18 @@ void LinuxWindow::Init(const WindowProps& props)
   });
 }
 
-void LinuxWindow::Shutdown()
+void OpenGLWindow::Shutdown()
 {
   glfwDestroyWindow(m_Window);
 }
 
-void LinuxWindow::OnUpdate()  
+void OpenGLWindow::OnUpdate()  
 {
   glfwPollEvents();
   glfwSwapBuffers(m_Window);
 }
 
-void LinuxWindow::SetVSync(bool enabled)
+void OpenGLWindow::SetVSync(bool enabled)
 {
   if(enabled)
   {
@@ -160,7 +155,7 @@ void LinuxWindow::SetVSync(bool enabled)
   m_Data.VSync = enabled;
 }
 
-bool LinuxWindow::HasVSync() const 
+bool OpenGLWindow::HasVSync() const 
 {
   return m_Data.VSync;
 }

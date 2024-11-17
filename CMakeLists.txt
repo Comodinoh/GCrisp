@@ -42,22 +42,24 @@ if(GCRISP_BUILD_WIN32)
   message(STATUS "${PROJECT_NAME}: Building for Windows systems")
 
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_WIN32)
-  target_include_directories(${PROJECT_NAME} PUBLIC platform/Windows)
+  target_include_directories(${PROJECT_NAME} PUBLIC platform/DirectX)
 
-  file(GLOB_RECURSE WINDOWS_SRC_FILES platform/Windows/*.cpp)
+  file(GLOB_RECURSE DIRECTX_SRC platform/DirectX/*.cpp)
   
-  target_sources(${PROJECT_NAME} PUBLIC ${WINDOWS_SRC_FILES})
+  target_sources(${PROJECT_NAME} PUBLIC ${DIRECTX_SRC})
 
   list(APPEND IMGUI_BACKENDS ${IMGUI_DIR}/backends/imgui_impl_win32.cpp)
 elseif(GCRISP_BUILD_POSIX)
   message(STATUS "${PROJECT_NAME}: Building for Posix systems")
 
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_POSIX)
-  target_include_directories(${PROJECT_NAME} PUBLIC platform/Linux)
 
-  file(GLOB_RECURSE LINUX_SRC_FILES platform/Linux/*.cpp)
-  target_sources(${PROJECT_NAME} PUBLIC ${LINUX_SRC_FILES})
 endif()
+
+file(GLOB_RECURSE OPENGL_SRC platform/OpenGL/*.cpp)
+file(GLOB_RECURSE VULKAN_SRC platform/Vulkan/*.cpp)
+target_sources(${PROJECT_NAME} PRIVATE ${OPENGL_SRC} ${VULKAN_SRC})
+target_include_directories(${PROJECT_NAME} PUBLIC platform/OpenGL platform/Vulkan)
 
 add_definitions(-DGLFW_INCLUDE_NONE)
 
