@@ -131,6 +131,7 @@ void OpenGLWindow::Init(const WindowProps& props)
   });
 }
 
+
 void OpenGLWindow::Shutdown()
 {
   glfwDestroyWindow(m_Window);

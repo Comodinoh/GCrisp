@@ -45,7 +45,7 @@ public:
   inline uint GetWidth() const {return m_Data.Width;};
   inline uint GetHeight() const {return m_Data.Height;};
 
-  inline GLFWwindow* GetWindowPointer() {return m_Window;};
+  inline virtual void* GetWindowPointer() = 0;
 
   void SetEventCallback(const EventCallbackFunc& callback) {m_Data.EventCallback = callback;};
   virtual void SetVSync(bool enabled) = 0;
@@ -54,7 +54,6 @@ public:
   static Window* Create(const RendererType rendererType, const WindowProps& props = WindowProps());
 
 protected:
-  GLFWwindow* m_Window;
   WindowData m_Data;
 };
 

@@ -15,9 +15,13 @@ public:
 
   void OnUpdate() override;
 
+  inline void* GetWindowPointer() override {return m_Window;};
+
   void SetVSync(bool enabled) override;
   bool HasVSync() const override;
 protected:
+  GLFWwindow* m_Window;
+
   virtual void Init(const WindowProps& props);
   virtual void Shutdown();
 };

@@ -13,6 +13,7 @@ option(GCRISP_BUILD_TESTS "Build tests" ON)
 
 cmake_dependent_option(GCRISP_BUILD_WIN32 "Build support for Win32" ON "WIN32" OFF)
 cmake_dependent_option(GCRISP_BUILD_POSIX "Build support for Posix/Linux" ON "UNIX;NOT APPLE" OFF)
+cmake_dependent_option(GCRISP_BUILD_ANDROID "Build support for Android" ON "ANDROID" OFF)
 
 file(GLOB_RECURSE SRC_FILES src/GCrisp/*.cpp)
 
@@ -28,34 +29,50 @@ add_subdirectory(lib)
 target_include_directories(${PROJECT_NAME} 
   PUBLIC
   lib/glfw/include
-  lib/imgui
   src
  )
+
+if(GCRISP_BUILD_WIN32 OR GCRISP_BUILD_POSIX)
+
+  file(GLOB_RECURSE OPENGL_SRC platform/Desktop/OpenGL/*.cpp)
+  file(GLOB_RECURSE VULKAN_SRC platform/Desktop/Vulkan/*.cpp)
+  target_sources(${PROJECT_NAME} PRIVATE ${OPENGL_SRC} ${VULKAN_SRC})
+  target_include_directories(${PROJECT_NAME} PRIVATE platform/Desktop/OpenGL platform/Desktop/Vulkan)
+
+endif()
 
 if(GCRISP_BUILD_WIN32)
   message(STATUS "${PROJECT_NAME}: Building for Windows systems")
 
+  add_definitions(-DGLFW_INCLUDE_NONE)
+
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_WIN32)
-  target_include_directories(${PROJECT_NAME} PUBLIC platform/DirectX)
 
-  file(GLOB_RECURSE DIRECTX_SRC platform/DirectX/*.cpp)
-  
-  target_sources(${PROJECT_NAME} PUBLIC ${DIRECTX_SRC})
+  file(GLOB_RECURSE WIN32_SRC platform/Desktop/Win32/*.cpp)
+  file(GLOB_RECURSE DIRECTX_SRC platform/Desktop/DirectX/*.cpp)
 
-  list(APPEND IMGUI_BACKENDS ${IMGUI_DIR}/backends/imgui_impl_win32.cpp)
+  target_sources(${PROJECT_NAME} PRIVATE ${WIN32_SRC} ${DIRECTX_SRC})
+  target_include_directories(${PROJECT_NAME} PRIVATE platform/Desktop/Win32 platform/Desktop/DirectX)
+
 elseif(GCRISP_BUILD_POSIX)
   message(STATUS "${PROJECT_NAME}: Building for Posix systems")
 
-  target_compile_definitions(${PROJECT_NAME} PUBLIC GC_POSIX)
+  add_definitions(-DGLFW_INCLUDE_NONE)
+  file(GLOB_RECURSE LINUX_SRC platform/Desktop/Linux/*.cpp)
 
+
+  target_sources(${PROJECT_NAME} PRIVATE ${LINUX_SRC})
+  target_include_directories(${PROJECT_NAME} PRIVATE platform/Desktop/Linux)
+
+  target_compile_definitions(${PROJECT_NAME} PUBLIC GC_POSIX)
+elseif(ANDROID)
+  message(STATUS "${PROJECT_NAME}: Building for Android systems")
+
+  # Support still in progress
+
+  target_compile_definitions(${PROJECT_NAME} PUBLIC GC_ANDROID)
 endif()
 
-file(GLOB_RECURSE OPENGL_SRC platform/OpenGL/*.cpp)
-file(GLOB_RECURSE VULKAN_SRC platform/Vulkan/*.cpp)
-target_sources(${PROJECT_NAME} PRIVATE ${OPENGL_SRC} ${VULKAN_SRC})
-target_include_directories(${PROJECT_NAME} PUBLIC platform/OpenGL platform/Vulkan)
-
-add_definitions(-DGLFW_INCLUDE_NONE)
 
 target_link_libraries(${PROJECT_NAME}
   PUBLIC
@@ -64,8 +81,6 @@ target_link_libraries(${PROJECT_NAME}
   spdlog::spdlog_header_only
   glm
 )
-
-target_sources(${PROJECT_NAME} PRIVATE ${IMGUI_BACKENDS})
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC src/gcpch.h)
 
