@@ -1,4 +1,3 @@
-#include "GCrisp/ImGui/ImGuiLayer.h"
 #include <GCrisp/Gcrisp.h>
 
 class TestLayer : public gcrisp::Layer
@@ -26,7 +25,6 @@ public:
   TestApplication()
   {
     PushLayer(new TestLayer());
-    PushOverlay(new gcrisp::ImGuiLayer());
   }
 
   ~TestApplication()

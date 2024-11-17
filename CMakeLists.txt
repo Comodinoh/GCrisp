@@ -11,19 +11,13 @@ include(CMakeDependentOption)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(GCRISP_BUILD_TESTS "Build tests" ON)
 
-set(IMGUI_DIR lib/imgui)
-set(IMGUI_IMPL_OPENGL_LOADER_GLAD ON)
-
 cmake_dependent_option(GCRISP_BUILD_WIN32 "Build support for Win32" ON "WIN32" OFF)
 cmake_dependent_option(GCRISP_BUILD_POSIX "Build support for Posix/Linux" ON "UNIX;NOT APPLE" OFF)
 
 file(GLOB_RECURSE SRC_FILES src/GCrisp/*.cpp)
-file(GLOB IMGUI_SRC ${IMGUI_DIR}/*.cpp)
 
-set(IMGUI_BACKENDS ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp)
 
-add_library(${PROJECT_NAME} STATIC ${SRC_FILES} ${IMGUI_SRC} 
-  ${IMGUI_BACKENDS_SRC} ${IMGUI_DIR}/misc/cpp/imgui_stdlib.cpp)
+add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_RELEASE)
