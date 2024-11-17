@@ -1,3 +1,4 @@
+#include "GCrisp/ImGui/ImGuiLayer.h"
 #include <GCrisp/Gcrisp.h>
 
 class TestLayer : public gcrisp::Layer
@@ -11,7 +12,6 @@ public:
 
   void OnUpdate() override
   { 
-    GC_INFO("TEST::UPDATE");
   }
 
   void OnEvent(gcrisp::Event& e) override
@@ -26,6 +26,7 @@ public:
   TestApplication()
   {
     PushLayer(new TestLayer());
+    PushOverlay(new gcrisp::ImGuiLayer());
   }
 
   ~TestApplication()

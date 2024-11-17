@@ -19,6 +19,7 @@ public:
 
 private:
   std::string m_DebugName;
+  float m_Time;
 };
 
 }
