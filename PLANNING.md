@@ -19,3 +19,7 @@ To be planned.
 ## UI/Interface
 
 To be planned.
+
+## Multithreading
+
+To be planned.
