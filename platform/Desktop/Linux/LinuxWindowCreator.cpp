@@ -1,6 +1,4 @@
-
-#include <OpenGLWindow.h>
-#include <VulkanWindow.h>
+#include <OpenGL/OpenGLWindow.h>
 
 namespace gcrisp{
 

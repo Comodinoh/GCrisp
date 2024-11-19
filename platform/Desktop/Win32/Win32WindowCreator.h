@@ -1,6 +1,6 @@
 #pragma once
 
-#include "OpenGLWindow.h"
+#include <OpenGL/OpenGLWindow.h>
 #include <GCrisp/GWindow.h>
 
 namespace gcrisp{

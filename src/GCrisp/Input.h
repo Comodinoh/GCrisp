@@ -5,11 +5,10 @@ namespace gcrisp{
 class Input
 {
 public:
-  static bool IsKeyPressed(int keycode) {return s_Instance->IsKeyPressedImpl(keycode);}
-protected:
-  virtual bool IsKeyPressedImpl(int keycode) = 0;
-private:
-  Input* s_Instance;
+  static bool IsKeyPressed(const int keycode);
+
+  static bool IsMouseButtonPressed(const int button);
+  static std::pair<float, float> GetMousePosition();
 };
 
 }

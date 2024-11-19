@@ -34,10 +34,9 @@ target_include_directories(${PROJECT_NAME}
 
 if(GCRISP_BUILD_WIN32 OR GCRISP_BUILD_POSIX)
 
-  file(GLOB_RECURSE OPENGL_SRC platform/Desktop/OpenGL/*.cpp)
-  file(GLOB_RECURSE VULKAN_SRC platform/Desktop/Vulkan/*.cpp)
-  target_sources(${PROJECT_NAME} PRIVATE ${OPENGL_SRC} ${VULKAN_SRC})
-  target_include_directories(${PROJECT_NAME} PRIVATE platform/Desktop/OpenGL platform/Desktop/Vulkan)
+  file(GLOB_RECURSE COMMONS_SRC platform/Desktop/Commons/*.cpp)
+  target_sources(${PROJECT_NAME} PRIVATE ${COMMONS_SRC})
+  target_include_directories(${PROJECT_NAME} PRIVATE platform/Desktop/Commons)
 
 endif()
 

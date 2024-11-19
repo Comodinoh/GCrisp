@@ -22,7 +22,7 @@ public:
   void PushOverlay(Layer* overlay);
 
   static inline Application& Get() {return *s_Instance;}
-  inline Window& getWindow() {return *m_Window;} 
+  inline Window& GetWindow() {return *m_Window;} 
 private:
   bool OnWindowClose(WindowCloseEvent& e);
 

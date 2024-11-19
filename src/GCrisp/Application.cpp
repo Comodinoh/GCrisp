@@ -1,6 +1,8 @@
 #include "GCrisp/Events/ApplicationEvent.h"
 #include "GCrisp/Events/Event.h"
 #include "GCrisp/GWindow.h"
+#include "GLFW/glfw3.h"
+#include "GCrisp/Input.h"
 #include <GCrisp/Application.h>
 #include <GCrisp/Events/KeyEvent.h>
 #include <glad/glad.h>
@@ -37,6 +39,8 @@ void Application::Run()
     {
       layer->OnUpdate();
     }
+
+
     m_Window->OnUpdate();
   }
 }

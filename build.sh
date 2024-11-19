@@ -2,4 +2,4 @@
 
 mkdir -p out
 cd out
-ninja 
+cmake --build . -j 

@@ -13,12 +13,12 @@ public:
   OpenGLWindow(const WindowProps& props); 
   virtual ~OpenGLWindow();
 
-  void OnUpdate() override;
+  virtual void OnUpdate() override;
 
   inline void* GetWindowPointer() override {return m_Window;};
 
-  void SetVSync(bool enabled) override;
-  bool HasVSync() const override;
+  virtual void SetVSync(bool enabled) override;
+  virtual bool HasVSync() const override;
 protected:
   GLFWwindow* m_Window;
 
