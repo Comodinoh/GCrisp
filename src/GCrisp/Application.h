@@ -1,7 +1,7 @@
 #pragma once
 
-#include "GCrisp/Events/ApplicationEvent.h"
-#include "GCrisp/GWindow.h"
+#include <GCrisp/Events/ApplicationEvent.h>
+#include <GCrisp/GWindow.h>
 #include <GCrisp/Core.h>
 #include <GCrisp/LayerStack.h>
 #include <GCrisp/Events/Event.h>
