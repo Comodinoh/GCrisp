@@ -1,6 +1,30 @@
 # Game Engine Planning
 
-## Renderer
+## Rendering
+
+### Renderer
+- 2D Renderer
+- Scene System
+- Sorting
+- Culling (Maybe)
+- Animation
+- Camera
+- VFX
+- PostFX
+
+### Render API (specific for each driver)
+- Render Context
+- Swap Chain
+- Framebuffer
+- Vertex Buffer
+- Index Buffer
+- Texture
+- Shader
+- States
+- Pipelines
+- Render Passes
+
+## Scripting
 
 To be planned.
 
@@ -9,10 +33,6 @@ To be planned.
 To be planned.
 
 ## File IO and resources
-
-To be planned.
-
-## Scene management
 
 To be planned.
 
