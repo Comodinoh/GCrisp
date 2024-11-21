@@ -4,21 +4,23 @@
 
 namespace gcrisp{
 
-bool Input::IsKeyPressed(const int keycode)
+namespace Input{
+
+bool IsKeyPressed(const KeyCode keycode)
 {
   GLFWwindow* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetWindowPointer());
 
   return glfwGetKey(window, keycode) == GLFW_PRESS;
 }
 
-bool Input::IsMouseButtonPressed(const int button)
+bool IsMouseButtonPressed(const int button)
 {
   GLFWwindow* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetWindowPointer());
 
   return glfwGetMouseButton(window, button) == GLFW_PRESS;
 }
 
-std::pair<float, float> Input::GetMousePosition()
+std::pair<float, float> GetMousePosition()
 {
   GLFWwindow* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetWindowPointer());
 
@@ -27,6 +29,8 @@ std::pair<float, float> Input::GetMousePosition()
   glfwGetCursorPos(window, &x, &y);
 
   return {(float)x, (float)y};
+}
+
 }
 
 } 

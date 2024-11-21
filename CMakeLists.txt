@@ -37,6 +37,7 @@ if(GCRISP_BUILD_WIN32 OR GCRISP_BUILD_POSIX)
   file(GLOB_RECURSE COMMONS_SRC platform/Desktop/Commons/*.cpp)
   target_sources(${PROJECT_NAME} PRIVATE ${COMMONS_SRC})
   target_include_directories(${PROJECT_NAME} PRIVATE platform/Desktop/Commons)
+  target_compile_definitions(${PROJECT_NAME} PUBLIC GC_DESKTOP)
 
 endif()
 

@@ -1,3 +1,4 @@
+#include "GCrisp/Input.h"
 #include <GCrisp/Gcrisp.h>
 
 class TestLayer : public gcrisp::Layer
@@ -11,6 +12,9 @@ public:
 
   void OnUpdate() override
   { 
+    if (gcrisp::Input::IsKeyPressed(gcrisp::Input::W)) {
+      GC_INFO("W!");
+    }
   }
 
   void OnEvent(gcrisp::Event& e) override
