@@ -3,6 +3,8 @@
 #include <GCrisp/Events/Event.h>
 #include <GCrisp/Core.h>
 
+#include <GCrisp/Renderer/GraphicsContext.h>
+
 struct GLFWwindow;
 
 namespace gcrisp{
@@ -46,6 +48,7 @@ public:
   inline uint GetHeight() const {return m_Data.Height;};
 
   inline virtual void* GetWindowPointer() = 0;
+  inline virtual GraphicsContext* GetContext() = 0;
 
   void SetEventCallback(const EventCallbackFunc& callback) {m_Data.EventCallback = callback;};
   virtual void SetVSync(bool enabled) = 0;

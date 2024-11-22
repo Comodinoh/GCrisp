@@ -1,11 +1,11 @@
 #include <GCrisp/Core.h>
 #include "OpenGLWindow.h"
-#include "GCrisp/Log.h"
 #include <GCrisp/Events/ApplicationEvent.h>
 #include <GCrisp/Events/MouseEvent.h>
 #include <GCrisp/Events/KeyEvent.h>
-#include <glad/glad.h>
+#include "GCrisp/GWindow.h"
 #include "GLFW/glfw3.h"
+#include "OpenGL/OpenGLContext.h"
 
 
 namespace gcrisp{
@@ -35,6 +35,7 @@ void OpenGLWindow::Init(const WindowProps& props)
 
   GC_CORE_INFO("Creating OpenGL window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
+
   if(!s_GLFWInitialized)
   {
     int success = glfwInit();
@@ -46,11 +47,9 @@ void OpenGLWindow::Init(const WindowProps& props)
   }
 
   m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-  glfwMakeContextCurrent(m_Window);
 
-  int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-  GC_ASSERT(status);
-
+  m_Context = new OpenGLContext(m_Window);
+  m_Context->Init();
   glfwSetWindowUserPointer(m_Window, &m_Data);
   SetVSync(true);
 
@@ -140,7 +139,7 @@ void OpenGLWindow::Shutdown()
 void OpenGLWindow::OnUpdate()  
 {
   glfwPollEvents();
-  glfwSwapBuffers(m_Window);
+  m_Context->SwapBuffers();
 }
 
 void OpenGLWindow::SetVSync(bool enabled)

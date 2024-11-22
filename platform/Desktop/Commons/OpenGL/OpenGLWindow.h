@@ -1,7 +1,7 @@
 #pragma once
 
+#include "GCrisp/GWindow.h"
 #include <GCrisp/Core.h>
-#include <GCrisp/GWindow.h>
 
 struct GLFWwindow;
 
@@ -15,12 +15,14 @@ public:
 
   virtual void OnUpdate() override;
 
-  inline void* GetWindowPointer() override {return m_Window;};
+  inline virtual void* GetWindowPointer() override {return m_Window;};
+  inline virtual GraphicsContext* GetContext() override {return m_Context;};
 
   virtual void SetVSync(bool enabled) override;
   virtual bool HasVSync() const override;
 protected:
   GLFWwindow* m_Window;
+  GraphicsContext* m_Context;
 
   virtual void Init(const WindowProps& props);
   virtual void Shutdown();
