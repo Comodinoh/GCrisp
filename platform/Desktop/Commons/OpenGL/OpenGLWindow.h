@@ -1,7 +1,7 @@
 #pragma once
 
-#include <GCrisp/Core/GWindow.h>
 #include <GCrisp/Core/Core.h>
+#include <GCrisp/Core/GWindow.h>
 
 struct GLFWwindow;
 

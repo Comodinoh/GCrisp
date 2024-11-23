@@ -1,7 +1,7 @@
 #pragma once
 
-#include "GLFW/glfw3.h"
 #include <GCrisp/Renderer/GraphicsContext.h>
+#include <GLFW/glfw3.h>
 
 
 struct GLFWwindow;
