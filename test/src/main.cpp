@@ -1,5 +1,5 @@
 #include <GCrisp/Core/Input.h>
-#include <GCrisp/Gcrisp.h>
+#include <GCrisp/GCrisp.h>
 
 class TestLayer : public gcrisp::Layer
 {
