@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GCrisp/Core.h>
+#include <GCrisp/Core/Core.h>
 
 namespace gcrisp{
 

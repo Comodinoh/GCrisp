@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GCrisp/Layer.h"
+#include <GCrisp/Core/Layer.h>
 #include <vector>
 namespace gcrisp{
 

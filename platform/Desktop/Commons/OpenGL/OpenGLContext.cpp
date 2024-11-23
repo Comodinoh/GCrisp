@@ -1,6 +1,6 @@
 #include "OpenGLContext.h"
-#include "GCrisp/Core.h"
-#include "GLFW/glfw3.h"
+#include <GCrisp/Core/Core.h>
+#include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
 namespace gcrisp{

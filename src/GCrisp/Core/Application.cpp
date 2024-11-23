@@ -1,10 +1,11 @@
-#include "GCrisp/Events/ApplicationEvent.h"
-#include "GCrisp/Events/Event.h"
-#include "GCrisp/GWindow.h"
-#include "GLFW/glfw3.h"
-#include "GCrisp/Input.h"
-#include <GCrisp/Application.h>
+#include "Application.h"
+
+#include <GCrisp/Core/GWindow.h>
+#include <GCrisp/Core/Input.h>
+#include <GCrisp/Events/Event.h>
+#include <GCrisp/Events/ApplicationEvent.h>
 #include <GCrisp/Events/KeyEvent.h>
+#include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
 namespace gcrisp{

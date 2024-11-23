@@ -1,6 +1,6 @@
-#include "GLFW/glfw3.h"
-#include <GCrisp/Application.h>
-#include <GCrisp/Input.h>
+#include <GLFW/glfw3.h>
+#include <GCrisp/Core/Application.h>
+#include <GCrisp/Core/Input.h>
 
 namespace gcrisp{
 

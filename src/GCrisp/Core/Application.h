@@ -1,10 +1,10 @@
 #pragma once
 
-#include <GCrisp/Events/ApplicationEvent.h>
-#include <GCrisp/GWindow.h>
-#include <GCrisp/Core.h>
-#include <GCrisp/LayerStack.h>
+#include <GCrisp/Core/Core.h>
+#include <GCrisp/Core/GWindow.h>
+#include <GCrisp/Core/LayerStack.h>
 #include <GCrisp/Events/Event.h>
+#include <GCrisp/Events/ApplicationEvent.h>
 
 namespace gcrisp {
 

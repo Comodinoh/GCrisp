@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GCrisp/Events/Event.h"
+#include <GCrisp/Events/Event.h>
 
 namespace gcrisp{
 

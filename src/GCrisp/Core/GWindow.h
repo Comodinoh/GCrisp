@@ -1,8 +1,7 @@
 #pragma once
 
+#include <GCrisp/Core/Core.h>
 #include <GCrisp/Events/Event.h>
-#include <GCrisp/Core.h>
-
 #include <GCrisp/Renderer/GraphicsContext.h>
 
 struct GLFWwindow;

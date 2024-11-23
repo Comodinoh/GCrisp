@@ -1,7 +1,8 @@
 #pragma once
+
+#include <GCrisp/Core/Core.h>
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>
-#include <GCrisp/Core.h>
 
 namespace gcrisp {
 

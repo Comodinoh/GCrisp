@@ -1,8 +1,8 @@
 #pragma once
 
-#include <GCrisp/Application.h>
-#include <GCrisp/Layer.h>
-#include <GCrisp/Input.h>
+#include <GCrisp/Core/Application.h>
+#include <GCrisp/Core/Layer.h>
+#include <GCrisp/Core/Input.h>
 
 // Entry point
-#include "GCrisp/Entry.h"
+#include "GCrisp/Core/Entry.h"

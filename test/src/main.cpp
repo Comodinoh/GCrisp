@@ -1,4 +1,4 @@
-#include "GCrisp/Input.h"
+#include <GCrisp/Core/Input.h>
 #include <GCrisp/Gcrisp.h>
 
 class TestLayer : public gcrisp::Layer

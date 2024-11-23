@@ -1,11 +1,12 @@
-#include <GCrisp/Core.h>
 #include "OpenGLWindow.h"
+
+#include <GCrisp/Core/Core.h>
 #include <GCrisp/Events/ApplicationEvent.h>
 #include <GCrisp/Events/MouseEvent.h>
 #include <GCrisp/Events/KeyEvent.h>
-#include "GCrisp/GWindow.h"
-#include "GLFW/glfw3.h"
-#include "OpenGL/OpenGLContext.h"
+#include <GCrisp/Core/GWindow.h>
+#include <GLFW/glfw3.h>
+#include <OpenGL/OpenGLContext.h>
 
 
 namespace gcrisp{
