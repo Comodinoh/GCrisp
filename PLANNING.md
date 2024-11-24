@@ -1,6 +1,6 @@
 # Game Engine Planning
 
-## Rendering
+## Graphics
 
 - RenderAPI Platform Agnostic Creation
 - Hot/Easily Swappable from Render API to Render API
