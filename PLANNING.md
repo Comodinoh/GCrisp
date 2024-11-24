@@ -2,6 +2,7 @@
 
 ## Rendering
 
+- RenderAPI Platform Agnostic Creation
 - Hot/Easily Swappable from Render API to Render API
 
 ### Renderer
@@ -14,7 +15,7 @@
 - VFX
 - PostFX
 
-### Render API (specific for each driver)
+### General RenderAPI
 - Render Context
 - Swap Chain
 - Framebuffer
@@ -25,6 +26,12 @@
 - States
 - Pipelines
 - Render Passes
+
+**RenderAPI OpenGL Implementation:** `0% Done`
+**RenderAPI DirectX Implementation:** `0% Done`
+**RenderAPI Vulkan Implementation:** `0% Done`
+
+
 
 ## Scripting
 
