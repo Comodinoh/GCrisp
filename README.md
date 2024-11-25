@@ -18,7 +18,7 @@ and maybe IOS and/or MacOS too, if I have the time to figure out Metal as the ba
 I'll try to make the engine as easy-to-use as possible, while still focusing on efficiency and performance.
 I know this will be a big challenge to tackle, but it sounds pretty fun and I'd like to try that.
 
-The engine architecture is inspired by the Hazel game engine series made by TheCherno on YouTube.
+The engine architecture is inspired by the Hazel game engine series made by [TheCherno](https://www.youtube.com/@TheCherno) on YouTube.
 I've been learning a lot from watching him and I hope you can check it out for yourself too.
 
 If you want to help in any way or have advice or suggestions, feel free to let me know 
