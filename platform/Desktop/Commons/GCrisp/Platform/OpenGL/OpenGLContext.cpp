@@ -6,6 +6,8 @@
 
 namespace gcrisp{
 
+namespace Graphics{
+
 void OpenGLContext::Init()
 {
   glfwMakeContextCurrent(m_WindowHandle);
@@ -16,6 +18,8 @@ void OpenGLContext::Init()
 void OpenGLContext::SwapBuffers()
 {
   glfwSwapBuffers(m_WindowHandle);
+}
+
 }
 
 }

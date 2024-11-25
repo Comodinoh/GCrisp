@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GCrisp/Renderer/Creator.h"
 #include <GCrisp/Core/Core.h>
 #include <GCrisp/Core/GWindow.h>
 #include <GCrisp/Core/LayerStack.h>
@@ -21,8 +22,10 @@ public:
   void PushLayer(Layer* layer);
   void PushOverlay(Layer* overlay);
 
+
   static inline Application& Get() {return *s_Instance;}
   inline Window& GetWindow() {return *m_Window;} 
+  inline Graphics::Creator* GetGraphicsCreator() const {return m_Window->GetCreator();}
 private:
   bool OnWindowClose(WindowCloseEvent& e);
 

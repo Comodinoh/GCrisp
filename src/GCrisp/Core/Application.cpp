@@ -7,6 +7,8 @@
 #include <GCrisp/Events/KeyEvent.h>
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
+#include <GCrisp/Platform/OpenGL/OpenGLBuffer.h>
+#include <GCrisp/Renderer/Renderer.h>
 
 namespace gcrisp{
 
@@ -19,9 +21,10 @@ Application::Application()
   GC_ASSERT(!s_Instance)
   s_Instance = this;
 
-  m_Window = std::unique_ptr<Window>(Window::Create(OpenGL));
+  m_Window = std::unique_ptr<Window>(Window::Create(Graphics::Backend::OpenGL));
   m_Window->SetEventCallback(BIND_FN(OnEvent));
 
+  Graphics::Renderer::Init();
 }
 
 Application::~Application() 

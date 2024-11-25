@@ -1,6 +1,9 @@
 #include "OpenGLWindow.h"
 
-#include <OpenGL/OpenGLContext.h>
+#include <GCrisp/Renderer/Renderer.h>
+#include <GCrisp/Platform/OpenGL/OpenGLCreator.h>
+#include <GCrisp/Renderer/Creator.h>
+#include <GCrisp/Platform/OpenGL/OpenGLContext.h>
 #include <GCrisp/Core/Core.h>
 #include <GCrisp/Events/ApplicationEvent.h>
 #include <GCrisp/Events/MouseEvent.h>
@@ -18,7 +21,7 @@ static void GLFWErrorCallback(int error, const char* desc)
   GC_CORE_ERROR("GLFW Error: {0}: {1}", error, desc);
 }
 
-OpenGLWindow::OpenGLWindow(const WindowProps& props)
+OpenGLWindow::OpenGLWindow(Graphics::Backend backend, const WindowProps& props) : Window(backend)
 {
   Init(props);
 }
@@ -33,6 +36,7 @@ void OpenGLWindow::Init(const WindowProps& props)
   m_Data.Title = props.Title;
   m_Data.Width = props.Width;
   m_Data.Height = props.Height;
+
 
   GC_CORE_INFO("Creating OpenGL window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
@@ -49,7 +53,7 @@ void OpenGLWindow::Init(const WindowProps& props)
 
   m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 
-  m_Context = new OpenGLContext(m_Window);
+  m_Context = new Graphics::OpenGLContext(m_Window);
   m_Context->Init();
   glfwSetWindowUserPointer(m_Window, &m_Data);
   SetVSync(true);
@@ -129,6 +133,8 @@ void OpenGLWindow::Init(const WindowProps& props)
     MouseMovedEvent event((float)xPos, (float)yPos);
     data.EventCallback(event);
   });
+
+  m_GraphicsCreator = new Graphics::OpenGLCreator();
 }
 
 

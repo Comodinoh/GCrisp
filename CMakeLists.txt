@@ -38,7 +38,6 @@ if(GCRISP_BUILD_WIN32 OR GCRISP_BUILD_POSIX)
   target_sources(${PROJECT_NAME} PRIVATE ${COMMONS_SRC})
   target_include_directories(${PROJECT_NAME} PRIVATE platform/Desktop/Commons)
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_DESKTOP)
-
 endif()
 
 if(GCRISP_BUILD_WIN32)
@@ -46,14 +45,13 @@ if(GCRISP_BUILD_WIN32)
 
   add_definitions(-DGLFW_INCLUDE_NONE)
 
-  target_compile_definitions(${PROJECT_NAME} PUBLIC GC_WIN32)
 
   file(GLOB_RECURSE WIN32_SRC platform/Desktop/Win32/*.cpp)
-  file(GLOB_RECURSE DIRECTX_SRC platform/Desktop/DirectX/*.cpp)
 
-  target_sources(${PROJECT_NAME} PRIVATE ${WIN32_SRC} ${DIRECTX_SRC})
-  target_include_directories(${PROJECT_NAME} PRIVATE platform/Desktop/Win32 platform/Desktop/DirectX)
+  target_sources(${PROJECT_NAME} PRIVATE ${WIN32_SRC})
+  target_include_directories(${PROJECT_NAME} PRIVATE platform/Desktop/Win32)
 
+  target_compile_definitions(${PROJECT_NAME} PUBLIC GC_WIN32)
 elseif(GCRISP_BUILD_POSIX)
   message(STATUS "${PROJECT_NAME}: Building for Posix systems")
 
@@ -66,11 +64,8 @@ elseif(GCRISP_BUILD_POSIX)
 
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_POSIX)
 elseif(ANDROID)
-  message(STATUS "${PROJECT_NAME}: Building for Android systems")
-
+  message(FATAL_ERROR "${PROJECT_NAME}: Building for Android systems isn't supported yet!")
   # Support still in progress
-
-  target_compile_definitions(${PROJECT_NAME} PUBLIC GC_ANDROID)
 endif()
 
 

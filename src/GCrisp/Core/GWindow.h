@@ -1,21 +1,16 @@
 #pragma once
 
+#include "GCrisp/Renderer/Creator.h"
+#include "GCrisp/Renderer/Renderer.h"
 #include <GCrisp/Core/Core.h>
 #include <GCrisp/Events/Event.h>
-#include <GCrisp/Renderer/GraphicsContext.h>
+#include <GCrisp/Renderer/Context.h>
 
 struct GLFWwindow;
 
 namespace gcrisp{
 
 using EventCallbackFunc = std::function<void(Event&)>;
-
-enum RendererType
-{
-  OpenGL,
-  DirectX,
-  Vulkan
-};
 
 struct WindowData
 {
@@ -39,24 +34,29 @@ struct WindowProps
 class Window
 {
 public:
+  Window(Graphics::Backend& backend) : m_Backend(backend) {}
   virtual ~Window() = default;
 
   virtual void OnUpdate() = 0;
 
-  inline uint GetWidth() const {return m_Data.Width;};
-  inline uint GetHeight() const {return m_Data.Height;};
+  inline Graphics::Creator*         GetCreator() const {return m_GraphicsCreator;};
+  inline Graphics::Backend          GetBackend() {return m_Backend;};
+  inline uint                       GetWidth() const {return m_Data.Width;};
+  inline uint                       GetHeight() const {return m_Data.Height;};
 
   inline virtual void* GetWindowPointer() = 0;
-  inline virtual GraphicsContext* GetContext() = 0;
+  inline virtual Graphics::Context* GetContext() = 0;
 
-  void SetEventCallback(const EventCallbackFunc& callback) {m_Data.EventCallback = callback;};
   virtual void SetVSync(bool enabled) = 0;
   virtual bool HasVSync() const = 0;
 
-  static Window* Create(const RendererType rendererType, const WindowProps& props = WindowProps());
+  void SetEventCallback(const EventCallbackFunc& callback) {m_Data.EventCallback = callback;};
+  static Window* Create(Graphics::Backend backend, const WindowProps& props = WindowProps());
 
 protected:
-  WindowData m_Data;
+  WindowData         m_Data;
+  Graphics::Creator* m_GraphicsCreator;
+  Graphics::Backend  m_Backend;
 };
 
 }
