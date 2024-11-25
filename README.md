@@ -79,3 +79,7 @@ gcrisp::Application* gcrisp::CreateApplication()
 }
 
 ```
+
+# Getting Started
+
+Feel free to check out the [wiki](https://github.com/Comodinoh/GCrisp/wiki) to get started with GCrisp.
