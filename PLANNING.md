@@ -2,7 +2,7 @@
 
 ## Graphics
 
-- RenderAPI Platform Agnostic Creation
+- ~RenderAPI Platform Agnostic Creation~
 - Hot/Easily Swappable from Render API to Render API
 
 ### Renderer
@@ -27,7 +27,7 @@
 - Pipelines
 - Render Passes
 
-**RenderAPI OpenGL Implementation:** `15% Done`
+**RenderAPI OpenGL Implementation:** `20% Done`
 
 **RenderAPI DirectX Implementation:** `0% Done`
 
