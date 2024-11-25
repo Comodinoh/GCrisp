@@ -40,9 +40,42 @@ Then add that folder as a subdirectory in your `CMakeLists.txt` file and link th
     target_link_libraries(${PROJECT_NAME} PUBLIC gcrisp)
 ```
     
-Now you can use the header of the library:
+Now you can use the header of the library and create applications with it:
 
 ```c++
 #include <GCrisp/GCrisp.h>
-// ... do stuff
+
+class TestLayer : public gcrisp::Layer
+{
+public:
+  TestLayer() : gcrisp::Layer("Test"){}
+  ~TestLayer() {}
+
+  void OnUpdate() override
+  {
+        // Loop update
+  }
+
+  void OnEvent(gcrisp::Event& e) override
+  {
+        // Listen for events
+  }
+};
+
+class TestApplication : public gcrisp::Application
+{
+public:
+  TestApplication()
+  {
+    PushLayer(new TestLayer());
+  }
+
+  ~TestApplication() {}
+};
+
+gcrisp::Application* gcrisp::CreateApplication()
+{
+  return new TestApplication();
+}
+
 ```
