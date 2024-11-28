@@ -2,7 +2,7 @@
 
 #include <GCrisp/Renderer/Buffer.h>
 
-namespace gcrisp {
+namespace GCrisp {
 
 namespace Graphics{
 

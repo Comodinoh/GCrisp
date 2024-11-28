@@ -3,15 +3,15 @@
 #include <OpenGL/OpenGLWindow.h>
 #include <GCrisp/GWindow.h>
 
-namespace gcrisp{
+namespace GCrisp{
 
-Window* Window::Create(const RendererType rendererType, const WindowProps& props)
+window* window::create(const renderertype renderertype, const windowprops& props)
 {
-  switch(rendererType)
+  switch(renderertype)
   {
-    case OpenGL:
+    case opengl:
     {
-      return new OpenGLWindow(props);
+      return new openglwindow(props);
     }
   }
 }

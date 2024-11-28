@@ -8,7 +8,7 @@
 
 struct GLFWwindow;
 
-namespace gcrisp{
+namespace GCrisp{
 
 using EventCallbackFunc = std::function<void(Event&)>;
 

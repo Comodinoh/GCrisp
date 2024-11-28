@@ -2,7 +2,7 @@
 
 #include <GCrisp/Events/Event.h>
 
-namespace gcrisp{
+namespace GCrisp{
 
 class Layer
 {

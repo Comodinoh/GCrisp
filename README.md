@@ -45,10 +45,10 @@ Now you can use the header of the library and create applications with it:
 ```c++
 #include <GCrisp/GCrisp.h>
 
-class TestLayer : public gcrisp::Layer
+class TestLayer : public GCrisp::Layer
 {
 public:
-  TestLayer() : gcrisp::Layer("Test"){}
+  TestLayer() : GCrisp::Layer("Test"){}
   ~TestLayer() {}
 
   void OnUpdate() override
@@ -62,7 +62,7 @@ public:
   }
 };
 
-class TestApplication : public gcrisp::Application
+class TestApplication : public GCrisp::Application
 {
 public:
   TestApplication()
@@ -73,7 +73,7 @@ public:
   ~TestApplication() {}
 };
 
-gcrisp::Application* gcrisp::CreateApplication()
+GCrisp::Application* GCrisp::CreateApplication()
 {
   return new TestApplication();
 }

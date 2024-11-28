@@ -3,7 +3,7 @@
 #include <GCrisp/Core/GWindow.h>
 #include <GCrisp/Platform/OpenGL/OpenGLWindow.h>
 
-namespace gcrisp{
+namespace GCrisp{
 
 Window* Window::Create(Graphics::Backend backend, const WindowProps& props)
 {
@@ -11,8 +11,7 @@ Window* Window::Create(Graphics::Backend backend, const WindowProps& props)
   {
     case Graphics::Backend::None:
       {
-        GC_ERROR("{0} doesn't currently support headless mode", ENGINE_NAME);
-        GC_ASSERT(false);
+        GC_CORE_ASSERT(false, "No headless backend found!");
       }
     case Graphics::Backend::OpenGL:
       {

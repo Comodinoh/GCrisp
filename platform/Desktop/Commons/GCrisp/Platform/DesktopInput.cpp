@@ -2,7 +2,7 @@
 #include <GCrisp/Core/Application.h>
 #include <GLFW/glfw3.h>
 
-namespace gcrisp{
+namespace GCrisp{
 
 namespace Input{
 

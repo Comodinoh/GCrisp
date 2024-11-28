@@ -1,7 +1,7 @@
 #include "OpenGLAPI.h"
 #include "GCrisp/Renderer/Renderer.h"
 
-namespace gcrisp{
+namespace GCrisp{
 
 namespace Graphics{
 

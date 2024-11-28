@@ -1,6 +1,6 @@
 #include "Layer.h"
 
-namespace gcrisp{
+namespace GCrisp{
 
 Layer::Layer(const std::string& debugName) : m_DebugName(debugName) {}
 

@@ -2,7 +2,7 @@
 
 #include <GCrisp/Core/Core.h>
 
-namespace gcrisp{
+namespace GCrisp{
 
 enum class EventType
 {

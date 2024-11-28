@@ -1,6 +1,6 @@
 #pragma once
 
-namespace gcrisp{
+namespace GCrisp{
 
 namespace Graphics{
 

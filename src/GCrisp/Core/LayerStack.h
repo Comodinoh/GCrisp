@@ -2,7 +2,7 @@
 
 #include <GCrisp/Core/Layer.h>
 #include <vector>
-namespace gcrisp{
+namespace GCrisp{
 
 class LayerStack
 {

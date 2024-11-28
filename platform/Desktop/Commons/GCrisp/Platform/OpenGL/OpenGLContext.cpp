@@ -4,7 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-namespace gcrisp{
+namespace GCrisp{
 
 namespace Graphics{
 
@@ -12,7 +12,7 @@ void OpenGLContext::Init()
 {
   glfwMakeContextCurrent(m_WindowHandle);
   int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-  GC_ASSERT(status);
+  GC_CORE_ASSERT(status, "Could not load glad from GLFW!");
 }
 
 void OpenGLContext::SwapBuffers()

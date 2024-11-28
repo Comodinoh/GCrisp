@@ -1,6 +1,6 @@
 #include "LayerStack.h"
 
-namespace gcrisp{
+namespace GCrisp{
 
 LayerStack::LayerStack() : m_LayerInsertIndex(0) {}
 

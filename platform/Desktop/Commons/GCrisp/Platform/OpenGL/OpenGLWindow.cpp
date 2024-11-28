@@ -12,7 +12,7 @@
 #include <GLFW/glfw3.h>
 
 
-namespace gcrisp{
+namespace GCrisp{
 
 static bool s_GLFWInitialized = false;
 
@@ -44,7 +44,7 @@ void OpenGLWindow::Init(const WindowProps& props)
   if(!s_GLFWInitialized)
   {
     int success = glfwInit();
-    GC_ASSERT(success);
+    GC_CORE_ASSERT(success, "Could not initialize GLFW!");
     
     glfwSetErrorCallback(GLFWErrorCallback);
 

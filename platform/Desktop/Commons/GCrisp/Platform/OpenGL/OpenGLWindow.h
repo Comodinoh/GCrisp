@@ -7,7 +7,7 @@
 
 struct GLFWwindow;
 
-namespace gcrisp{
+namespace GCrisp{
 
 class OpenGLWindow : public Window
 {

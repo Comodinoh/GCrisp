@@ -3,7 +3,7 @@
 #include <GCrisp/Core/Core.h>
 #include "Event.h"
 
-namespace gcrisp{
+namespace GCrisp{
 
 class WindowCloseEvent : public Event
 {

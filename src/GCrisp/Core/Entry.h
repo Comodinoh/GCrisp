@@ -1,11 +1,11 @@
-extern gcrisp::Application* gcrisp::CreateApplication(); 
+extern GCrisp::Application* GCrisp::CreateApplication(); 
 
 int main(int argc, char** argv)
 {
-  gcrisp::Log::Init();
-  gcrisp::Log::GetCoreLogger()->info("Initialized Logger!");
+  GCrisp::Log::Init();
+  GCrisp::Log::GetCoreLogger()->info("Initialized Logger!");
 
-  auto app = gcrisp::CreateApplication();
+  auto app = GCrisp::CreateApplication();
   app->Run();
   delete app;
 }

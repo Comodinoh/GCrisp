@@ -2,7 +2,7 @@
 
 #include <GCrisp/GWindow.h>
 
-namespace gcrisp{
+namespace GCrisp{
 // TODO: Implement vulkan window backend
 //
 

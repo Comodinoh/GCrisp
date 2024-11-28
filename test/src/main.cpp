@@ -1,10 +1,10 @@
 #include <GCrisp/Core/Input.h>
 #include <GCrisp/GCrisp.h>
 
-class TestLayer : public gcrisp::Layer
+class TestLayer : public GCrisp::Layer
 {
 public:
-  TestLayer() : gcrisp::Layer("Test"){}
+  TestLayer() : GCrisp::Layer("Test"){}
   
   ~TestLayer()
   {
@@ -12,18 +12,18 @@ public:
 
   void OnUpdate() override
   { 
-    if (gcrisp::Input::IsKeyPressed(gcrisp::Input::W)) {
+    if (GCrisp::Input::IsKeyPressed(GCrisp::Input::W)) {
       GC_INFO("W!");
     }
   }
 
-  void OnEvent(gcrisp::Event& e) override
+  void OnEvent(GCrisp::Event& e) override
   {
     GC_TRACE("{0}", e);
   }
 };
 
-class TestApplication : public gcrisp::Application
+class TestApplication : public GCrisp::Application
 {
 public:
   TestApplication()
@@ -37,7 +37,7 @@ public:
   }
 };
 
-gcrisp::Application* gcrisp::CreateApplication()
+GCrisp::Application* GCrisp::CreateApplication()
 {
   return new TestApplication();
 }

@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-namespace gcrisp{
+namespace GCrisp{
 
 namespace Graphics{
 

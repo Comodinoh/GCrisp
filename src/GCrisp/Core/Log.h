@@ -4,7 +4,7 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>
 
-namespace gcrisp {
+namespace GCrisp {
 
 class Log
 {
@@ -21,14 +21,14 @@ private:
 };
 
 // Core log macros
-#define GC_CORE_FATAL(...)   ::gcrisp::Log::GetCoreLogger()->fatal(__VA_ARGS__)
-#define GC_CORE_ERROR(...)   ::gcrisp::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define GC_CORE_WARN(...)    ::gcrisp::Log::GetCoreLogger()->warn(__VA_ARGS__)
-#define GC_CORE_INFO(...)    ::gcrisp::Log::GetCoreLogger()->info(__VA_ARGS__)
-#define GC_CORE_TRACE(...)   ::gcrisp::Log::GetCoreLogger()->trace(__VA_ARGS__)
+#define GC_CORE_FATAL(...)   ::GCrisp::Log::GetCoreLogger()->fatal(__VA_ARGS__)
+#define GC_CORE_ERROR(...)   ::GCrisp::Log::GetCoreLogger()->error(__VA_ARGS__)
+#define GC_CORE_WARN(...)    ::GCrisp::Log::GetCoreLogger()->warn(__VA_ARGS__)
+#define GC_CORE_INFO(...)    ::GCrisp::Log::GetCoreLogger()->info(__VA_ARGS__)
+#define GC_CORE_TRACE(...)   ::GCrisp::Log::GetCoreLogger()->trace(__VA_ARGS__)
 
 // App log macros
-#define GC_ERROR(...)        ::gcrisp::Log::GetClientLogger()->error(__VA_ARGS__)
-#define GC_WARN(...)         ::gcrisp::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define GC_INFO(...)         ::gcrisp::Log::GetClientLogger()->info(__VA_ARGS__)
-#define GC_TRACE(...)        ::gcrisp::Log::GetClientLogger()->trace(__VA_ARGS__)
+#define GC_ERROR(...)        ::GCrisp::Log::GetClientLogger()->error(__VA_ARGS__)
+#define GC_WARN(...)         ::GCrisp::Log::GetClientLogger()->warn(__VA_ARGS__)
+#define GC_INFO(...)         ::GCrisp::Log::GetClientLogger()->info(__VA_ARGS__)
+#define GC_TRACE(...)        ::GCrisp::Log::GetClientLogger()->trace(__VA_ARGS__)

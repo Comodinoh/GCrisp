@@ -10,7 +10,7 @@
 #include <GCrisp/Platform/OpenGL/OpenGLBuffer.h>
 #include <GCrisp/Renderer/Renderer.h>
 
-namespace gcrisp{
+namespace GCrisp{
 
 #define BIND_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
@@ -18,7 +18,7 @@ Application* Application::s_Instance = nullptr;
 
 Application::Application() 
 {
-  GC_ASSERT(!s_Instance)
+  GC_CORE_ASSERT(!s_Instance, "Application instance cannot be null!")
   s_Instance = this;
 
   m_Window = std::unique_ptr<Window>(Window::Create(Graphics::Backend::OpenGL));

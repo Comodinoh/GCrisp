@@ -1,13 +1,14 @@
 #include "Renderer.h"
 
+#include <GCrisp/Core/Core.h>
 #include <GCrisp/Core/Application.h>
 #include <memory>
 
-namespace gcrisp{
+namespace GCrisp{
 
 namespace Graphics{
 
-std::unique_ptr<API> Renderer::s_RenderAPI = nullptr;
+std::unique_ptr<API> Renderer::s_RenderAPI;
 Backend API::s_RendererBackend = Backend::None;
 
 void Renderer::Init()
