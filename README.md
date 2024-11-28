@@ -56,7 +56,7 @@ public:
         // Loop update
   }
 
-  void OnEvent(gcrisp::Event& e) override
+  void OnEvent(GCrisp::Event& e) override
   {
         // Listen for events
   }
