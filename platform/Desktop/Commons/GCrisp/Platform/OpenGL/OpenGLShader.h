@@ -9,7 +9,8 @@ namespace Graphics {
 class OpenGLShader : public Shader
 {
 public:
-  OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
+  OpenGLShader(const std::string* const vertexSrc, const std::string* const fragmentSrc);
+  virtual ~OpenGLShader();
 
   virtual void Bind() const override;
   virtual void UnBind() const override;

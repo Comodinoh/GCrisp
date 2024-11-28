@@ -1,3 +1,4 @@
+#include "GCrisp/Renderer/Renderer.h"
 #include <GCrisp/Core/Input.h>
 #include <GCrisp/GCrisp.h>
 
@@ -33,7 +34,6 @@ public:
 
   ~TestApplication()
   {
-
   }
 };
 

@@ -1,8 +1,8 @@
 #include "OpenGLCreator.h"
-#include "OpenGLBuffer.h"
-#include "OpenGLAPI.h"
 
-#include <GCrisp/Renderer/Buffer.h>
+#include "OpenGLAPI.h"
+#include "OpenGLShader.h"
+#include "OpenGLBuffer.h"
 
 namespace GCrisp{
 
@@ -13,10 +13,9 @@ API* OpenGLCreator::CreateAPI()
   return new OpenGLAPI();
 }
 
-Shader* OpenGLCreator::CreateShader(const std::string& vertexSrc, const std::string& fragmentSrc)
+Shader* OpenGLCreator::CreateShader(std::string* const vertexSrc, std::string* const fragmentSrc)
 {
-  // TODO: Implement shader opengl code
-  return nullptr;
+  return (Shader*)new OpenGLShader(vertexSrc, fragmentSrc);
 }
 
 VertexBuffer* OpenGLCreator::CreateVertexBuffer(float* vertices, uint32_t size)
