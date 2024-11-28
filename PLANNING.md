@@ -27,7 +27,7 @@
 - Pipelines
 - Render Passes
 
-**RenderAPI OpenGL Implementation:** `20% Done`
+**RenderAPI OpenGL Implementation:** `25% Done`
 
 **RenderAPI DirectX Implementation:** `0% Done`
 
