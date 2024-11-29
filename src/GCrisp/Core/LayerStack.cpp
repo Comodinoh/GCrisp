@@ -1,3 +1,4 @@
+#include <gcpch.h>
 #include "LayerStack.h"
 
 namespace GCrisp{

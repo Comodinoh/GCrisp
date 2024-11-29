@@ -1,3 +1,4 @@
+#include <gcpch.h>
 #include "Application.h"
 
 #include <GCrisp/Core/GWindow.h>
