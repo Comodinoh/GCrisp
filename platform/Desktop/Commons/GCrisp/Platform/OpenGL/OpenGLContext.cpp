@@ -1,3 +1,4 @@
+#include <gcpch.h>
 #include "OpenGLContext.h"
 
 #include <GCrisp/Core/Core.h>

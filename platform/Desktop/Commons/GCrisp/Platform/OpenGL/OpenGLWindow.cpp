@@ -1,3 +1,4 @@
+#include <gcpch.h>
 #include "OpenGLWindow.h"
 
 #include <GCrisp/Renderer/Renderer.h>
