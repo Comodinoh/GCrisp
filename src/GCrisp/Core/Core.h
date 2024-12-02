@@ -19,8 +19,8 @@
   #define GC_CORE_ASSERT(condition, ...)
 #endif
 
-#define GC_VERIFY(x, msg, ...) {if(!(x)) GC_ERROR(msg, __VA_ARGS__);}
-#define GC_CORE_VERIFY(x, msg, ...) {if(!(x)) GC_CORE_ERROR(msg, __VA_ARGS__);}
+#define GC_VERIFY(condition, msg, ...) {if(!(condition)) GC_ERROR(msg, __VA_ARGS__);}
+#define GC_CORE_VERIFY(condition, msg, ...) {if(!(condition)) GC_CORE_ERROR(msg, __VA_ARGS__);}
 
 #define BIT(x) (1 << x)
 

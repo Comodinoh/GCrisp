@@ -1,6 +1,8 @@
 #pragma once
 
 #include "GCrisp/Renderer/Renderer.h"
+#include "OpenGLBuffer.h"
+#include <glad/glad.h>
 
 namespace GCrisp{
 
@@ -11,6 +13,8 @@ class OpenGLAPI : public API
 {
 public:
   virtual void Init() override; 
+
+  GLenum FromShaderDataTypeToOpenGLType(ShaderDataType type) const;
 };
 
 }
