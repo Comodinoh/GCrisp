@@ -11,49 +11,6 @@ enum class ShaderDataType : uint8_t
 
 };
 
-static uint32_t GetDataTypeSize(ShaderDataType& type)
-{
-
-  switch(type)
-  {
-    case ShaderDataType::Float:  return 4;
-    case ShaderDataType::Float2: return 4*2;
-    case ShaderDataType::Float3: return 4*3;
-    case ShaderDataType::Float4: return 4*4;
-    case ShaderDataType::Mat3:   return 4*3*3;
-    case ShaderDataType::Mat4:   return 4*4*4;
-    case ShaderDataType::Int:    return 4;
-    case ShaderDataType::Int2:   return 4*2;
-    case ShaderDataType::Int3:   return 4*3;
-    case ShaderDataType::Int4:   return 4*4;
-    case ShaderDataType::Bool:   return 1;
-  }
-
-  GC_CORE_ASSERT(false, "Unknownw ShaderDataType!");
-  return 0;
-}
-
-static uint32_t GetElementCount(ShaderDataType& type)
-{
-  switch(type)
-  { 
-    case ShaderDataType::Float:  return 1;
-    case ShaderDataType::Float2: return 2;
-    case ShaderDataType::Float3: return 3;
-    case ShaderDataType::Float4: return 4;
-    case ShaderDataType::Mat3:   return 3*3;
-    case ShaderDataType::Mat4:   return 4*4;
-    case ShaderDataType::Int:    return 1;
-    case ShaderDataType::Int2:   return 2;
-    case ShaderDataType::Int3:   return 3;
-    case ShaderDataType::Int4:   return 4;
-    case ShaderDataType::Bool:   return 1; 
-  }
-
-  GC_CORE_ASSERT(false, "Unknownw ShaderDataType!");
-  return 0;
-}
-
 struct BufferElement
 {
   std::string    Name;
@@ -64,6 +21,47 @@ struct BufferElement
 
   BufferElement(const std::string& name, ShaderDataType& type) : Name(name), Type(type), Size(GetDataTypeSize(type)), Offset(0), Count(GetElementCount(type))
   {
+  }
+
+  static uint32_t GetDataTypeSize(ShaderDataType& type)
+  {
+    switch(type)
+    {
+      case ShaderDataType::Float:  return 4;
+      case ShaderDataType::Float2: return 4*2;
+      case ShaderDataType::Float3: return 4*3;
+      case ShaderDataType::Float4: return 4*4;
+      case ShaderDataType::Mat3:   return 4*3*3;
+      case ShaderDataType::Mat4:   return 4*4*4;
+      case ShaderDataType::Int:    return 4;
+      case ShaderDataType::Int2:   return 4*2;
+      case ShaderDataType::Int3:   return 4*3;
+      case ShaderDataType::Int4:   return 4*4;
+      case ShaderDataType::Bool:   return 1;
+    }
+
+    GC_CORE_ASSERT(false, "Unknownw ShaderDataType!");
+    return 0;
+  }
+  static uint32_t GetElementCount(ShaderDataType& type)
+  {
+    switch(type)
+    { 
+      case ShaderDataType::Float:  return 1;
+      case ShaderDataType::Float2: return 2;
+      case ShaderDataType::Float3: return 3;
+      case ShaderDataType::Float4: return 4;
+      case ShaderDataType::Mat3:   return 3*3;
+      case ShaderDataType::Mat4:   return 4*4;
+      case ShaderDataType::Int:    return 1;
+      case ShaderDataType::Int2:   return 2;
+      case ShaderDataType::Int3:   return 3;
+      case ShaderDataType::Int4:   return 4;
+      case ShaderDataType::Bool:   return 1; 
+    }
+
+    GC_CORE_ASSERT(false, "Unknownw ShaderDataType!");
+    return 0;
   }
 };
 
@@ -86,7 +84,6 @@ public:
 
   virtual void Bind() const = 0;
   virtual void UnBind() const = 0;
-
 };
 
 class IndexBuffer 
