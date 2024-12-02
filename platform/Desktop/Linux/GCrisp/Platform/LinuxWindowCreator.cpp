@@ -5,7 +5,7 @@
 
 namespace GCrisp{
 
-Window* Window::Create(Graphics::Backend backend, const WindowProps& props)
+Window* Window::Create(const Graphics::Backend& backend, const WindowProps& props)
 {
   switch(backend)
   {

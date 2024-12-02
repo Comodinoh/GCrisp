@@ -12,7 +12,7 @@ namespace GCrisp{
 class OpenGLWindow : public Window
 {
 public:
-  OpenGLWindow(Graphics::Backend backend, const WindowProps& props);
+  OpenGLWindow(const Graphics::Backend& backend, const WindowProps& props);
   virtual ~OpenGLWindow();
 
   virtual void OnUpdate() override;

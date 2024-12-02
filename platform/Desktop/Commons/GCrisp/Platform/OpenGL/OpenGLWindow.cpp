@@ -22,7 +22,7 @@ static void GLFWErrorCallback(int error, const char* desc)
   GC_CORE_ERROR("GLFW Error: {0}: {1}", error, desc);
 }
 
-OpenGLWindow::OpenGLWindow(Graphics::Backend backend, const WindowProps& props) : Window(backend)
+OpenGLWindow::OpenGLWindow(const Graphics::Backend& backend, const WindowProps& props) : Window(backend)
 {
   Init(props);
 }

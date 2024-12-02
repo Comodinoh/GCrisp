@@ -34,7 +34,7 @@ struct WindowProps
 class Window
 {
 public:
-  Window(Graphics::Backend& backend) : m_Backend(backend) {}
+  Window(const Graphics::Backend& backend) : m_Backend(backend) {}
   virtual ~Window() = default;
 
   virtual void OnUpdate() = 0;
@@ -51,7 +51,7 @@ public:
   virtual bool HasVSync() const = 0;
 
   void SetEventCallback(const EventCallbackFunc& callback) {m_Data.EventCallback = callback;};
-  static Window* Create(Graphics::Backend backend, const WindowProps& props = WindowProps());
+  static Window* Create(const Graphics::Backend& backend, const WindowProps& props = WindowProps());
 
 protected:
   WindowData         m_Data;
