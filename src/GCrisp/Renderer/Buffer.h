@@ -40,7 +40,7 @@ struct BufferElement
       case ShaderDataType::Bool:   return 1;
     }
 
-    GC_CORE_ASSERT(false, "Unknownw ShaderDataType!");
+    GC_CORE_ASSERT(false, "Unknown ShaderDataType!");
     return 0;
   }
   static uint32_t GetElementCount(ShaderDataType& type)
@@ -60,7 +60,7 @@ struct BufferElement
       case ShaderDataType::Bool:   return 1; 
     }
 
-    GC_CORE_ASSERT(false, "Unknownw ShaderDataType!");
+    GC_CORE_ASSERT(false, "Unknown ShaderDataType!");
     return 0;
   }
 };
