@@ -62,7 +62,7 @@ struct BufferElement
   uint32_t       Size;
   uint8_t        Count;
 
-  BufferElement(const std::string& name, ShaderDataType& type) : Name(name), Type(type), Size(GetDataTypeSize(type)), Offset(0), Count(GetElementCount())
+  BufferElement(const std::string& name, ShaderDataType& type) : Name(name), Type(type), Size(GetDataTypeSize(type)), Offset(0), Count(GetElementCount(type))
   {
   }
 };
