@@ -28,11 +28,11 @@ public:
   inline Graphics::Creator* GetGraphicsCreator() const {return m_Window->GetCreator();}
 private:
   bool OnWindowClose(WindowCloseEvent& e);
-
-  static Application* s_Instance;
+private:
   std::unique_ptr<Window> m_Window;
   bool m_Running = true;
   LayerStack m_LayerStack;
+  static Application* s_Instance;
 };
 
 Application* CreateApplication();

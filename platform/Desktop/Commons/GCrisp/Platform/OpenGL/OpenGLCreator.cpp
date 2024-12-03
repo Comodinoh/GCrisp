@@ -4,6 +4,7 @@
 #include "OpenGLAPI.h"
 #include "OpenGLShader.h"
 #include "OpenGLBuffer.h"
+#include "OpenGLVertexArray.h"
 
 namespace GCrisp{
 
@@ -27,6 +28,11 @@ VertexBuffer* OpenGLCreator::CreateVertexBuffer(float* vertices, uint32_t size)
 IndexBuffer* OpenGLCreator::CreateIndexBuffer(uint32_t* indices, uint32_t size)
 {
   return new OpenGLIndexBuffer(indices, size);
+}
+
+VertexArray* OpenGLCreator::CreateVertexArray()
+{
+  return new OpenGLVertexArray();
 }
 
 }

@@ -13,8 +13,6 @@ class OpenGLAPI : public API
 {
 public:
   virtual void Init() override; 
-
-  GLenum FromShaderDataTypeToOpenGLType(ShaderDataType type) const;
 };
 
 }
