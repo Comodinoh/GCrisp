@@ -82,4 +82,4 @@ GCrisp::Application* GCrisp::CreateApplication()
 
 # Getting Started
 
-Feel free to check out the [wiki](https://github.com/Comodinoh/GCrisp/wiki) to get started with GCrisp.
+I recommend checking out the [wiki](https://github.com/Comodinoh/GCrisp/wiki) to get started with GCrisp (Still work in progress!).
