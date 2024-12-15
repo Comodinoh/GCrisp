@@ -58,13 +58,14 @@ void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& ver
   uint32_t i = 0;
   for(const BufferElement& element : layout.GetElements())
   {
+    GC_CORE_INFO("{0}, {1}, {2}", element.Count, layout.GetStride(), element.Offset);
     glEnableVertexAttribArray(i);
     glVertexAttribPointer(i,
                           element.Count,
                           FromShaderDataTypeToOpenGLType(element.Type),
                           element.Normalized ? GL_TRUE : GL_FALSE,
                           layout.GetStride(),
-                          (const void*)element.Offset
+                          (void*)element.Offset
                           );
     i++;
   }

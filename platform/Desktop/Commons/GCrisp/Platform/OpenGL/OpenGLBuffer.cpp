@@ -2,6 +2,7 @@
 #include "OpenGLBuffer.h"
 
 #include <glad/glad.h>
+#include <GCrisp/Core/Log.h>
 
 namespace GCrisp{
 
@@ -36,6 +37,7 @@ OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t size)
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
+
 }
 
 OpenGLIndexBuffer::~OpenGLIndexBuffer()

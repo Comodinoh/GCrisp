@@ -7,8 +7,6 @@ namespace Graphics{
 enum class ShaderDataType : uint8_t
 {
   None = 0, Float, Float2, Float3, Float4, Mat3, Mat4, Int, Int2, Int3, Int4, Bool,
-
-
 };
 
 struct BufferElement
@@ -77,7 +75,7 @@ public:
     CalculateStride();
   }
 
-  inline const std::vector<BufferElement>& GetElements() const {return m_Elements;}
+  const std::vector<BufferElement>& GetElements() const {return m_Elements;}
   inline uint32_t GetStride() const {return m_Stride;}
 private:
   void CalculateStride()
@@ -93,7 +91,7 @@ private:
   }
 private:
   std::vector<BufferElement> m_Elements;
-  uint32_t m_Stride;
+  uint32_t m_Stride = 0;
 };
 
 class VertexBuffer  

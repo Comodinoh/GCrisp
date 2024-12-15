@@ -23,7 +23,7 @@ OpenGLShader::OpenGLShader(const std::string* const vertexSrc, const std::string
 
     source = vertexSrc->c_str();
 
-    glShaderSource(vertexID, 1, &source, 0);
+    glShaderSource(vertexID, 1, &source, NULL);
 
     glCompileShader(vertexID);
 
@@ -97,6 +97,8 @@ OpenGLShader::OpenGLShader(const std::string* const vertexSrc, const std::string
       GC_CORE_ASSERT(false, "Failed to link shader program!");
       return;
     }
+
+    glUseProgram(programID);
 
     glDetachShader(programID, vertexID);
     glDetachShader(programID, fragmentID);

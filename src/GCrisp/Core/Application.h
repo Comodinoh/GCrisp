@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <GCrisp/Renderer/Creator.h>
 #include <GCrisp/Core/GWindow.h>
 #include <GCrisp/Core/LayerStack.h>
@@ -28,10 +27,15 @@ public:
   inline Graphics::Creator* GetGraphicsCreator() const {return m_Window->GetCreator();}
 private:
   bool OnWindowClose(WindowCloseEvent& e);
+  bool OnWindowResize(WindowResizeEvent& e);
 private:
   std::unique_ptr<Window> m_Window;
   bool m_Running = true;
   LayerStack m_LayerStack;
+  std::shared_ptr<Graphics::Shader> m_Shader;
+  std::shared_ptr<Graphics::VertexBuffer> m_VertexBuffer;
+  std::shared_ptr<Graphics::IndexBuffer> m_IndexBuffer;
+  std::shared_ptr<Graphics::VertexArray> m_VertexArray;
   static Application* s_Instance;
 };
 
