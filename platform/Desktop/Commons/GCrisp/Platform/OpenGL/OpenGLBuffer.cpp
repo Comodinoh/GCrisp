@@ -33,6 +33,8 @@ void OpenGLVertexBuffer::UnBind() const
 
 OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t size)
 {
+  m_Count = size/sizeof(uint32_t);
+
   glGenBuffers(1, &m_RendererID);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 

@@ -31,9 +31,10 @@ Application::Application()
 
     float vertices[] = 
     {
-      0.0, 1.0, 0.0,     1.0, 0.0, 0.0, 1.0,
-      1.0, -1.0, 0.0,    0.0, 1.0, 0.0, 1.0,
-      -1.0, -1.0, 0.0,   0.0, 0.0, 1.0, 1.0
+     -1.0,  1.0, 0.0,   1.0, 0.0, 0.0, 1.0,
+     -1.0, -1.0, 0.0,   0.0, 1.0, 0.0, 1.0,
+      1.0,  1.0, 0.0,   0.0, 0.0, 1.0, 1.0,
+      1.0, -1.0, 0.0,   1.0, 1.0, 1.0, 1.0
     };
 
     m_VertexBuffer.reset(GetGraphicsCreator()->CreateVertexBuffer(vertices, sizeof(vertices)));
@@ -47,9 +48,10 @@ Application::Application()
     m_VertexBuffer->SetLayout(layout);
     m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 
-    uint32_t indices[3] =
+    uint32_t indices[] =
     {
-        0,1,2
+        0, 1, 2,
+        2, 1, 3
     };
     m_IndexBuffer.reset(GetGraphicsCreator()->CreateIndexBuffer(indices, sizeof(indices)));
     m_VertexArray->SetIndexBuffer(m_IndexBuffer);
@@ -80,7 +82,7 @@ Application::Application()
 
       void main()
       {
-        fragColor = vec4(position, 1.0);
+        fragColor = color;
       }
     )";
 
@@ -104,7 +106,7 @@ void Application::Run()
     m_Shader->Bind();
     m_VertexArray->Bind();
     
-    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 
     for(Layer* layer : m_LayerStack)
     {
