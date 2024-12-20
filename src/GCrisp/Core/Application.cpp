@@ -6,9 +6,6 @@
 #include <GCrisp/Events/Event.h>
 #include <GCrisp/Events/ApplicationEvent.h>
 #include <GCrisp/Events/KeyEvent.h>
-#include <GLFW/glfw3.h>
-#include <glad/glad.h>
-#include <GCrisp/Platform/OpenGL/OpenGLBuffer.h>
 #include <GCrisp/Renderer/Renderer.h>
 
 namespace GCrisp{
@@ -100,13 +97,10 @@ void Application::Run()
 {
   while(m_Running)
   {
-    glClearColor(0.12, 0.12, 0.12, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-
     m_Shader->Bind();
-    m_VertexArray->Bind();
-    
-    glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+    Graphics::Renderer::Clear({1, 0, 0, 1});
+    Graphics::Renderer::Draw(m_VertexArray);
 
     for(Layer* layer : m_LayerStack)
     {
@@ -150,7 +144,7 @@ bool Application::OnWindowClose(WindowCloseEvent& e)
 
 bool Application::OnWindowResize(WindowResizeEvent& e)
 {
-  glViewport(0, 0, m_Window->GetWidth(), m_Window->GetHeight());
+  Graphics::Renderer::SetViewport({0, 0}, {m_Window->GetWidth(), m_Window->GetHeight()});
   return true;
 }
 

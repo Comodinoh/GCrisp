@@ -23,6 +23,22 @@ void Renderer::Shutdown()
 
 }
 
+void Renderer::Clear(const glm::vec4& color)
+{
+  s_RenderAPI->Clear(color);
+}
+
+void Renderer::SetViewport(const glm::vec2& pos, const glm::vec2& size)
+{
+    s_RenderAPI->SetViewport(pos, size);
+}
+
+void Renderer::Draw(const std::shared_ptr<VertexArray>& vertexArray)
+{
+  s_RenderAPI->Draw(vertexArray);
+}
+
+
 }
 
 }

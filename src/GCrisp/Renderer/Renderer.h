@@ -1,5 +1,8 @@
 #pragma once
 
+#include <GCrisp/Renderer/VertexArray.h>
+#include <glm/glm.hpp>
+
 namespace GCrisp{
 
 namespace Graphics{
@@ -16,7 +19,13 @@ public:
 
   virtual void Init() = 0;
 
-  static Backend GetBackend() {return s_RendererBackend;}
+  virtual void Clear(const glm::vec4& color) const = 0;
+
+  virtual void SetViewport(const glm::vec2& pos, const glm::vec2& size) const = 0;
+
+  virtual void Draw(const std::shared_ptr<VertexArray>& vertexArray) const = 0;
+
+  inline static Backend GetBackend() {return s_RendererBackend;}
 protected:
   static Backend s_RendererBackend;
 };
@@ -27,7 +36,11 @@ public:
   static void Init();
   static void Shutdown();
 
-  static Backend GetBackend() {return API::GetBackend();}
+  static void Clear(const glm::vec4& color);
+  static void SetViewport(const glm::vec2& pos, const glm::vec2& size);
+  static void Draw(const std::shared_ptr<VertexArray>& vertexArray);
+
+  inline static Backend GetBackend() {return API::GetBackend();}
 private:
   static std::unique_ptr<API> s_RenderAPI;
 };
