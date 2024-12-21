@@ -23,85 +23,18 @@ Application::Application()
   m_Window->SetEventCallback(BIND_FN(OnEvent));
 
   Graphics::Renderer::Init();
-
-  m_VertexArray.reset(GetGraphicsCreator()->CreateVertexArray());
-
-    float vertices[] = 
-    {
-     -1.0,  1.0, 0.0,   1.0, 0.0, 0.0, 1.0,
-     -1.0, -1.0, 0.0,   0.0, 1.0, 0.0, 1.0,
-      1.0,  1.0, 0.0,   0.0, 0.0, 1.0, 1.0,
-      1.0, -1.0, 0.0,   1.0, 1.0, 1.0, 1.0
-    };
-
-    m_VertexBuffer.reset(GetGraphicsCreator()->CreateVertexBuffer(vertices, sizeof(vertices)));
-
-    Graphics::BufferLayout layout = 
-    {
-        {"a_Position", Graphics::ShaderDataType::Float3},
-        {"a_Color", Graphics::ShaderDataType::Float4}
-    };
-
-    m_VertexBuffer->SetLayout(layout);
-    m_VertexArray->AddVertexBuffer(m_VertexBuffer);
-
-    uint32_t indices[] =
-    {
-        0, 1, 2,
-        2, 1, 3
-    };
-    m_IndexBuffer.reset(GetGraphicsCreator()->CreateIndexBuffer(indices, sizeof(indices)));
-    m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-
-    std::string vertexSrc = R"(
-      #version 330 core
-
-      in vec3 a_Position;
-      in vec4 a_Color;
-
-      out vec4 color;
-      out vec3 position;
-
-      void main()
-      {
-        position = (a_Position+1.0)*0.5;
-        color = a_Color;
-        gl_Position = vec4(a_Position, 1.0);
-      }
-    )";
-    std::string fragmentSrc = R"(
-      #version 330 core
-
-      in vec4 color;
-      in vec3 position;
-
-      out vec4 fragColor;
-
-      void main()
-      {
-        fragColor = color;
-      }
-    )";
-
-    auto& app = Application::Get();
-
-    m_Shader.reset(Application::Get().GetGraphicsCreator()->CreateShader(&vertexSrc, &fragmentSrc));
 }
 
 Application::~Application() 
 {
   s_Instance = nullptr;
+  Graphics::Renderer::Shutdown();
 }
 
 void Application::Run()
 {
   while(m_Running)
   {
-    m_Shader->Bind();
-
-    Graphics::Renderer::Clear({1, 0, 0, 1});
-    Graphics::Renderer::Draw(m_VertexArray);
-
     for(Layer* layer : m_LayerStack)
     {
       layer->OnUpdate();

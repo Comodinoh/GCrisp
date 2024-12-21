@@ -20,7 +20,8 @@ void Renderer::Init()
 
 void Renderer::Shutdown()
 {
-
+  s_RenderAPI.reset();
+  s_RenderAPI = nullptr;
 }
 
 void Renderer::Clear(const glm::vec4& color)
