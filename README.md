@@ -61,10 +61,10 @@ public:
 
     float vertices[] = 
     {
-     -1.0,  1.0, 0.0,   1.0, 0.0, 0.0, 1.0,
-     -1.0, -1.0, 0.0,   0.0, 1.0, 0.0, 1.0,
-      1.0,  1.0, 0.0,   0.0, 0.0, 1.0, 1.0,
-      1.0, -1.0, 0.0,   1.0, 1.0, 1.0, 1.0
+     -1.0,  1.0, 0.0,   1.0, 0.0, 0.0, 1.0, // Top left corner
+     -1.0, -1.0, 0.0,   0.0, 1.0, 0.0, 1.0, // Bottom left corner
+      1.0,  1.0, 0.0,   0.0, 0.0, 1.0, 1.0, // Top right corner
+      1.0, -1.0, 0.0,   1.0, 1.0, 1.0, 1.0  // Bottom right corner 
     };
 
     m_VertexBuffer.reset(app.GetGraphicsCreator()->CreateVertexBuffer(vertices, sizeof(vertices)));
@@ -80,8 +80,8 @@ public:
 
     uint32_t indices[] =
     {
-        0, 1, 2,
-        2, 1, 3
+        0, 1, 2, // Top left -> Bottom left -> Top right
+        2, 1, 3  // Top right -> Bottom left -> Bottom right
     };
     m_IndexBuffer.reset(app.GetGraphicsCreator()->CreateIndexBuffer(indices, sizeof(indices)));
     m_VertexArray->SetIndexBuffer(m_IndexBuffer);
