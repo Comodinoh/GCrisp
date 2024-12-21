@@ -1,6 +1,5 @@
-#include <GCrisp/Renderer/Renderer.h>
-#include <GCrisp/Core/Input.h>
 #include <GCrisp/GCrisp.h>
+#include <GCrisp/Renderer/Renderer.h>
 #include <GCrisp/Renderer/Shader.h>
 #include <GCrisp/Renderer/Buffer.h>
 #include <GCrisp/Renderer/VertexArray.h>
