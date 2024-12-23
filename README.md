@@ -48,23 +48,24 @@ Now you can use the header of the library and create applications with it:
 #include <GCrisp/Renderer/Shader.h>
 #include <GCrisp/Renderer/Buffer.h>
 #include <GCrisp/Renderer/VertexArray.h>
+#include <GCrisp/Renderer/Camera.h>
+#include <GLFW/glfw3.h>
 
 using namespace GCrisp;
 
 class TestLayer : public GCrisp::Layer
 {
 public:
-  TestLayer() : GCrisp::Layer("Test")
+  TestLayer() : GCrisp::Layer("Test"), m_Camera(Graphics::Camera({{0, 0, 0}, {0, 0, 0}, glm::mat4(1.0f), glm::mat4(1.0f), 1.0f}))
   {
     auto& app = Application::Get();
     m_VertexArray.reset(app.GetGraphicsCreator()->CreateVertexArray());
 
     float vertices[] = 
     {
-     -1.0,  1.0, 0.0,   1.0, 0.0, 0.0, 1.0, // Top left corner
-     -1.0, -1.0, 0.0,   0.0, 1.0, 0.0, 1.0, // Bottom left corner
-      1.0,  1.0, 0.0,   0.0, 0.0, 1.0, 1.0, // Top right corner
-      1.0, -1.0, 0.0,   1.0, 1.0, 1.0, 1.0  // Bottom right corner 
+      0.0,  0.5, 0.0,   1.0, 0.0, 0.0, 1.0,
+      0.5, -0.5, 0.0,   0.0, 1.0, 0.0, 1.0,
+     -0.5, -0.5, 0.0,   0.0, 0.0, 1.0, 1.0,
     };
 
     m_VertexBuffer.reset(app.GetGraphicsCreator()->CreateVertexBuffer(vertices, sizeof(vertices)));
@@ -80,8 +81,7 @@ public:
 
     uint32_t indices[] =
     {
-        0, 1, 2, // Top left -> Bottom left -> Top right
-        2, 1, 3  // Top right -> Bottom left -> Bottom right
+        0, 1, 2,
     };
     m_IndexBuffer.reset(app.GetGraphicsCreator()->CreateIndexBuffer(indices, sizeof(indices)));
     m_VertexArray->SetIndexBuffer(m_IndexBuffer);
@@ -95,11 +95,12 @@ public:
       out vec4 color;
       out vec3 position;
 
+      uniform mat4 mvp;
+
       void main()
       {
-        position = (a_Position+1.0)*0.5;
         color = a_Color;
-        gl_Position = vec4(a_Position, 1.0);
+        gl_Position = mvp * vec4(a_Position, 1.0);
       }
     )";
     std::string fragmentSrc = R"(
@@ -127,15 +128,44 @@ public:
 
   void OnUpdate() override
   { 
-    Graphics::Renderer::Clear({1, 0, 0, 1});
+    if(Input::IsKeyPressed(Input::W))
+    {
+      m_Camera.GetSpecification().Position += glm::vec3(0.0f, 0.05f, 0.0f);
+    }
+    if(Input::IsKeyPressed(Input::S))
+    {
+      m_Camera.GetSpecification().Position -= glm::vec3(0.0f, 0.05f, 0.0f);
+    }
+    if(Input::IsKeyPressed(Input::D))
+    {
+      m_Camera.GetSpecification().Position += glm::vec3(0.05f, 0.0f, 0.0f);
+    }
+    if(Input::IsKeyPressed(Input::A))
+    {
+      m_Camera.GetSpecification().Position -= glm::vec3(0.05f, 0.0f, 0.0f);
+    }
+
+    Graphics::Renderer::Clear({0, 0, 0, 1});
+
+    auto& window = Application::Get().GetWindow();
+
+    m_Camera.GetSpecification().AspectRatio = window.GetWidth()/window.GetHeight();
+
+
+    // glfwGetTime() is a temp placeholder for when I'll add delta time and timesteps
+    // TODO: replace with deltatime
+    m_Camera.GetSpecification().Rotation = glm::vec3(0, 0, -glfwGetTime());
+
+    m_Camera.project(Graphics::Camera::OrthographicProjection());
 
     m_Shader->Bind();
+    m_Shader->UploadMat4("mvp", m_Camera.GetSpecification().GetViewProj());
+
     Graphics::Renderer::Draw(m_VertexArray);
   }
 
   void OnEvent(GCrisp::Event& e) override
   {
-    GC_TRACE("{0}", e);
   }
 
 private:
@@ -143,6 +173,8 @@ private:
   std::shared_ptr<Graphics::VertexBuffer> m_VertexBuffer;
   std::shared_ptr<Graphics::IndexBuffer> m_IndexBuffer;
   std::shared_ptr<Graphics::VertexArray> m_VertexArray;
+
+  Graphics::Camera m_Camera;
 };
 
 class TestApplication : public GCrisp::Application
@@ -162,7 +194,6 @@ GCrisp::Application* GCrisp::CreateApplication()
 {
   return new TestApplication();
 }
-
 
 ```
 
