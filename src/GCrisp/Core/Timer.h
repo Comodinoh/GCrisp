@@ -3,48 +3,42 @@
 
 namespace GCrisp{
 
+using namespace std::chrono;
+
+
 class ProcessedTime
 {
 friend class Timer;
 public:
-  ProcessedTime() : ProcessedTime(0) {}
-  ProcessedTime(int64_t time) : m_Time(time) {}
+  ProcessedTime() : ProcessedTime(0.0f) {}
+  ProcessedTime(float time) : m_Time(time) {}
 
-  inline const int64_t& GetNSTime() const {return m_Time;}
+  operator float() const {return m_Time;}
 
-  inline float GetSecondsF() const {return m_Time/(float)1e9;}
-  inline double GetSecondsD() const {return m_Time/(double)1e9;}
-
-  inline float GetMillisF() const {return m_Time/(float)1e6;}
-  inline double GetMillisD() const {return m_Time/(double)1e6;}
+  inline float GetSeconds() const {return m_Time;}
+  inline float GetMillis() const {return m_Time*1000;}
 protected:
-  int64_t m_Time;
+  float m_Time;
 };
 
 class Timer
 {
 public:
-  Timer(int64_t start) : m_Last(start), m_Elapsed(start) {}
+  Timer() : m_Last(steady_clock::now()) {}
  
-  void processTime(int64_t now);
-
-  inline const ProcessedTime& GetElapsedTime() const 
-  {
-    return m_Elapsed;
-  }
+  void ProcessTime(ProcessedTime& elapsed, const steady_clock::time_point& now);
 private:
-  int64_t m_Last;
-  ProcessedTime m_Elapsed;
+  steady_clock::time_point m_Last;     
 };
 
 class ScopedTimer
 {
 public:
-  ScopedTimer(int64_t start, ProcessedTime& elapsed) : m_Start(start), m_Elapsed(elapsed) {}
+  ScopedTimer(steady_clock::time_point start, ProcessedTime& elapsed) : m_Start(start), m_Elapsed(elapsed) {}
   ~ScopedTimer();
 private:
   ProcessedTime& m_Elapsed;
-  int64_t m_Start;
+  steady_clock::time_point m_Start;
 };
 
 }

@@ -4,15 +4,15 @@
 
 namespace GCrisp{
 
-void Timer::processTime(int64_t now)
+void Timer::ProcessTime(ProcessedTime& elapsed, const steady_clock::time_point& now)
 {
-  m_Elapsed.m_Time = now-m_Last;
+  elapsed.m_Time = duration_cast<milliseconds>(now-m_Last).count()/1000.0f;
   m_Last = now;
 }
 
 ScopedTimer::~ScopedTimer()
 {
-  m_Elapsed = PlatformUtils::GetTime()-m_Start;
+  m_Elapsed = duration_cast<milliseconds>(steady_clock::now()-m_Start).count()/1000.0f;
 }
 
 }

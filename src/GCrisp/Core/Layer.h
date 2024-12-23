@@ -13,7 +13,7 @@ public:
 
   virtual void OnAttach() {}
   virtual void OnDetach() {}
-  virtual void OnUpdate(const Timer& timer) {}
+  virtual void OnUpdate(const ProcessedTime& elapsed) {}
   virtual void OnEvent(Event& e) {}
 
   inline const std::string& GetName() const {return m_DebugName;}

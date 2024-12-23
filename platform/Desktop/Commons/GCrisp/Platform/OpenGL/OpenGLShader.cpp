@@ -124,6 +124,18 @@ void OpenGLShader::UploadMat4(const std::string& name, const glm::mat4& data) co
   glUniformMatrix4fv(location, 1, false, glm::value_ptr(data));
 }
 
+void OpenGLShader::UploadVec3(const std::string& name, const glm::vec3& data) const
+{
+  GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+  glUniform3fv(location, 1, glm::value_ptr(data));
+}
+
+void OpenGLShader::UploadVec4(const std::string& name, const glm::vec4& data) const
+{
+  GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+  glUniform3fv(location, 1, glm::value_ptr(data));
+}
+
 void OpenGLShader::UnBind() const
 {
   glUseProgram(0);

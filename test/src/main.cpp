@@ -69,7 +69,7 @@ public:
 
       void main()
       {
-        fragColor = position;
+        fragColor = color;
       }
     )";
 
@@ -82,9 +82,9 @@ public:
 
   }
 
-  void OnUpdate(const Timer& timer) override
+  void OnUpdate(const ProcessedTime& delta) override
   { 
-    float delta = timer.GetElapsedTime().GetSecondsF();
+    /*GC_CORE_TRACE("Elapsed time: {0}", (float)delta);*/
     // Warning: movement will get messy while the camera is rotating
     glm::vec3 direction = glm::vec3(0);
     if(Input::IsKeyPressed(Input::W))
@@ -104,9 +104,9 @@ public:
       direction.x -= 1;
     }
 
-    float speed = 0.025f;
+    float speed = 1.0f;
     glm::vec3 velocity = glm::length(direction) != 0 ? glm::normalize(direction)*speed : glm::vec3();
-    m_Camera.GetSpecification().Position += velocity;
+    m_Camera.GetSpecification().Position += velocity*(float)delta;
     
 
     Graphics::Renderer::Clear({0, 0, 0, 1});

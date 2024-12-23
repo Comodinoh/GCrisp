@@ -16,11 +16,11 @@ namespace GCrisp{
 
 Application* Application::s_Instance = nullptr;
 
-Application::Application() : m_FrameTimer(PlatformUtils::GetTime()) 
+Application::Application()  
 {
   ProcessedTime delta;
   {
-    ScopedTimer timer(PlatformUtils::GetTime(), delta);
+    ScopedTimer timer(steady_clock::now(), delta);
     GC_CORE_ASSERT(!s_Instance, "Application instance cannot be null!")
     s_Instance = this;
 
@@ -31,7 +31,7 @@ Application::Application() : m_FrameTimer(PlatformUtils::GetTime())
     
   }
 
-  GC_CORE_INFO("Took {0} seconds to initialize application.", delta.GetSecondsF());
+  GC_CORE_INFO("Took {0} seconds to initialize application.", delta.GetSeconds());
 }
 
 Application::~Application() 
@@ -46,11 +46,12 @@ void Application::Run()
   while(m_Running)
   {
 
-    m_FrameTimer.processTime(PlatformUtils::GetTime());
+    ProcessedTime elapsed;
+    m_FrameTimer.ProcessTime(elapsed, steady_clock::now());
     
     for(Layer* layer : m_LayerStack)
     {
-      layer->OnUpdate(m_FrameTimer);
+      layer->OnUpdate(elapsed);
     }
     m_Window->OnUpdate();
   }
