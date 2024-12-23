@@ -128,6 +128,7 @@ public:
 
   void OnUpdate() override
   { 
+    // Makes the camera move around the world
     if(Input::IsKeyPressed(Input::W))
     {
       m_Camera.GetSpecification().Position += glm::vec3(0.0f, 0.05f, 0.0f);
@@ -154,6 +155,8 @@ public:
 
     // glfwGetTime() is a temp placeholder for when I'll add delta time and timesteps
     // TODO: replace with deltatime
+    // Makes the camera rotate around the z axis in a circle,
+    // which makes the triangle rotate in the opposed direction counter clock-wise
     m_Camera.GetSpecification().Rotation = glm::vec3(0, 0, -glfwGetTime());
 
     m_Camera.project(Graphics::Camera::OrthographicProjection());
