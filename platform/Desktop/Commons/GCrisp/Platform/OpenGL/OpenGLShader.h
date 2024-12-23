@@ -14,6 +14,8 @@ public:
 
   virtual void Bind() const override;
   virtual void UnBind() const override;
+
+  virtual void UploadMat4(const std::string& name, const glm::mat4& data) const override;
 private:
   uint32_t m_RendererID;
 };

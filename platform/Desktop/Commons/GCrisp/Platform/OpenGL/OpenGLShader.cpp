@@ -3,6 +3,7 @@
 
 #include <glad/glad.h>
 #include <GCrisp/Core/Log.h>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace GCrisp{
 
@@ -115,6 +116,12 @@ OpenGLShader::~OpenGLShader()
 void OpenGLShader::Bind() const
 {
   glUseProgram(m_RendererID);
+}
+
+void OpenGLShader::UploadMat4(const std::string& name, const glm::mat4& data) const
+{
+  GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+  glUniformMatrix4fv(location, 1, false, glm::value_ptr(data));
 }
 
 void OpenGLShader::UnBind() const

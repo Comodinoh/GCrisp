@@ -21,6 +21,9 @@ public:
   WindowResizeEvent(unsigned int width, unsigned int height) : 
     m_Width(width), m_Height(height) {}
 
+  inline int GetNewWidth() const {return m_Width;}
+  inline int GetNewHeight() const {return m_Height;}
+
   std::string ToString() const override
   {
     std::stringstream stream;

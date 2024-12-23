@@ -39,10 +39,10 @@ public:
 
   virtual void OnUpdate() = 0;
 
-  inline Graphics::Creator*         GetCreator() const {return m_GraphicsCreator;};
-  inline Graphics::Backend          GetBackend() {return m_Backend;};
-  inline uint                       GetWidth() const {return m_Data.Width;};
-  inline uint                       GetHeight() const {return m_Data.Height;};
+  inline Graphics::Creator*         GetCreator() const {return m_GraphicsCreator;}
+  inline Graphics::Backend          GetBackend() {return m_Backend;}
+  inline uint32_t                   GetWidth() const {return m_Data.Width;}
+  inline uint32_t                   GetHeight() const {return m_Data.Height;}
 
   inline virtual void* GetWindowPointer() = 0;
   inline virtual Graphics::Context* GetContext() = 0;
@@ -55,8 +55,8 @@ public:
 
 protected:
   WindowData         m_Data;
-  Graphics::Creator* m_GraphicsCreator;
   Graphics::Backend  m_Backend;
+  Graphics::Creator* m_GraphicsCreator;
 };
 
 }
