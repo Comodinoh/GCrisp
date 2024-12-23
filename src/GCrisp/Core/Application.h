@@ -5,6 +5,7 @@
 #include <GCrisp/Core/LayerStack.h>
 #include <GCrisp/Events/Event.h>
 #include <GCrisp/Events/ApplicationEvent.h>
+#include <GCrisp/Core/Timer.h>
 
 namespace GCrisp {
 
@@ -21,9 +22,9 @@ public:
   void PushLayer(Layer* layer);
   void PushOverlay(Layer* overlay);
 
-
   static inline Application& Get() {return *s_Instance;}
-  inline Window& GetWindow() {return *m_Window;} 
+  inline Window& GetWindow() const {return *m_Window;} 
+  inline Timer& GetFrameTimer() {return m_FrameTimer;}
   inline Graphics::Creator* GetGraphicsCreator() const {return m_Window->GetCreator();}
 private:
   bool OnWindowClose(WindowCloseEvent& e);
@@ -32,10 +33,7 @@ private:
   std::unique_ptr<Window> m_Window;
   bool m_Running = true;
   LayerStack m_LayerStack;
-  std::shared_ptr<Graphics::Shader> m_Shader;
-  std::shared_ptr<Graphics::VertexBuffer> m_VertexBuffer;
-  std::shared_ptr<Graphics::IndexBuffer> m_IndexBuffer;
-  std::shared_ptr<Graphics::VertexArray> m_VertexArray;
+  Timer m_FrameTimer;  
   static Application* s_Instance;
 };
 

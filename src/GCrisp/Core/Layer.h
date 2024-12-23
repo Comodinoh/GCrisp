@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GCrisp/Events/Event.h>
+#include <GCrisp/Core/Timer.h>
 
 namespace GCrisp{
 
@@ -12,7 +13,7 @@ public:
 
   virtual void OnAttach() {}
   virtual void OnDetach() {}
-  virtual void OnUpdate() {}
+  virtual void OnUpdate(const Timer& timer) {}
   virtual void OnEvent(Event& e) {}
 
   inline const std::string& GetName() const {return m_DebugName;}

@@ -7,21 +7,31 @@
 #include <GCrisp/Events/ApplicationEvent.h>
 #include <GCrisp/Events/KeyEvent.h>
 #include <GCrisp/Renderer/Renderer.h>
+#include <GCrisp/Core/Timer.h>
+#include <GCrisp/Core/PlatformUtils.h>
 #include <GCrisp/Core/Core.h>
+#include <GLFW/glfw3.h>
 
 namespace GCrisp{
 
 Application* Application::s_Instance = nullptr;
 
-Application::Application() 
+Application::Application() : m_FrameTimer(PlatformUtils::GetTime()) 
 {
-  GC_CORE_ASSERT(!s_Instance, "Application instance cannot be null!")
-  s_Instance = this;
+  ProcessedTime delta;
+  {
+    ScopedTimer timer(PlatformUtils::GetTime(), delta);
+    GC_CORE_ASSERT(!s_Instance, "Application instance cannot be null!")
+    s_Instance = this;
 
-  m_Window = std::unique_ptr<Window>(Window::Create(Graphics::Backend::OpenGL));
-  m_Window->SetEventCallback(GC_BIND_FN1(Application::OnEvent));
+    m_Window = std::unique_ptr<Window>(Window::Create(Graphics::Backend::OpenGL));
+    m_Window->SetEventCallback(GC_BIND_FN1(Application::OnEvent));
 
-  Graphics::Renderer::Init();
+    Graphics::Renderer::Init();
+    
+  }
+
+  GC_CORE_INFO("Took {0} seconds to initialize application.", delta.GetSecondsF());
 }
 
 Application::~Application() 
@@ -32,11 +42,15 @@ Application::~Application()
 
 void Application::Run()
 {
+  //TODO: implement delta time
   while(m_Running)
   {
+
+    m_FrameTimer.processTime(PlatformUtils::GetTime());
+    
     for(Layer* layer : m_LayerStack)
     {
-      layer->OnUpdate();
+      layer->OnUpdate(m_FrameTimer);
     }
     m_Window->OnUpdate();
   }

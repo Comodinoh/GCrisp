@@ -48,27 +48,28 @@ public:
       in vec4 a_Color;
 
       out vec4 color;
-      out vec3 position;
+      out vec4 position;
 
       uniform mat4 mvp;
 
       void main()
       {
+        position = mvp * vec4(a_Position, 1.0);
         color = a_Color;
-        gl_Position = mvp * vec4(a_Position, 1.0);
+        gl_Position = position;
       }
     )";
     std::string fragmentSrc = R"(
       #version 330 core
 
       in vec4 color;
-      in vec3 position;
+      in vec4 position;
 
       out vec4 fragColor;
 
       void main()
       {
-        fragColor = color;
+        fragColor = position;
       }
     )";
 
@@ -81,25 +82,32 @@ public:
 
   }
 
-  void OnUpdate() override
+  void OnUpdate(const Timer& timer) override
   { 
+    float delta = timer.GetElapsedTime().GetSecondsF();
     // Warning: movement will get messy while the camera is rotating
+    glm::vec3 direction = glm::vec3(0);
     if(Input::IsKeyPressed(Input::W))
     {
-      m_Camera.GetSpecification().Position += glm::vec3(0.0f, 0.05f, 0.0f);
+      direction.y += 1;
     }
     if(Input::IsKeyPressed(Input::S))
     {
-      m_Camera.GetSpecification().Position -= glm::vec3(0.0f, 0.05f, 0.0f);
+      direction.y -= 1;
     }
     if(Input::IsKeyPressed(Input::D))
     {
-      m_Camera.GetSpecification().Position += glm::vec3(0.05f, 0.0f, 0.0f);
+      direction.x += 1;
     }
     if(Input::IsKeyPressed(Input::A))
     {
-      m_Camera.GetSpecification().Position -= glm::vec3(0.05f, 0.0f, 0.0f);
+      direction.x -= 1;
     }
+
+    float speed = 0.025f;
+    glm::vec3 velocity = glm::length(direction) != 0 ? glm::normalize(direction)*speed : glm::vec3();
+    m_Camera.GetSpecification().Position += velocity;
+    
 
     Graphics::Renderer::Clear({0, 0, 0, 1});
 
@@ -107,10 +115,6 @@ public:
 
     m_Camera.GetSpecification().AspectRatio = window.GetWidth()/window.GetHeight();
 
-
-    // glfwGetTime() is a temp placeholder for when I'll add delta time and timesteps
-    // TODO: replace with deltatime
-    m_Camera.GetSpecification().Rotation = glm::vec3(0, 0, -glfwGetTime());
 
     m_Camera.Project(Graphics::Camera::OrthographicProjection());
 
