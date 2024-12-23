@@ -83,6 +83,7 @@ public:
 
   void OnUpdate() override
   { 
+    // Warning: movement will get messy while the camera is rotating
     if(Input::IsKeyPressed(Input::W))
     {
       m_Camera.GetSpecification().Position += glm::vec3(0.0f, 0.05f, 0.0f);
@@ -111,7 +112,7 @@ public:
     // TODO: replace with deltatime
     m_Camera.GetSpecification().Rotation = glm::vec3(0, 0, -glfwGetTime());
 
-    m_Camera.project(Graphics::Camera::OrthographicProjection());
+    m_Camera.Project(Graphics::Camera::OrthographicProjection());
 
     m_Shader->Bind();
     m_Shader->UploadMat4("mvp", m_Camera.GetSpecification().GetViewProj());
@@ -121,7 +122,18 @@ public:
 
   void OnEvent(GCrisp::Event& e) override
   {
+    EventDispatcher dispatcher(e);
+    
+    dispatcher.Dispatch<WindowResizeEvent>(GC_BIND_FN1(TestLayer::OnWindowResize));
   }
+
+
+  bool OnWindowResize(WindowResizeEvent& e) 
+  {
+    m_Camera.OnResize(e.GetNewWidth(), e.GetNewHeight());
+    return false;
+  }
+
 
 private:
   std::shared_ptr<Graphics::Shader> m_Shader;

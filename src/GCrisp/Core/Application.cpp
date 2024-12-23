@@ -7,10 +7,9 @@
 #include <GCrisp/Events/ApplicationEvent.h>
 #include <GCrisp/Events/KeyEvent.h>
 #include <GCrisp/Renderer/Renderer.h>
+#include <GCrisp/Core/Core.h>
 
 namespace GCrisp{
-
-#define BIND_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
 Application* Application::s_Instance = nullptr;
 
@@ -20,7 +19,7 @@ Application::Application()
   s_Instance = this;
 
   m_Window = std::unique_ptr<Window>(Window::Create(Graphics::Backend::OpenGL));
-  m_Window->SetEventCallback(BIND_FN(OnEvent));
+  m_Window->SetEventCallback(GC_BIND_FN1(Application::OnEvent));
 
   Graphics::Renderer::Init();
 }
@@ -57,8 +56,8 @@ void Application::OnEvent(Event& e)
 {
   EventDispatcher dispatcher(e);
 
-  dispatcher.Dispatch<WindowCloseEvent>(BIND_FN(OnWindowClose));
-  dispatcher.Dispatch<WindowResizeEvent>(BIND_FN(OnWindowResize));
+  dispatcher.Dispatch<WindowCloseEvent>(GC_BIND_FN1(Application::OnWindowClose));
+  dispatcher.Dispatch<WindowResizeEvent>(GC_BIND_FN1(Application::OnWindowResize));
   
 
   for(auto it = m_LayerStack.end(); it != m_LayerStack.begin();)

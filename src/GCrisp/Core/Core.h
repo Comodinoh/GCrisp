@@ -23,6 +23,7 @@
 #define GC_CORE_VERIFY(condition, msg, ...) {if(!(condition)) GC_CORE_ERROR(msg, __VA_ARGS__);}
 
 #define BIT(x) (1 << x)
+#define GC_BIND_FN1(func) std::bind(&func, this, std::placeholders::_1)
 
 #include <GCrisp/Core/Log.h>
 

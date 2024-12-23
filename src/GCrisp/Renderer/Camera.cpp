@@ -17,9 +17,19 @@ Camera::Camera(const CameraSpec& spec) {
   m_Specification.AspectRatio = window.GetWidth()/window.GetHeight();
 }
 
-void Camera::project(ProjectionCallback callback)
+void Camera::Project(ProjectionCallback callback)
 {
   callback(m_Specification);
 }
 
+void Camera::OnResize(int newWidth, int newHeight)
+{
+  m_Specification.AspectRatio = newWidth/newHeight;
+
+  float aspectRatio = m_Specification.AspectRatio;
+  float scale = m_Specification.Scale;
+  m_Specification.Projection = glm::ortho(-aspectRatio*scale, aspectRatio*scale, -(1/aspectRatio)*scale, (1/aspectRatio)*scale, -1.0f, 1.0f);
+}
+
+}
 }

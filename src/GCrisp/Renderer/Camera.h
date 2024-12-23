@@ -39,7 +39,8 @@ public:
   Camera(const CameraSpec& spec);
   virtual ~Camera() = default;
 
-  void project(ProjectionCallback callback);
+  void Project(ProjectionCallback callback);
+  void OnResize(int newWidth, int newHeight);
 
   inline CameraSpec& GetSpecification() {return m_Specification;} 
 public:
@@ -47,9 +48,6 @@ public:
   {
     return [](CameraSpec& spec)
     {
-      float aspectRatio = spec.AspectRatio;
-      float scale = spec.Scale;
-      spec.Projection = glm::ortho(-aspectRatio*scale, aspectRatio*scale, -(1/aspectRatio)*scale, (1/aspectRatio)*scale, -1.0f, 1.0f);
       glm::vec3 pos = spec.Position;
       glm::vec3 rotation = spec.Rotation;
       glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos);
