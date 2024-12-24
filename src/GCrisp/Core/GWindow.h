@@ -49,6 +49,7 @@ public:
   virtual bool HasVSync() const = 0;
 
   void SetEventCallback(const EventCallbackFunc& callback) {m_Data.EventCallback = callback;};
+
   static Window* Create(const Graphics::Backend& backend, const WindowProps& props = WindowProps());
 
 protected:

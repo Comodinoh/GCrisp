@@ -34,7 +34,7 @@ void Renderer::SetViewport(const glm::vec2& pos, const glm::vec2& size)
     s_RenderAPI->SetViewport(pos, size);
 }
 
-void Renderer::Draw(const std::shared_ptr<VertexArray>& vertexArray)
+void Renderer::Submit2D(const std::shared_ptr<VertexArray>& vertexArray)
 {
   s_RenderAPI->Draw(vertexArray);
 }

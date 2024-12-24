@@ -50,8 +50,7 @@ public:
     {
       glm::vec3 pos = spec.Position;
       glm::vec3 rotation = spec.Rotation;
-      glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos);
-      transform *=  glm::rotate(transform, -rotation.z, glm::vec3(0, 0, 1));
+      glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * glm::rotate(glm::mat4(1.0f), -rotation.z, glm::vec3(0, 0, 1));
       spec.View = glm::inverse(transform);
     };
   }

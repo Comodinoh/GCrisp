@@ -9,9 +9,11 @@
 - 2D Renderer
 - Scene System
 - Sorting
-- Culling (Maybe)
+- Culling
 - Animation
 - Camera
+  - ~Orthographic Camera~
+  - Perspective Camera
 - VFX
 - PostFX
 
@@ -27,7 +29,7 @@
 - Pipelines
 - Render Passes
 
-**RenderAPI OpenGL Implementation:** `25% Done`
+**RenderAPI OpenGL Implementation:** `30% Done`
 
 **RenderAPI DirectX Implementation:** `0% Done`
 

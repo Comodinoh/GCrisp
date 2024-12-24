@@ -35,7 +35,7 @@ void OpenGLWindow::Init(const WindowProps& props)
   m_Data.Height = props.Height;
 
 
-  GC_CORE_INFO("Creating OpenGL window {0} ({1}, {2}) with GLFW", props.Title, props.Width, props.Height);
+  GC_CORE_INFO("Creating GLFW window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
 
   if(!s_GLFWInitialized)
@@ -52,6 +52,7 @@ void OpenGLWindow::Init(const WindowProps& props)
 
   m_Context = new Graphics::OpenGLContext(m_Window);
   m_Context->Init();
+
   GC_CORE_INFO("Initialized OpenGL context:");
   GC_CORE_INFO("   Vendor: {0}", m_Context->GetVendorName());
   GC_CORE_INFO("   Renderer: {0}", m_Context->GetRendererName());

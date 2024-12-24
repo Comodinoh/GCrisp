@@ -38,7 +38,7 @@ public:
 
   static void Clear(const glm::vec4& color);
   static void SetViewport(const glm::vec2& pos, const glm::vec2& size);
-  static void Draw(const std::shared_ptr<VertexArray>& vertexArray);
+  static void Submit2D(const std::shared_ptr<VertexArray>& vertexArray);
 
   inline static Backend GetBackend() {return API::GetBackend();}
 private:

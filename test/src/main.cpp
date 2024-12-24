@@ -84,7 +84,7 @@ public:
 
   void OnUpdate(const ProcessedTime& delta) override
   { 
-    GC_CORE_INFO("Elapsed time: {0}", (float)delta);
+    /*GC_CORE_INFO("Elapsed time: {0}", (float)delta);*/
     // Warning: movement will get messy while the camera is rotating
     glm::vec3 direction = glm::vec3(0);
     if(Input::IsKeyPressed(Input::W))
@@ -104,6 +104,17 @@ public:
       direction.x -= 1;
     }
 
+    float rot = 0.0f;
+
+    if(Input::IsKeyPressed(Input::L))
+    {
+      rot += 120.0f;
+    }
+    if(Input::IsKeyPressed(Input::J))
+    {
+      rot -= 120.0f;
+    }
+
     float speed = 1.0f;
     glm::vec3 velocity = glm::length(direction) != 0 ? glm::normalize(direction)*speed : glm::vec3();
     m_Camera.GetSpecification().Position += velocity*(float)delta;
@@ -114,14 +125,15 @@ public:
     auto& window = Application::Get().GetWindow();
 
     m_Camera.GetSpecification().AspectRatio = window.GetWidth()/window.GetHeight();
+    m_Camera.GetSpecification().Rotation.z += glm::radians(rot*delta);
 
 
     m_Camera.Project(Graphics::Camera::OrthographicProjection());
 
     m_Shader->Bind();
-    m_Shader->UploadMat4("mvp", m_Camera.GetSpecification().GetViewProj());
+    m_Shader->UploadMat4("u_ViewProj", m_Camera.GetSpecification().GetViewProj());
 
-    Graphics::Renderer::Draw(m_VertexArray);
+    Graphics::Renderer::Submit2D(m_VertexArray);
   }
 
   void OnEvent(GCrisp::Event& e) override
