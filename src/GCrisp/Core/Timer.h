@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace GCrisp{
 
 using namespace std::chrono;

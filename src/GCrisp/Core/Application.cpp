@@ -8,9 +8,7 @@
 #include <GCrisp/Events/KeyEvent.h>
 #include <GCrisp/Renderer/Renderer.h>
 #include <GCrisp/Core/Timer.h>
-#include <GCrisp/Core/PlatformUtils.h>
 #include <GCrisp/Core/Core.h>
-#include <GLFW/glfw3.h>
 
 namespace GCrisp{
 

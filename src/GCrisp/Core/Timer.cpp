@@ -1,6 +1,4 @@
 #include "Timer.h"
-#include <GCrisp/Core/PlatformUtils.h>
-#include <GLFW/glfw3.h>
 
 namespace GCrisp{
 

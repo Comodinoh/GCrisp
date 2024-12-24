@@ -5,7 +5,6 @@
 #include <GLFW/glfw3.h>
 
 
-struct GLFWwindow;
 
 namespace GCrisp {
 
@@ -17,8 +16,13 @@ class OpenGLContext : public Context
 public:
   OpenGLContext(GLFWwindow* window_handle) : m_WindowHandle(window_handle) {GC_CORE_ASSERT(window_handle, "Provided invalid window handle! (nullptr)");};
 
-  virtual void Init() override;
-  virtual void SwapBuffers() override;
+  virtual void Init() const override;
+  virtual void SwapBuffers() const override;
+
+  virtual std::string GetRendererName() const override;
+  virtual std::string GetVendorName() const override;
+  virtual std::string GetVersion() const override;
+  virtual std::string GetSLVersion() const override;
 private:
   GLFWwindow* m_WindowHandle;
 

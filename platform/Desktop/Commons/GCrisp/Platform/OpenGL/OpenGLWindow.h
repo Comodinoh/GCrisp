@@ -1,8 +1,7 @@
 #pragma once
 
-#include "GCrisp/Platform/OpenGL/OpenGLContext.h"
-#include "GCrisp/Renderer/Renderer.h"
-#include <GCrisp/Core/Core.h>
+#include "OpenGLContext.h"
+
 #include <GCrisp/Core/GWindow.h>
 
 struct GLFWwindow;

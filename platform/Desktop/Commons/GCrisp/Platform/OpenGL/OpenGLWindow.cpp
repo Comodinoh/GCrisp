@@ -1,15 +1,11 @@
 #include <gcpch.h>
 #include "OpenGLWindow.h"
 
-#include <GCrisp/Renderer/Renderer.h>
 #include <GCrisp/Platform/OpenGL/OpenGLCreator.h>
-#include <GCrisp/Renderer/Creator.h>
 #include <GCrisp/Platform/OpenGL/OpenGLContext.h>
-#include <GCrisp/Core/Core.h>
 #include <GCrisp/Events/ApplicationEvent.h>
 #include <GCrisp/Events/MouseEvent.h>
 #include <GCrisp/Events/KeyEvent.h>
-#include <GCrisp/Core/GWindow.h>
 #include <GLFW/glfw3.h>
 
 
@@ -39,7 +35,7 @@ void OpenGLWindow::Init(const WindowProps& props)
   m_Data.Height = props.Height;
 
 
-  GC_CORE_INFO("Creating OpenGL window {0} ({1}, {2})", props.Title, props.Width, props.Height);
+  GC_CORE_INFO("Creating OpenGL window {0} ({1}, {2}) with GLFW", props.Title, props.Width, props.Height);
 
 
   if(!s_GLFWInitialized)
@@ -56,6 +52,12 @@ void OpenGLWindow::Init(const WindowProps& props)
 
   m_Context = new Graphics::OpenGLContext(m_Window);
   m_Context->Init();
+  GC_CORE_INFO("Initialized OpenGL context:");
+  GC_CORE_INFO("   Vendor: {0}", m_Context->GetVendorName());
+  GC_CORE_INFO("   Renderer: {0}", m_Context->GetRendererName());
+  GC_CORE_INFO("   OpenGL Version: {0}", m_Context->GetVersion());
+  GC_CORE_INFO("   GLSL Version: {0}", m_Context->GetSLVersion());
+  
   glfwSetWindowUserPointer(m_Window, &m_Data);
   SetVSync(true);
 

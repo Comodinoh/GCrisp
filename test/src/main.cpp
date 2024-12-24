@@ -84,7 +84,7 @@ public:
 
   void OnUpdate(const ProcessedTime& delta) override
   { 
-    /*GC_CORE_TRACE("Elapsed time: {0}", (float)delta);*/
+    GC_CORE_INFO("Elapsed time: {0}", (float)delta);
     // Warning: movement will get messy while the camera is rotating
     glm::vec3 direction = glm::vec3(0);
     if(Input::IsKeyPressed(Input::W))
