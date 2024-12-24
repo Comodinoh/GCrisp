@@ -132,7 +132,7 @@ public:
     m_Shader->Bind();
     m_Shader->UploadMat4("u_ViewProj", m_Camera.GetSpecification().GetViewProj());
 
-    Graphics::Renderer::Submit2D(m_VertexArray);
+    Graphics::Renderer::Submit(m_VertexArray);
   }
 
   void OnEvent(GCrisp::Event& e) override

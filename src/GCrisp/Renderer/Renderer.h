@@ -38,7 +38,7 @@ public:
 
   static void Clear(const glm::vec4& color);
   static void SetViewport(const glm::vec2& pos, const glm::vec2& size);
-  static void Submit2D(const Reference<VertexArray>& vertexArray);
+  static void Submit(const Reference<VertexArray>& vertexArray);
 
   inline static Backend GetBackend() {return API::GetBackend();}
 private:
