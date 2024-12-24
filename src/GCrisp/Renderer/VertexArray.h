@@ -14,10 +14,10 @@ public:
   virtual void Bind()   const = 0;
   virtual void UnBind() const = 0;
 
-  virtual void AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) = 0;
-  virtual void SetIndexBuffer(const std::shared_ptr<IndexBuffer>& vertexBuffer)   = 0;
+  virtual void AddVertexBuffer(const Reference<VertexBuffer>& vertexBuffer) = 0;
+  virtual void SetIndexBuffer(const Reference<IndexBuffer>& vertexBuffer)   = 0;
 
-  inline virtual std::shared_ptr<IndexBuffer> GetIndexBuffer() const = 0;
+  inline virtual Reference<IndexBuffer> GetIndexBuffer() const = 0;
 };
 
 

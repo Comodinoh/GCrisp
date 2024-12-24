@@ -2,6 +2,8 @@
 
 #define ENGINE_NAME "GCrisp"
 
+#include <memory.h>
+
 
 #ifndef GC_RELEASE
   #if defined(GC_WIN32) 
@@ -25,6 +27,13 @@
 #define BIT(x) (1 << x)
 #define GC_BIND_FN1(func) std::bind(&func, this, std::placeholders::_1)
 
-#include <GCrisp/Core/Log.h>
+namespace GCrisp{
 
+template<typename T>
+using Reference = std::shared_ptr<T>;
+
+template<typename T>
+using ScopedPtr = std::unique_ptr<T>;
+
+}
 

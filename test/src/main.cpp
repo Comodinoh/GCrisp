@@ -50,11 +50,11 @@ public:
       out vec4 color;
       out vec4 position;
 
-      uniform mat4 mvp;
+      uniform mat4 u_ViewProj;
 
       void main()
       {
-        position = mvp * vec4(a_Position, 1.0);
+        position = u_ViewProj * vec4(a_Position, 1.0);
         color = a_Color;
         gl_Position = position;
       }
@@ -84,7 +84,7 @@ public:
 
   void OnUpdate(const ProcessedTime& delta) override
   { 
-    /*GC_CORE_INFO("Elapsed time: {0}", (float)delta);*/
+    GC_CORE_INFO("Elapsed time: {0}", (float)delta);
     // Warning: movement will get messy while the camera is rotating
     glm::vec3 direction = glm::vec3(0);
     if(Input::IsKeyPressed(Input::W))
@@ -116,9 +116,8 @@ public:
     }
 
     float speed = 1.0f;
-    glm::vec3 velocity = glm::length(direction) != 0 ? glm::normalize(direction)*speed : glm::vec3();
+    glm::vec3 velocity = glm::length(direction) != 0 ? glm::normalize(direction)*speed : glm::vec3(0.0f);
     m_Camera.GetSpecification().Position += velocity*(float)delta;
-    
 
     Graphics::Renderer::Clear({0, 0, 0, 1});
 
@@ -152,10 +151,10 @@ public:
 
 
 private:
-  std::shared_ptr<Graphics::Shader> m_Shader;
-  std::shared_ptr<Graphics::VertexBuffer> m_VertexBuffer;
-  std::shared_ptr<Graphics::IndexBuffer> m_IndexBuffer;
-  std::shared_ptr<Graphics::VertexArray> m_VertexArray;
+  Reference<Graphics::Shader> m_Shader;
+  Reference<Graphics::VertexBuffer> m_VertexBuffer;
+  Reference<Graphics::IndexBuffer> m_IndexBuffer;
+  Reference<Graphics::VertexArray> m_VertexArray;
 
   Graphics::Camera m_Camera;
 };

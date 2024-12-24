@@ -172,10 +172,10 @@ public:
   }
 
 private:
-  std::shared_ptr<Graphics::Shader> m_Shader;
-  std::shared_ptr<Graphics::VertexBuffer> m_VertexBuffer;
-  std::shared_ptr<Graphics::IndexBuffer> m_IndexBuffer;
-  std::shared_ptr<Graphics::VertexArray> m_VertexArray;
+  Reference<Graphics::Shader> m_Shader;
+  Reference<Graphics::VertexBuffer> m_VertexBuffer;
+  Reference<Graphics::IndexBuffer> m_IndexBuffer;
+  Reference<Graphics::VertexArray> m_VertexArray;
 
   Graphics::Camera m_Camera;
 };

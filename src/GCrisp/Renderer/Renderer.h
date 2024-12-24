@@ -23,7 +23,7 @@ public:
 
   virtual void SetViewport(const glm::vec2& pos, const glm::vec2& size) const = 0;
 
-  virtual void Draw(const std::shared_ptr<VertexArray>& vertexArray) const = 0;
+  virtual void Draw(const Reference<VertexArray>& vertexArray) const = 0;
 
   inline static Backend GetBackend() {return s_RendererBackend;}
 protected:
@@ -38,7 +38,7 @@ public:
 
   static void Clear(const glm::vec4& color);
   static void SetViewport(const glm::vec2& pos, const glm::vec2& size);
-  static void Submit2D(const std::shared_ptr<VertexArray>& vertexArray);
+  static void Submit2D(const Reference<VertexArray>& vertexArray);
 
   inline static Backend GetBackend() {return API::GetBackend();}
 private:
