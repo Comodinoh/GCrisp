@@ -1,12 +1,10 @@
 #pragma once
 
-#include "GCrisp/Renderer/Creator.h"
-#include "GCrisp/Renderer/Renderer.h"
+#include <GCrisp/Renderer/Creator.h>
+#include <GCrisp/Renderer/Renderer.h>
 #include <GCrisp/Core/Core.h>
 #include <GCrisp/Events/Event.h>
 #include <GCrisp/Renderer/Context.h>
-
-struct GLFWwindow;
 
 namespace GCrisp{
 
