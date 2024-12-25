@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GCrisp/Renderer/VertexArray.h>
+#include <GCrisp/Renderer/Camera.h>
 #include <glm/glm.hpp>
 
 namespace GCrisp{
@@ -30,20 +31,20 @@ protected:
   static Backend s_RendererBackend;
 };
 
-class Renderer
-{
-public:
-  static void Init();
-  static void Shutdown();
+void Init();
+void Shutdown();
 
-  static void Clear(const glm::vec4& color);
-  static void SetViewport(const glm::vec2& pos, const glm::vec2& size);
-  static void Submit(const Reference<VertexArray>& vertexArray);
+void Clear(const glm::vec4& color);
+void SetViewport(const glm::vec2& pos, const glm::vec2& size);
 
-  inline static Backend GetBackend() {return API::GetBackend();}
-private:
-  static std::unique_ptr<API> s_RenderAPI;
-};
+void BeginRender(Camera& camera);
+void EndRender();
+
+void Submit(const Reference<VertexArray>& vertexArray);
+
+inline Backend GetBackend() {return API::GetBackend();}
+
+static std::unique_ptr<API> s_RenderAPI;
 
 }
 

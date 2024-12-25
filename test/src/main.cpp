@@ -119,7 +119,7 @@ public:
     glm::vec3 velocity = glm::length(direction) != 0 ? glm::normalize(direction)*speed : glm::vec3(0.0f);
     m_Camera.GetSpecification().Position += velocity*(float)delta;
 
-    Graphics::Renderer::Clear({0, 0, 0, 1});
+    Graphics::Clear({0, 0, 0, 1});
 
     auto& window = Application::Get().GetWindow();
 
@@ -127,12 +127,14 @@ public:
     m_Camera.GetSpecification().Rotation.z += glm::radians(rot*delta);
 
 
-    m_Camera.Project(Graphics::Camera::OrthographicProjection());
+    Graphics::BeginRender(m_Camera);
 
     m_Shader->Bind();
     m_Shader->UploadMat4("u_ViewProj", m_Camera.GetSpecification().GetViewProj());
 
-    Graphics::Renderer::Submit(m_VertexArray);
+    Graphics::Submit(m_VertexArray);
+
+    Graphics::EndRender();
   }
 
   void OnEvent(GCrisp::Event& e) override

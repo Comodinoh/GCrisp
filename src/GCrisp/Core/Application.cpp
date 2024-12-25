@@ -25,7 +25,7 @@ Application::Application()
     m_Window = std::unique_ptr<Window>(Window::Create(Graphics::Backend::OpenGL));
     m_Window->SetEventCallback(GC_BIND_FN1(Application::OnEvent));
 
-    Graphics::Renderer::Init();
+    Graphics::Init();
     
   }
 
@@ -35,7 +35,7 @@ Application::Application()
 Application::~Application() 
 {
   s_Instance = nullptr;
-  Graphics::Renderer::Shutdown();
+  Graphics::Shutdown();
 }
 
 void Application::Run()
@@ -89,7 +89,7 @@ bool Application::OnWindowClose(WindowCloseEvent& e)
 
 bool Application::OnWindowResize(WindowResizeEvent& e)
 {
-  Graphics::Renderer::SetViewport({0, 0}, {m_Window->GetWidth(), m_Window->GetHeight()});
+  Graphics::SetViewport({0, 0}, {m_Window->GetWidth(), m_Window->GetHeight()});
   return true;
 }
 
