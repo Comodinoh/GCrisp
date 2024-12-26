@@ -7,7 +7,7 @@
 
 ### Renderer
 - 2D Renderer
-- Scene System
+- Scene System (Tied to VN scene system)
 - Sorting
 - Culling
 - Animation
@@ -21,8 +21,8 @@
 - Render Context
 - Swap Chain
 - Framebuffer
-- Vertex Buffer
-- Index Buffer
+- ~Vertex Buffer~
+- ~Index Buffer~
 - Texture
 - Shader
 - States
@@ -35,7 +35,14 @@
 
 **RenderAPI Vulkan Implementation:** `0% Done`
 
-
+## Novel API
+- Scene System (Tied to Renderer scene system)
+- Story Characters
+- Dialogue and Dialogue boxes
+- Interactable User Interface
+- Customizable Layouts
+- Character Sprites
+- Lip syncing (Live2D or Built-in)
 
 ## Scripting
 
