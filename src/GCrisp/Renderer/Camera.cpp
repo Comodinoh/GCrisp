@@ -6,15 +6,10 @@ namespace GCrisp{
 
 namespace Graphics{
 
-Camera::Camera(const CameraSpec& spec) {
-  m_Specification.Position = spec.Position;
-  m_Specification.Rotation = spec.Rotation;
-  m_Specification.View = spec.View;
-  m_Specification.Projection = spec.Projection;
-  m_Specification.Scale = spec.Scale;
-
-  auto& window = Application::Get().GetWindow();
-  m_Specification.AspectRatio = window.GetWidth()/window.GetHeight();
+Camera::Camera(const CameraSpec& spec) : m_Specification(spec) {
+  float aspectRatio = spec.AspectRatio;
+  float scale = spec.Scale;
+  m_Specification.Projection = glm::ortho(-aspectRatio*scale, aspectRatio*scale, -scale, scale);
 }
 
 void Camera::Project(ProjectionCallback callback)
@@ -22,13 +17,30 @@ void Camera::Project(ProjectionCallback callback)
   callback(m_Specification);
 }
 
-void Camera::OnResize(int newWidth, int newHeight)
+void Camera::OnResize(const int& newWidth, const int& newHeight)
 {
-  m_Specification.AspectRatio = newWidth/newHeight;
+  m_Specification.AspectRatio = (float)newWidth/(float)newHeight;
 
   float aspectRatio = m_Specification.AspectRatio;
   float scale = m_Specification.Scale;
-  m_Specification.Projection = glm::ortho(-aspectRatio*scale, aspectRatio*scale, -(1/aspectRatio)*scale, (1/aspectRatio)*scale, -1.0f, 1.0f);
+  m_Specification.Projection = glm::ortho(-aspectRatio*scale, aspectRatio*scale, -scale, scale);
+}
+
+void Camera::Scale(const float& newScale)
+{
+  m_Specification.Scale = newScale;
+  float aspectRatio = m_Specification.AspectRatio;
+  m_Specification.Projection = glm::ortho(-aspectRatio*newScale, aspectRatio*newScale, -newScale, newScale);
+}
+
+void Camera::Rotate(const float& newZ)
+{
+  m_Specification.Rotation.z += newZ;
+}
+
+void Camera::Move(const glm::vec3& newPosition)
+{
+  m_Specification.Position += newPosition;
 }
 
 }

@@ -15,6 +15,7 @@ struct WindowData
   std::string Title;
   uint Width, Height;
   bool VSync;
+  bool Resizable;
 
   EventCallbackFunc EventCallback;
 };
@@ -23,10 +24,11 @@ struct WindowProps
 {
   std::string Title;
   uint Width, Height;
+  bool Resizable;
 
-  WindowProps(const std::string& title = ENGINE_NAME, 
+  WindowProps(const std::string& title = ENGINE_NAME,
               uint width = 1280, 
-              uint height = 720) : Title(title), Width(width), Height(height) {}
+              uint height = 720, bool resizable = true) : Title(title), Width(width), Height(height), Resizable(resizable) {}
 };
 
 class Window
@@ -42,11 +44,15 @@ public:
   inline uint32_t                   GetWidth() const {return m_Data.Width;}
   inline uint32_t                   GetHeight() const {return m_Data.Height;}
 
+  virtual void SetResizable(bool enabled) = 0;
+  inline bool IsResizable() const {return m_Data.Resizable;}
+  
+
   inline virtual void* GetWindowPointer() = 0;
   inline virtual Graphics::Context* GetContext() = 0;
 
   virtual void SetVSync(bool enabled) = 0;
-  virtual bool HasVSync() const = 0;
+  inline bool HasVSync() const {return m_Data.VSync;}
 
   void SetEventCallback(const EventCallbackFunc& callback) {m_Data.EventCallback = callback;};
 

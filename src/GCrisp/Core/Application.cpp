@@ -90,7 +90,7 @@ bool Application::OnWindowClose(WindowCloseEvent& e)
 bool Application::OnWindowResize(WindowResizeEvent& e)
 {
   Graphics::SetViewport({0, 0}, {m_Window->GetWidth(), m_Window->GetHeight()});
-  return true;
+  return false;
 }
 
 }

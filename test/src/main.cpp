@@ -3,7 +3,7 @@
 #include <GCrisp/Renderer/Shader.h>
 #include <GCrisp/Renderer/Buffer.h>
 #include <GCrisp/Renderer/VertexArray.h>
-#include <GCrisp/Renderer/Camera.h>
+#include <GCrisp/Core/CameraController.h>
 #include <GLFW/glfw3.h>
 
 using namespace GCrisp;
@@ -11,7 +11,7 @@ using namespace GCrisp;
 class TestLayer : public GCrisp::Layer
 {
 public:
-  TestLayer() : GCrisp::Layer("Test"), m_Camera(Graphics::Camera({{0, 0, 0}, {0, 0, 0}, glm::mat4(1.0f), glm::mat4(1.0f), 1.0f}))
+  TestLayer() : GCrisp::Layer("Test"), m_CameraController(16.0f/9.0f)
   {
     auto& app = Application::Get();
     m_VertexArray.reset(app.GetGraphicsCreator()->CreateVertexArray());
@@ -84,53 +84,16 @@ public:
 
   void OnUpdate(const ProcessedTime& delta) override
   { 
-    GC_CORE_INFO("Elapsed time: {0}", (float)delta);
+    /*GC_CORE_INFO("Elapsed time: {0}", (float)delta);*/
     // Warning: movement will get messy while the camera is rotating
-    glm::vec3 direction = glm::vec3(0);
-    if(Input::IsKeyPressed(Input::W))
-    {
-      direction.y += 1;
-    }
-    if(Input::IsKeyPressed(Input::S))
-    {
-      direction.y -= 1;
-    }
-    if(Input::IsKeyPressed(Input::D))
-    {
-      direction.x += 1;
-    }
-    if(Input::IsKeyPressed(Input::A))
-    {
-      direction.x -= 1;
-    }
-
-    float rot = 0.0f;
-
-    if(Input::IsKeyPressed(Input::L))
-    {
-      rot += 120.0f;
-    }
-    if(Input::IsKeyPressed(Input::J))
-    {
-      rot -= 120.0f;
-    }
-
-    float speed = 1.0f;
-    glm::vec3 velocity = glm::length(direction) != 0 ? glm::normalize(direction)*speed : glm::vec3(0.0f);
-    m_Camera.GetSpecification().Position += velocity*(float)delta;
-
+    
+    m_CameraController.OnUpdate(delta);
+    
     Graphics::Clear({0, 0, 0, 1});
-
-    auto& window = Application::Get().GetWindow();
-
-    m_Camera.GetSpecification().AspectRatio = window.GetWidth()/window.GetHeight();
-    m_Camera.GetSpecification().Rotation.z += glm::radians(rot*delta);
-
-
-    Graphics::BeginRender(m_Camera);
+    Graphics::BeginRender(m_CameraController.GetCamera());
 
     m_Shader->Bind();
-    m_Shader->UploadMat4("u_ViewProj", m_Camera.GetSpecification().GetViewProj());
+    m_Shader->UploadMat4("u_ViewProj", m_CameraController.GetCamera().GetSpecification().GetViewProj());
 
     Graphics::Submit(m_VertexArray);
 
@@ -139,17 +102,10 @@ public:
 
   void OnEvent(GCrisp::Event& e) override
   {
-    EventDispatcher dispatcher(e);
-    
-    dispatcher.Dispatch<WindowResizeEvent>(GC_BIND_FN1(TestLayer::OnWindowResize));
+    m_CameraController.OnEvent(e);
   }
 
 
-  bool OnWindowResize(WindowResizeEvent& e) 
-  {
-    m_Camera.OnResize(e.GetNewWidth(), e.GetNewHeight());
-    return false;
-  }
 
 
 private:
@@ -158,7 +114,7 @@ private:
   Reference<Graphics::IndexBuffer> m_IndexBuffer;
   Reference<Graphics::VertexArray> m_VertexArray;
 
-  Graphics::Camera m_Camera;
+  OrthoCameraController m_CameraController;
 };
 
 class TestApplication : public GCrisp::Application

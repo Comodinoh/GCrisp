@@ -18,16 +18,19 @@ public:
   {
     glm::vec3 Position;
     glm::vec3 Rotation;
-    glm::mat4 View;
-    glm::mat4 Projection;
     float     Scale;
     float     AspectRatio;
+    glm::mat4 View;
+    glm::mat4 Projection;
 
-    CameraSpec(glm::vec3 position, glm::vec3 rotation, glm::mat4 view, glm::mat4 projection, float scale)
-      : Position(position), Rotation(rotation), View(view), Projection(projection), Scale(scale) {}
+    CameraSpec(glm::vec3 position, glm::vec3 rotation, float scale, float aspectRatio, glm::mat4 view, glm::mat4 projection)
+        : Position(position), Rotation(rotation), View(view), Projection(projection), Scale(scale), AspectRatio(aspectRatio) {}
 
-    CameraSpec() : CameraSpec(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), 
-                              glm::mat4(1.0f), glm::mat4(1.0f), 1.0f) {}
+    CameraSpec(glm::vec3 position, glm::vec3 rotation, float scale, float aspectRatio) : 
+      CameraSpec(position, rotation, scale, aspectRatio, glm::mat4(1.0f), glm::mat4(1.0f)) {}
+
+    CameraSpec(float aspectRatio) : CameraSpec(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), 
+                              1.0f, aspectRatio) {}
 
     glm::mat4 GetViewProj() const
     {
@@ -40,9 +43,13 @@ public:
   virtual ~Camera() = default;
 
   void Project(ProjectionCallback callback);
-  void OnResize(int newWidth, int newHeight);
+  void OnResize(const int& newWidth, const int& newHeight);
 
-  inline CameraSpec& GetSpecification() {return m_Specification;} 
+  void Scale(const float& newScale);
+  void Move(const glm::vec3& newPosition);
+  void Rotate(const float& newZ);
+
+  inline const CameraSpec& GetSpecification() {return m_Specification;} 
 public:
   static ProjectionCallback OrthographicProjection()
   {

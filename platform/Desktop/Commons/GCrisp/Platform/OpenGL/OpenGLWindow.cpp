@@ -33,6 +33,7 @@ void OpenGLWindow::Init(const WindowProps& props)
   m_Data.Title = props.Title;
   m_Data.Width = props.Width;
   m_Data.Height = props.Height;
+  m_Data.Resizable = props.Resizable;
 
 
   GC_CORE_INFO("Creating GLFW window {0} ({1}, {2})", props.Title, props.Width, props.Height);
@@ -47,6 +48,8 @@ void OpenGLWindow::Init(const WindowProps& props)
 
     s_GLFWInitialized = true;
   }
+  
+  glfwWindowHint(GLFW_RESIZABLE, props.Resizable);
 
   m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 
@@ -153,6 +156,12 @@ void OpenGLWindow::OnUpdate()
   m_Context->SwapBuffers();
 }
 
+void OpenGLWindow::SetResizable(bool enabled)
+{
+  glfwWindowHint(GLFW_RESIZABLE, enabled ? GLFW_TRUE : GLFW_FALSE);
+  m_Data.Resizable = enabled;
+}
+
 void OpenGLWindow::SetVSync(bool enabled)
 {
   if(enabled)
@@ -164,11 +173,6 @@ void OpenGLWindow::SetVSync(bool enabled)
   }
 
   m_Data.VSync = enabled;
-}
-
-bool OpenGLWindow::HasVSync() const 
-{
-  return m_Data.VSync;
 }
 
 }

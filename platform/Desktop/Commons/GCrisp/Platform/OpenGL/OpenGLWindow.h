@@ -19,8 +19,9 @@ public:
   inline virtual void*              GetWindowPointer() override {return m_Window;};
   inline virtual Graphics::Context* GetContext() override {return m_Context;};
 
+  virtual void SetResizable(bool enabled) override;
+
   virtual void SetVSync(bool enabled) override;
-  virtual bool HasVSync() const override;
 protected:
   GLFWwindow* m_Window;
   Graphics::OpenGLContext* m_Context;
