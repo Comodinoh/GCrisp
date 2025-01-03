@@ -10,59 +10,28 @@ namespace GCrisp{
 
 namespace Graphics{
 
-
 class Camera 
 {
 public:
-  struct CameraSpec
-  {
-    glm::vec3 Position;
-    glm::vec3 Rotation;
-    float     Scale;
-    float     AspectRatio;
-    glm::mat4 View;
-    glm::mat4 Projection;
-
-    CameraSpec(glm::vec3 position, glm::vec3 rotation, float scale, float aspectRatio, glm::mat4 view, glm::mat4 projection)
-        : Position(position), Rotation(rotation), View(view), Projection(projection), Scale(scale), AspectRatio(aspectRatio) {}
-
-    CameraSpec(glm::vec3 position, glm::vec3 rotation, float scale, float aspectRatio) : 
-      CameraSpec(position, rotation, scale, aspectRatio, glm::mat4(1.0f), glm::mat4(1.0f)) {}
-
-    CameraSpec(float aspectRatio) : CameraSpec(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), 
-                              1.0f, aspectRatio) {}
-
-    glm::mat4 GetViewProj() const
-    {
-      return Projection*View; 
-    }
-  };
-  using ProjectionCallback = void (*)(CameraSpec&); 
-public:
-  Camera(const CameraSpec& spec);
+  Camera(glm::vec3 position) : m_Position(position), m_View(glm::mat4(1.0f)), m_Projection(glm::mat4(1.0f)) {}
   virtual ~Camera() = default;
 
-  void Project(ProjectionCallback callback);
-  void OnResize(const int& newWidth, const int& newHeight);
+  virtual void Project() = 0;
+  virtual void OnResize(const int& newWidth, const int& newHeight) = 0;
 
-  void Scale(const float& newScale);
-  void Move(const glm::vec3& newPosition);
-  void Rotate(const float& newZ);
+  inline const glm::vec3& GetPosition() const {return m_Position;}
+  inline const glm::mat4& GetView() const {return m_View;}
+  inline const glm::mat4& GetProjection() const {return m_Projection;}
 
-  inline const CameraSpec& GetSpecification() {return m_Specification;} 
-public:
-  static ProjectionCallback OrthographicProjection()
-  {
-    return [](CameraSpec& spec)
-    {
-      glm::vec3 pos = spec.Position;
-      glm::vec3 rotation = spec.Rotation;
-      glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * glm::rotate(glm::mat4(1.0f), -rotation.z, glm::vec3(0, 0, 1));
-      spec.View = glm::inverse(transform);
-    };
-  }
-private:
-  CameraSpec m_Specification;
+  inline void SetPosition(const glm::vec3& position) {m_Position = position;}
+  inline void SetView(const glm::mat4& view) {m_View = view;}
+  inline void SetProjection(const glm::mat4& projection) {m_Projection = projection;}
+
+  inline glm::mat4 GetViewProj() const {return m_Projection*m_View;}
+protected:
+  glm::vec3 m_Position;
+  glm::mat4 m_View;
+  glm::mat4 m_Projection;
 };
 
 }

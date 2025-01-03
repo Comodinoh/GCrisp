@@ -35,7 +35,7 @@ void SetViewport(const glm::vec2& pos, const glm::vec2& size)
 
 void BeginRender(Camera& camera)
 {
-  camera.Project(Camera::OrthographicProjection());
+  camera.Project();
 }
 
 void EndRender()
