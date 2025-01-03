@@ -56,9 +56,6 @@ void OrthoCameraController::OnUpdate(const ProcessedTime& delta)
     
     m_Camera.Rotate(rot*m_RotationSpeed*delta);
   }
-
-
-  /*m_Camera.Project(Graphics::Camera::OrthographicProjection());*/
 }
 
 bool OrthoCameraController::OnWindowResize(WindowResizeEvent& e)
@@ -69,8 +66,13 @@ bool OrthoCameraController::OnWindowResize(WindowResizeEvent& e)
 
 bool OrthoCameraController::OnMouseScrolled(MouseScrolledEvent& e)
 {
-  float scale = e.GetYOffset();
-  m_Camera.Scale(m_Camera.GetSpecification().Scale+scale);
+  float add = e.GetYOffset()*0.25f;
+  float scale = m_Camera.GetSpecification().Scale;
+  scale -= add; 
+
+  scale = std::max(scale, 0.25f);
+
+  m_Camera.Scale(scale);
   return false;
 }
 
