@@ -16,9 +16,10 @@
   - Perspective Camera
 - VFX
 - PostFX
+- Customizable resizing (Fixed camera or expanding)
 
 ### General RenderAPI
-- Render Context
+- ~Render Context~
 - Swap Chain
 - Framebuffer
 - ~Vertex Buffer~
