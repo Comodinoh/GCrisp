@@ -7,7 +7,7 @@ namespace GCrisp{
 enum class EventType
 {
   None = 0,
-  WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
+  WindowClose, WindowResize, WindowFocus, WindowMinimize, WindowMoved,
   KeyPressed, KeyReleased,
   MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 };

@@ -95,6 +95,7 @@ public:
     m_Shader->Bind();
     m_Shader->UploadMat4("u_ViewProj", m_CameraController.GetCamera().GetViewProj());
 
+
     Graphics::Submit(m_VertexArray);
 
     Graphics::EndRender();

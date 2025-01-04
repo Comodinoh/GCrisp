@@ -75,6 +75,18 @@ void OpenGLWindow::Init(const WindowProps& props)
     data.EventCallback(event);
   });
 
+  glfwSetWindowIconifyCallback(m_Window, [](GLFWwindow* window, int iconified) {
+    WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
+    WindowMinimizeEvent event(iconified == GLFW_TRUE ? true : false);
+    data.EventCallback(event);
+  });
+
+  glfwSetWindowFocusCallback(m_Window, [](GLFWwindow* window, int focused) {
+    WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window); 
+    WindowFocusEvent event(focused == GLFW_TRUE ? true : false);
+    data.EventCallback(event);
+  });
+
   glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window) {
     WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
     WindowCloseEvent event;
@@ -98,6 +110,7 @@ void OpenGLWindow::Init(const WindowProps& props)
           data.EventCallback(event);
           break;
       }
+      // This case is usually never reached in newer GLFW versions and it's generally better to never use it
       case GLFW_REPEAT:
       {
           KeyPressedEvent event(key, 1);
