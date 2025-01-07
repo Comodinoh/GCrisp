@@ -18,7 +18,7 @@ public:
 
   virtual void SetViewport(const glm::vec2& pos, const glm::vec2& size) const override;
 
-  virtual void Draw(const Reference<VertexArray>& vertexArray) const override;
+  virtual void DrawIndexed(const Reference<VertexArray>& vertexArray) const override;
 };
 
 }

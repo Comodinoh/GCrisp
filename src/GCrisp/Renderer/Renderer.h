@@ -2,6 +2,7 @@
 
 #include <GCrisp/Renderer/VertexArray.h>
 #include <GCrisp/Renderer/Camera.h>
+#include <GCrisp/Renderer/Shader.h>
 #include <glm/glm.hpp>
 
 namespace GCrisp{
@@ -11,6 +12,11 @@ namespace Graphics{
 enum class Backend
 {
   None = 0, OpenGL = 1
+};
+
+struct Data
+{
+  glm::mat4 ViewProjMatrix;
 };
 
 class API
@@ -24,7 +30,7 @@ public:
 
   virtual void SetViewport(const glm::vec2& pos, const glm::vec2& size) const = 0;
 
-  virtual void Draw(const Reference<VertexArray>& vertexArray) const = 0;
+  virtual void DrawIndexed(const Reference<VertexArray>& vertexArray) const = 0;
 
   inline static Backend GetBackend() {return s_RendererBackend;}
 protected:
@@ -37,14 +43,18 @@ void Shutdown();
 void Clear(const glm::vec4& color);
 void SetViewport(const glm::vec2& pos, const glm::vec2& size);
 
+void DrawIndexed(const Reference<VertexArray>& vertexArray);
+
 void BeginRender(Camera& camera);
 void EndRender();
 
-void Submit(const Reference<VertexArray>& vertexArray);
+void Submit(const Reference<VertexArray>& vertexArray, const Reference<Shader>& shader);
+
 
 inline Backend GetBackend() {return API::GetBackend();}
 
-static std::unique_ptr<API> s_RenderAPI;
+static ScopedPtr<API>  s_RenderAPI;
+static ScopedPtr<Data> s_Data;
 
 }
 

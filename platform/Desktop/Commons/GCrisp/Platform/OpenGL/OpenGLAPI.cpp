@@ -24,9 +24,8 @@ void OpenGLAPI::SetViewport(const glm::vec2& pos, const glm::vec2& size) const
 }
 
 
-void OpenGLAPI::Draw(const Reference<VertexArray>& vertexArray) const
+void OpenGLAPI::DrawIndexed(const Reference<VertexArray>& vertexArray) const
 {
-  vertexArray->Bind();
   glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 }
 

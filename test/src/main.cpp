@@ -92,11 +92,7 @@ public:
     Graphics::Clear({0, 0, 0, 1});
     Graphics::BeginRender(m_CameraController.GetCamera());
 
-    m_Shader->Bind();
-    m_Shader->UploadMat4("u_ViewProj", m_CameraController.GetCamera().GetViewProj());
-
-
-    Graphics::Submit(m_VertexArray);
+    Graphics::Submit(m_VertexArray, m_Shader);
 
     Graphics::EndRender();
   }
