@@ -25,8 +25,8 @@ public:
   inline float GetAspectRatio() const {return m_AspectRatio;}
   inline float GetScale() const {return m_Scale;}
   
-  void SetAspectRatio(const float& aspectRatio) {m_AspectRatio = aspectRatio; UpdateProjection();}
-  void SetScale(const float& scale) {m_Scale = scale; UpdateProjection();}
+  inline void SetAspectRatio(const float& aspectRatio) {m_AspectRatio = aspectRatio; UpdateProjection();}
+  inline void SetScale(const float& scale) {m_Scale = scale; UpdateProjection();}
 private:
   float m_AspectRatio;
   float m_Scale;

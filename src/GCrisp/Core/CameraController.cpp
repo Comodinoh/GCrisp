@@ -49,8 +49,11 @@ void OrthoCameraController::OnUpdate(const ProcessedTime& delta)
     direction.x -= 1;
   }
 
-  glm::vec3 velocity = glm::length(direction) != 0 ? glm::normalize(direction)*m_MoveSpeed : glm::vec3(0.0f);
-  m_Camera.SetPosition(m_Camera.GetPosition()+velocity*delta.GetSeconds());
+  if(glm::length(direction) != 0.0f)
+  {
+    glm::vec3 velocity = glm::normalize(direction)*m_MoveSpeed;
+    m_Camera.SetPosition(m_Camera.GetPosition()+velocity*delta.GetSeconds());
+  }
 
   m_Camera.Project();
 }
