@@ -1,5 +1,6 @@
 #include <GCrisp/GCrisp.h>
 #include <GCrisp/Renderer/Renderer.h>
+#include <GCrisp/Renderer/Renderer2D.h>
 #include <GCrisp/Renderer/Shader.h>
 #include <GCrisp/Renderer/Buffer.h>
 #include <GCrisp/Renderer/VertexArray.h>
@@ -90,11 +91,17 @@ public:
     m_CameraController.OnUpdate(delta);
     
     Graphics::Clear({0, 0, 0, 1});
-    Graphics::BeginRender(m_CameraController.GetCamera());
 
-    Graphics::Submit(m_VertexArray, m_Shader);
+    /*Graphics::BeginRender(m_CameraController.GetCamera());*/
+    /*Graphics::Submit(m_VertexArray, m_Shader);*/
+    /*Graphics::EndRender();*/
 
-    Graphics::EndRender();
+
+    Graphics2D::BeginRender(m_CameraController.GetCamera());
+
+    Graphics2D::DrawQuad({0, 0, 0}, {1, 1}, {1.0f, 0.0f,  0.0f, 1.0f});
+
+    Graphics2D::EndRender();
   }
 
   void OnEvent(GCrisp::Event& e) override
