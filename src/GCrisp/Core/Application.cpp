@@ -26,7 +26,6 @@ Application::Application()
     m_Window->SetEventCallback(GC_BIND_FN1(Application::OnEvent));
 
     Graphics::Init();
-    
   }
 
   GC_CORE_INFO("Took {0} seconds to initialize application.", delta.GetSeconds());

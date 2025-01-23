@@ -1,5 +1,7 @@
 #include "Renderer.h"
 
+#include "Renderer2D.h"
+
 #include <GCrisp/Core/Core.h>
 #include <GCrisp/Core/Application.h>
 #include <memory>
@@ -16,11 +18,17 @@ void Init()
   s_Data = std::make_unique<Data>();
 
   s_RenderAPI->Init();
-  GC_CORE_INFO("Initialized renderer!");
+  GC_CORE_INFO("Initialized Renderer!");
+
+  
+  Graphics2D::Init();
+  GC_CORE_INFO("Initialized Renderer2D!");
 }
 
 void Shutdown()
 {
+  Graphics2D::Shutdown();
+
   s_RenderAPI.reset();
   s_Data.reset();
 
