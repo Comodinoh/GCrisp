@@ -100,6 +100,7 @@ public:
     Graphics2D::BeginRender(m_CameraController.GetCamera());
 
     Graphics2D::DrawQuad({0, 0, 0}, {1, 1}, {1.0f, 0.0f,  0.0f, 1.0f});
+    Graphics2D::DrawQuad({-1.6f, 1.6f, 0}, {1.0f, 1.0f}, {1.0f, 1.0f,  0.0f, 1.0f});
 
     Graphics2D::EndRender();
   }
