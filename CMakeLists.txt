@@ -75,6 +75,7 @@ target_link_libraries(${PROJECT_NAME}
   glfw
   spdlog::spdlog_header_only
   glm::glm-header-only
+  stb
 )
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC src/gcpch.h)
