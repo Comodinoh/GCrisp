@@ -1,3 +1,4 @@
+
 project(glad)
 
 add_library(${PROJECT_NAME} src/glad.c)

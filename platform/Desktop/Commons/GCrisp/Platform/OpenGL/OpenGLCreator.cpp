@@ -5,6 +5,7 @@
 #include "OpenGLShader.h"
 #include "OpenGLBuffer.h"
 #include "OpenGLVertexArray.h"
+#include "OpenGLTexture.h"
 
 namespace GCrisp{
 
@@ -33,6 +34,10 @@ IndexBuffer* OpenGLCreator::CreateIndexBuffer(uint32_t* indices, uint32_t size)
 VertexArray* OpenGLCreator::CreateVertexArray()
 {
   return new OpenGLVertexArray();
+}
+Texture2D* OpenGLCreator::CreateTexture2D(const stbi_uc* data, const TextureSpec& spec)
+{
+  return new OpenGLTexture2D(data, spec);
 }
 
 }
