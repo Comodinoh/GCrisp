@@ -27,7 +27,7 @@ private:
   mutable std::unordered_map<std::string, Reference<Graphics::Texture>> m_CachedTextures;
   mutable std::unordered_map<std::string, Reference<Graphics::Texture>> m_CachedRawTextures;
   
-  static Reference<Graphics::Texture>& s_DefaultTexture;
+  static Reference<Graphics::Texture> s_DefaultTexture;
 };
 
 }

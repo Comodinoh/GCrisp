@@ -8,7 +8,6 @@
 #include <GCrisp/Events/KeyEvent.h>
 #include <GCrisp/Renderer/Renderer.h>
 #include <GCrisp/Core/Timer.h>
-#include <GCrisp/Core/Core.h>
 
 namespace GCrisp{
 
@@ -26,6 +25,8 @@ Application::Application()
     m_Window->SetEventCallback(GC_BIND_FN1(Application::OnEvent));
 
     Graphics::Init();
+
+    m_AssetsManager = std::make_unique<AssetsManager>();
   }
 
   GC_CORE_INFO("Took {0} seconds to initialize application.", delta.GetSeconds());

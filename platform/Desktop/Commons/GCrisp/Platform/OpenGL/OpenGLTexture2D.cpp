@@ -24,6 +24,15 @@ OpenGLTexture2D::OpenGLTexture2D(const stbi_uc* data, const TextureSpec& spec)
   glGenerateMipmap(GL_TEXTURE_2D);
 }
 
+OpenGLTexture2D::~OpenGLTexture2D()
+{
+  glDeleteTextures(1, &m_RendererID);
+}
+
+void OpenGLTexture2D::Bind() const
+{
+}
+
 }
 
 }
