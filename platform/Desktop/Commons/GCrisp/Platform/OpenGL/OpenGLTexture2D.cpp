@@ -34,6 +34,52 @@ void OpenGLTexture2D::Bind() const
   glBindTexture(GL_TEXTURE_2D, m_RendererID);
 }
 
+void OpenGLTexture2D::SetMagFiltering(TextureFilter filtering = TextureFilter::None) const
+{
+  GLenum glFiltering;
+  switch(filtering)
+  {
+    case TextureFilter::Linear:
+    {
+      glFiltering = GL_LINEAR;
+      break;
+    }
+    case TextureFilter::Nearest:
+    {
+      glFiltering = GL_NEAREST;
+      break;
+    }
+    case TextureFilter::None:
+    {
+      glFiltering = GL_NEAREST;
+    }
+  }
+  glTexParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, glFiltering);
+}
+
+void OpenGLTexture2D::SetMinFiltering(TextureFilter filtering = TextureFilter::None) const
+{
+  GLenum glFiltering;
+  switch(filtering)
+  {
+    case TextureFilter::Linear:
+    {
+      glFiltering = GL_LINEAR;
+      break;
+    }
+    case TextureFilter::Nearest:
+    {
+      glFiltering = GL_NEAREST;
+      break;
+    }
+    case TextureFilter::None:
+    {
+      glFiltering = GL_LINEAR;
+    }
+  }
+  glTexParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, glFiltering);
+}
+
 }
 
 }
