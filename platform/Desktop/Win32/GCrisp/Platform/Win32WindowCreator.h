@@ -1,18 +1,26 @@
 #pragma once
 
-#include <OpenGL/OpenGLWindow.h>
-#include <GCrisp/GWindow.h>
+#include <GCrisp/Platform/OpenGL/OpenGLWindow.h>
+#include <GCrisp/Core/GWindow.h>
 
 namespace GCrisp{
 
-window* window::create(const renderertype renderertype, const windowprops& props)
+Window* Window::Create(const Graphics::Backend& backend, const WindowProps& props)
 {
-  switch(renderertype)
+  switch(backend)
   {
-    case opengl:
-    {
-      return new openglwindow(props);
-    }
+    case Graphics::Backend::None:
+      {
+        GC_CORE_ASSERT(false, "No headless backend found!");
+      }
+    case Graphics::Backend::OpenGL:
+      {
+        return new OpenGLWindow(backend, props);
+      }
+    /**case Vulkan:
+      {
+        return new VulkanWindow(props);
+      }**/
   }
 }
 
