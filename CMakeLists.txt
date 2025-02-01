@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED On)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+set(CMAKE_CXX_FLAGS "-fdiagnostics-color=always")
+
 include(CMakeDependentOption)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
