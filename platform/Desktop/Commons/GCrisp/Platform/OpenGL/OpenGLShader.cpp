@@ -124,6 +124,12 @@ void OpenGLShader::UploadMat4(const std::string& name, const glm::mat4& data) co
   glUniformMatrix4fv(location, 1, false, glm::value_ptr(data));
 }
 
+void OpenGLShader::UploadMat3(const std::string& name, const glm::mat3& data) const
+{
+  GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+  glUniformMatrix3fv(location, 1, false, glm::value_ptr(data));
+}
+
 void OpenGLShader::UploadVec3(const std::string& name, const glm::vec3& data) const
 {
   GLint location = glGetUniformLocation(m_RendererID, name.c_str());
@@ -134,6 +140,26 @@ void OpenGLShader::UploadVec4(const std::string& name, const glm::vec4& data) co
 {
   GLint location = glGetUniformLocation(m_RendererID, name.c_str());
   glUniform4fv(location, 1, glm::value_ptr(data));
+}
+
+
+void OpenGLShader::UploadInt(const std::string& name, int data) const 
+{
+  GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+  glUniform1iv(location, 1, &data);
+}
+
+void OpenGLShader::UploadFloat(const std::string& name, float data) const 
+{ 
+  GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+  glUniform1fv(location, 1, &data);
+}
+
+void OpenGLShader::UploadBool(const std::string& name, bool data) const 
+{
+  GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+  int dataI = data;
+  glUniform1iv(location, 1, &dataI);
 }
 
 void OpenGLShader::UnBind() const

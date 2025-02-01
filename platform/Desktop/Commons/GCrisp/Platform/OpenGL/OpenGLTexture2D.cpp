@@ -16,11 +16,11 @@ OpenGLTexture2D::OpenGLTexture2D(const stbi_uc* data, const TextureSpec& spec)
   glBindTexture(GL_TEXTURE_2D, m_RendererID);
   
   glTexParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
   GLenum format = spec.channels > 3 ? GL_RGBA : GL_RGB; 
 
-  glTexImage2D(GL_TEXTURE_2D, 1, GL_RGB8, spec.Width, spec.Height, 0, format, GL_UNSIGNED_BYTE, data);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, spec.Width, spec.Height, 0, format, GL_UNSIGNED_BYTE, data);
   glGenerateMipmap(GL_TEXTURE_2D);
 }
 
@@ -31,6 +31,7 @@ OpenGLTexture2D::~OpenGLTexture2D()
 
 void OpenGLTexture2D::Bind() const
 {
+  glBindTexture(GL_TEXTURE_2D, m_RendererID);
 }
 
 }

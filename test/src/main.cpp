@@ -19,9 +19,10 @@ public:
 
     float vertices[] = 
     {
-      0.0,  0.5, 0.0,   1.0, 0.0, 0.0, 1.0,
-      0.5, -0.5, 0.0,   0.0, 1.0, 0.0, 1.0,
-     -0.5, -0.5, 0.0,   0.0, 0.0, 1.0, 1.0,
+      0.5,  0.5, 0.0,   1.0,  1.0,
+      0.5, -0.5, 0.0,   1.0,  0.0,
+     -0.5, -0.5, 0.0,   0.0,  0.0,
+     -0.5,  0.5, 0.0,   0.0,  1.0,
     };
 
     m_VertexBuffer.reset(app.GetGraphicsCreator()->CreateVertexBuffer(vertices, sizeof(vertices)));
@@ -29,7 +30,7 @@ public:
     Graphics::BufferLayout layout = 
     {
         {"a_Position", Graphics::ShaderDataType::Float3},
-        {"a_Color", Graphics::ShaderDataType::Float4}
+        {"a_TexCoord", Graphics::ShaderDataType::Float2}
     };
 
     m_VertexBuffer->SetLayout(layout);
@@ -37,7 +38,8 @@ public:
 
     uint32_t indices[] =
     {
-        0, 1, 2,
+        0, 1, 2, 
+        2, 3, 0
     };
     m_IndexBuffer.reset(app.GetGraphicsCreator()->CreateIndexBuffer(indices, sizeof(indices)));
     m_VertexArray->SetIndexBuffer(m_IndexBuffer);
@@ -46,31 +48,30 @@ public:
       #version 330 core
 
       in vec3 a_Position;
-      in vec4 a_Color;
+      in vec2 a_TexCoord;
 
-      out vec4 color;
-      out vec4 position;
+      out vec2 texCoord;
 
       uniform mat4 u_ViewProj;
 
       void main()
       {
-        position = u_ViewProj * vec4(a_Position, 1.0);
-        color = a_Color;
-        gl_Position = position;
+        gl_Position = u_ViewProj * vec4(a_Position, 1.0);
+        texCoord = a_TexCoord;
       }
     )";
     std::string fragmentSrc = R"(
       #version 330 core
 
-      in vec4 color;
-      in vec4 position;
+      in vec2 texCoord;
 
       out vec4 fragColor;
 
+      uniform sampler2D u_Texture;
+
       void main()
       {
-        fragColor = color;
+        fragColor = texture(u_Texture, texCoord);
       }
     )";
 
@@ -92,16 +93,19 @@ public:
     
     Graphics::Clear({0, 0, 0, 1});
 
-    /*Graphics::BeginRender(m_CameraController.GetCamera());*/
-    /*Graphics::Submit(m_VertexArray, m_Shader);*/
-    /*Graphics::EndRender();*/
+    Application::Get().GetAssetsManager().FetchTexture("assets/textures/default_texture.png")->Bind();
+    m_Shader->UploadInt("u_Texture", 0);
+
+    Graphics::BeginRender(m_CameraController.GetCamera());
+    Graphics::Submit(m_VertexArray, m_Shader);
+    Graphics::EndRender();
 
 
-    Graphics2D::BeginRender(m_CameraController.GetCamera());
-
-    Graphics2D::DrawQuad({0, 0, 0}, {1, 1}, {1.0f, 0.0f,  0.0f, 1.0f});
-
-    Graphics2D::EndRender();
+    /*Graphics2D::BeginRender(m_CameraController.GetCamera());*/
+    /**/
+    /*Graphics2D::DrawQuad({0, 0, 0}, {1, 1}, {1.0f, 0.0f,  0.0f, 1.0f});*/
+    /**/
+    /*Graphics2D::EndRender();*/
   }
 
   void OnEvent(GCrisp::Event& e) override

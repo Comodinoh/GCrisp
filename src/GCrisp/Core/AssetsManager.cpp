@@ -26,7 +26,11 @@ void AssetsManager::LoadTexture2D(const std::string& path)
   int width, height;
   int channels;
 
+  stbi_set_flip_vertically_on_load(1);
+
   stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+  GC_CORE_ASSERT(data, "Failed to load image!");
+
   Reference<Graphics::Texture2D> texture = std::shared_ptr<Graphics::Texture2D>(GCrisp::Application::Get().GetGraphicsCreator()->CreateTexture2D(data, {(uint32_t)width, (uint32_t)height, (uint32_t)channels}));
 
   m_CachedTextures[path] = texture;
@@ -34,6 +38,7 @@ void AssetsManager::LoadTexture2D(const std::string& path)
 
 void AssetsManager::LoadRawTexture2D(const std::string& name, const stbi_uc* data, const Graphics::TextureSpec& spec)
 {
+  GC_CORE_ASSERT(data, "Provided null image to load!");
   m_CachedRawTextures[name] = std::shared_ptr<Graphics::Texture2D>(GCrisp::Application::Get().GetGraphicsCreator()->CreateTexture2D(data, spec));
 }
 
