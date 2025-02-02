@@ -21,7 +21,7 @@ public:
 
   inline const TextureSpec& GetSpec() const {return m_Spec;}
 
-  virtual void Bind() const = 0;
+  virtual void Bind(int slot = 0) const = 0;
 
   virtual void SetMagFiltering(TextureFilter filtering) const = 0;
   virtual void SetMinFiltering(TextureFilter filtering) const = 0;
