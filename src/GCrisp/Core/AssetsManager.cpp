@@ -12,8 +12,8 @@ Reference<Graphics::Texture> AssetsManager::s_DefaultTexture = nullptr;
 
 AssetsManager::AssetsManager()
 {
-  LoadTexture2D("assets/textures/default_texture.png");
-  s_DefaultTexture = FetchTexture2D("assets/textures/default_texture.png");
+  LoadTexture2D("textures/default_texture.png");
+  s_DefaultTexture = FetchTexture2D("textures/default_texture.png");
 }
 
 AssetsManager::~AssetsManager()
@@ -21,8 +21,9 @@ AssetsManager::~AssetsManager()
   s_DefaultTexture.reset();
 }
 
-void AssetsManager::LoadTexture2D(const std::string& path) 
+void AssetsManager::LoadTexture2D(const std::string& name) 
 {
+  std::string path = "assets/" + name;
   int width, height;
   int channels;
 
@@ -44,16 +45,22 @@ void AssetsManager::LoadRawTexture2D(const std::string& name, const stbi_uc* dat
 
 Reference<Graphics::Texture>& AssetsManager::FetchTexture(const std::string& path) const
 {
-  Reference<Graphics::Texture>& texture = m_CachedTextures.find(path)->second;
-  GC_CORE_ASSERT(texture, "Texture should never be null at fetch time!!");
-  return texture;
+  auto iter = m_CachedTextures.find(std::string("assets/" + path));
+  if(iter == m_CachedTextures.end()) 
+  {
+    return s_DefaultTexture;
+  }
+  return iter->second;
 }
 
 Reference<Graphics::Texture>& AssetsManager::FetchRawTexture(const std::string& name) const
 {
-  Reference<Graphics::Texture>& texture = m_CachedRawTextures.find(name)->second;
-  GC_CORE_ASSERT(texture, "Raw texture should never be null at fetch time!!");
-  return texture;
+  auto iter = m_CachedRawTextures.find(name);
+  if(iter == m_CachedRawTextures.end())  
+  {
+    return s_DefaultTexture;
+  }
+  return iter->second;
 }
 
 

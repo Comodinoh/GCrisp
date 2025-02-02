@@ -19,7 +19,6 @@ cmake_dependent_option(GCRISP_BUILD_ANDROID "Build support for Android" ON "ANDR
 
 file(GLOB_RECURSE SRC_FILES src/GCrisp/*.cpp)
 
-
 add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
