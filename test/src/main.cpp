@@ -70,11 +70,14 @@ public:
     Graphics::EndRender();
 
 
-    /*Graphics2D::BeginRender(m_CameraController.GetCamera());*/
-    /**/
-    /*Graphics2D::DrawQuad({0, 0, 0}, {1, 1}, {1.0f, 0.0f,  0.0f, 1.0f});*/
-    /**/
-    /*Graphics2D::EndRender();*/
+<<<<<<< HEAD
+    Graphics2D::BeginRender(m_CameraController.GetCamera());
+
+    Graphics2D::DrawQuad({0, 0, 0}, {1, 1}, {1.0f, 0.0f,  0.0f, 1.0f});
+
+    Graphics2D::EndRender();
+=======
+>>>>>>> refs/remotes/origin/renderer-2d
   }
 
   void OnEvent(GCrisp::Event& e) override

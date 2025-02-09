@@ -20,13 +20,13 @@ void Init()
   s_Data->QuadVA->Bind();
 
   float quadVerts[] = {
-      0.0,  0.5, 0.0,
-      0.5, -0.5, 0.0,
-     -0.5, -0.5, 0.0
-    /*-0.5f, -0.5f, 0.0f,*/
-    /* 0.5f, -0.5f, 0.0f,*/
-    /* 0.5f,  0.5f, 0.0f,*/
-    /*-0.5f,  0.5f, 0.0f,*/
+     /* 0.0,  0.5, 0.0,*/
+     /* 0.5, -0.5, 0.0,*/
+     /*-0.5, -0.5, 0.0*/
+    -0.5f, -0.5f, 0.0f,
+     0.5f, -0.5f, 0.0f,
+     0.5f,  0.5f, 0.0f,
+    -0.5f,  0.5f, 0.0f,
   };
 
   Reference<Graphics::VertexBuffer> quadVB;
@@ -40,7 +40,8 @@ void Init()
   s_Data->QuadVA->AddVertexBuffer(quadVB);
 
   uint32_t quadIndices[] = {
-    0, 1, 2 
+    0, 1, 2,
+    2, 3, 0, 
   };
 
   Reference<Graphics::IndexBuffer> quadIB;
@@ -54,10 +55,11 @@ void Init()
       in vec3 a_Position;
 
       uniform mat4 u_ViewProj;
+      uniform mat4 u_Transform;
 
       void main()
       {
-        gl_Position = u_ViewProj * vec4(a_Position, 1.0);
+        gl_Position = u_ViewProj * u_Transform * vec4(a_Position, 1.0);
       }
     )";
     std::string fragmentSrc = R"(
@@ -101,6 +103,9 @@ void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4&
   //TODO: implement shader bound checking system
   s_Data->ColorShader->Bind();
   s_Data->ColorShader->UploadVec4("u_Color", color);
+
+  glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)*glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+  s_Data->ColorShader->UploadMat4("u_Transform", transform);
 
   s_Data->QuadVA->Bind();
   Graphics::DrawIndexed(s_Data->QuadVA);
