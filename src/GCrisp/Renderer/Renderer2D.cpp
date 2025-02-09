@@ -72,7 +72,12 @@ void Init()
         fragColor = vec4(u_Color);
       }
     )";
-  s_Data->ColorShader.reset(app.GetGraphicsCreator()->CreateShader(&vertexSrc, &fragmentSrc));
+  s_Data->ColorShader.reset(app.GetGraphicsCreator()->CreateShader(
+    {
+      {Graphics::SHADER_VERTEX, vertexSrc.c_str()},
+      {Graphics::SHADER_FRAGMENT, fragmentSrc.c_str()}
+    }
+  ));
 }
 
 void Shutdown()

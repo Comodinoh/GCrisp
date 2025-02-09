@@ -16,9 +16,9 @@ API* OpenGLCreator::CreateAPI()
   return new OpenGLAPI();
 }
 
-Shader* OpenGLCreator::CreateShader(std::string* const vertexSrc, std::string* const fragmentSrc)
+Shader* OpenGLCreator::CreateShader(const ShaderSpec& spec)
 {
-  return (Shader*)new OpenGLShader(vertexSrc, fragmentSrc);
+  return (Shader*)new OpenGLShader(spec);
 }
 
 VertexBuffer* OpenGLCreator::CreateVertexBuffer(float* vertices, uint32_t size)

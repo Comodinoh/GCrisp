@@ -44,39 +44,7 @@ public:
     m_IndexBuffer.reset(app.GetGraphicsCreator()->CreateIndexBuffer(indices, sizeof(indices)));
     m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
-    std::string vertexSrc = R"(
-      #version 330 core
-
-      in vec3 a_Position;
-      in vec2 a_TexCoord;
-
-      out vec2 texCoord;
-
-      uniform mat4 u_ViewProj;
-
-      void main()
-      {
-        gl_Position = u_ViewProj * vec4(a_Position, 1.0);
-        texCoord = a_TexCoord;
-      }
-    )";
-    std::string fragmentSrc = R"(
-      #version 330 core
-
-      in vec2 texCoord;
-
-      out vec4 fragColor;
-
-      uniform sampler2D u_Texture;
-
-      void main()
-      {
-        fragColor = texture(u_Texture, texCoord);
-      }
-    )";
-
-
-    m_Shader.reset(app.GetGraphicsCreator()->CreateShader(&vertexSrc, &fragmentSrc));
+    app.GetAssetsManager().LoadShader("image.glsl");
   }
   
   ~TestLayer()
@@ -93,11 +61,12 @@ public:
     
     Graphics::Clear({0, 0, 0, 1});
 
-    Application::Get().GetAssetsManager().FetchTexture("assets/textures/default_texture.png")->Bind();
-    m_Shader->UploadInt("u_Texture", 0);
+    auto shader = Application::Get().GetAssetsManager().FetchShader("image.glsl");
+    Application::Get().GetAssetsManager().FetchTexture("default_texture.png")->Bind();
+    shader->UploadInt("u_Texture", 0);
 
     Graphics::BeginRender(m_CameraController.GetCamera());
-    Graphics::Submit(m_VertexArray, m_Shader);
+    Graphics::Submit(m_VertexArray, shader);
     Graphics::EndRender();
 
 
@@ -117,7 +86,6 @@ public:
 
 
 private:
-  Reference<Graphics::Shader> m_Shader;
   Reference<Graphics::VertexBuffer> m_VertexBuffer;
   Reference<Graphics::IndexBuffer> m_IndexBuffer;
   Reference<Graphics::VertexArray> m_VertexArray;

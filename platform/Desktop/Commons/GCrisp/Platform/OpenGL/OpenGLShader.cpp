@@ -9,103 +9,100 @@ namespace GCrisp{
 
 namespace Graphics{
 
-OpenGLShader::OpenGLShader(const std::string* const vertexSrc, const std::string* const fragmentSrc)
+static inline GLenum GLShaderFromGC(ShaderType type)
 {
-  int vertexID;
-  int fragmentID;
+  switch(type)
+  {
+    case SHADER_VERTEX: return GL_VERTEX_SHADER;
+    case SHADER_FRAGMENT: return GL_FRAGMENT_SHADER;
+    default: return 0;
+  }
+}
 
-  const GLchar* source;
-  GLint status;
+OpenGLShader::OpenGLShader(const ShaderSpec& spec)
+{
+  uint32_t programID = glCreateProgram();
+
+  uint32_t IDs[3];
+
 
   // We compile the vertex source if the provided pointer isn't null
-  if(vertexSrc)
+  int shaderIndex = 0;
+  for(auto&&[type, source] : spec.shaders)
   {
-    vertexID = glCreateShader(GL_VERTEX_SHADER);
+    GLenum glType = GLShaderFromGC(type);
+    uint32_t id = glCreateShader(glType);
 
-    source = vertexSrc->c_str();
+    const char* cSource = source.c_str();
 
-    glShaderSource(vertexID, 1, &source, NULL);
+    glShaderSource(id, 1, &cSource, NULL);
+    glCompileShader(id);
 
-    glCompileShader(vertexID);
+    GLint status;
 
-    glGetShaderiv(vertexID, GL_COMPILE_STATUS, &status);
+    glGetShaderiv(id, GL_COMPILE_STATUS, &status);
     if(status == GL_FALSE)
     {
       GLint maxLength;
-      glGetShaderiv(vertexID, GL_INFO_LOG_LENGTH, &maxLength);
+      glGetShaderiv(id, GL_INFO_LOG_LENGTH, &maxLength);
 
       GLchar infoLog[maxLength];
-      glGetShaderInfoLog(vertexID, maxLength, &maxLength, infoLog);
+      glGetShaderInfoLog(id, maxLength, &maxLength, infoLog);
 
-      glDeleteShader(vertexID);
+      glDeleteShader(id);
 
+      GC_CORE_ERROR("Failed to compile {0} shader. Please refer to the logs below:", StringFromShaderType(type));
       GC_CORE_ERROR(std::string(infoLog));
-      GC_CORE_ASSERT(false, "Failed to compile vertex shader!");
+      GC_CORE_ASSERT(false, "Error occurred during shader compilation!");
       return;
     }
+
+    IDs[shaderIndex] = id;
+    glAttachShader(programID, id);
+
+    shaderIndex++;
   }
 
-  if(fragmentSrc)
+
+  glLinkProgram(programID);
+
+  GLint status;
+
+  glGetProgramiv(programID, GL_LINK_STATUS, &status);
+  if(status == GL_FALSE)
   {
-    fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
+   GLint maxLength;
+   glGetProgramiv(programID, GL_INFO_LOG_LENGTH, &maxLength);
 
-    source = fragmentSrc->c_str();
+   GLchar infoLog[maxLength];
+   glGetProgramInfoLog(programID, maxLength, &maxLength, infoLog);
 
-    glShaderSource(fragmentID, 1, &source, 0);
+   glDeleteProgram(programID);
 
-    glCompileShader(fragmentID);
-
-    glGetShaderiv(fragmentID, GL_COMPILE_STATUS, &status);
-    if(status == GL_FALSE)
-    {
-      GLint maxLength;
-      glGetShaderiv(fragmentID, GL_INFO_LOG_LENGTH, &maxLength);
-
-      GLchar infoLog[maxLength];
-      glGetShaderInfoLog(fragmentID, maxLength, &maxLength, infoLog);
-
-      glDeleteShader(fragmentID);
-      if(vertexID) glDeleteShader(vertexID);
-
-      GC_CORE_ERROR(std::string(infoLog));
-      GC_CORE_ASSERT(false, "Failed to compile fragment shader!");
-      return;
-    }
-
-    int programID = glCreateProgram();
-
-    if(vertexID) glAttachShader(programID, vertexID);
-    if(fragmentID) glAttachShader(programID, fragmentID);
-
-    glLinkProgram(programID);
-
-    glGetProgramiv(programID, GL_LINK_STATUS, &status);
-    if(status == GL_FALSE)
-    {
-      GLint maxLength;
-      glGetProgramiv(fragmentID, GL_INFO_LOG_LENGTH, &maxLength);
-
-      GLchar infoLog[maxLength];
-      glGetProgramInfoLog(fragmentID, maxLength, &maxLength, infoLog);
-
-      glDeleteProgram(programID);
-
-      if(vertexID) glDeleteShader(vertexID);
-      if(fragmentID) glDeleteShader(fragmentID);
+  for(int i = 0;i<shaderIndex;i++)
+  {
+     uint32_t id = IDs[i];
+     glDeleteShader(id);
+    
+   }
 
 
-      GC_CORE_ERROR(std::string(infoLog));
-      GC_CORE_ASSERT(false, "Failed to link shader program!");
-      return;
-    }
+   GC_CORE_ERROR(std::string(infoLog));
+   GC_CORE_ASSERT(false, "Failed to link shader program!");
+   return;
+  }
 
-    glUseProgram(programID);
+  glUseProgram(programID);
 
-    glDetachShader(programID, vertexID);
-    glDetachShader(programID, fragmentID);
 
-    m_RendererID = programID;
-  }  
+  for(int i = 0;i<shaderIndex;i++)
+  {
+    uint32_t id = IDs[i];
+    glDetachShader(programID, id);
+    glDeleteShader(id);
+  }
+
+  m_RendererID = programID;
 }
 
 OpenGLShader::~OpenGLShader()

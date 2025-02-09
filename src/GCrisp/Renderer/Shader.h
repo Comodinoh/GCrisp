@@ -6,6 +6,64 @@ namespace GCrisp{
 
 namespace Graphics{
 
+enum ShaderType
+{
+  SHADER_NONE = 0, SHADER_VERTEX, SHADER_FRAGMENT
+};
+
+static std::string StringFromShaderType(const ShaderType& type)
+{
+  switch(type)
+  {
+    case SHADER_VERTEX:
+      {
+        return "vertex";
+      }
+    case SHADER_FRAGMENT:
+      {
+        return "fragment";
+      }
+    default:
+      {
+        GC_CORE_ASSERT(false, "Unknown shader type!");
+        return nullptr;
+      }
+  }
+}
+
+static ShaderType ShaderTypeFromString(const std::string& type)
+{
+  if(type == "vertex")
+    return SHADER_VERTEX;
+  if(type == "fragment" || type == "pixel")
+    return SHADER_FRAGMENT;
+  GC_CORE_ASSERT(false, "Unknown shader type!");
+  return SHADER_NONE;
+}
+
+struct ShaderSpec
+{
+  std::unordered_map<ShaderType, std::string> shaders;
+
+  ShaderSpec(const std::initializer_list<std::pair<ShaderType, std::string>>& pairs)
+  {
+    for(auto pair : pairs)
+    {
+      shaders[pair.first] = pair.second;
+    }
+  }
+
+  ShaderSpec(const std::pair<ShaderType, std::string> pairs[], int size)
+  {
+    for(int i = 0;i<size;i++)
+    {
+      auto pair = pairs[i];
+      shaders[pair.first] = pair.second;
+    }
+  }
+
+};
+
 class Shader
 {
 public:

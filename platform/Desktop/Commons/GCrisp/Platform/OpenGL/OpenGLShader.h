@@ -8,8 +8,9 @@ namespace Graphics {
 
 class OpenGLShader : public Shader
 {
+typedef unsigned int GLenum;
 public:
-  OpenGLShader(const std::string* const vertexSrc, const std::string* const fragmentSrc);
+  OpenGLShader(const ShaderSpec& spec);
   virtual ~OpenGLShader();
 
   virtual void Bind() const override;
