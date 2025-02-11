@@ -200,6 +200,24 @@ GCrisp::Application* GCrisp::CreateApplication()
 
 ```
 
+## Window
+__Note:__ CMake >= 3.30.4 required
+
+Using GCrisp on windows is similar.
+It is recommended that you compile with clang using msys2
+for the best results.
+
+So far I've only tested it with CLion, but it worked well and almost flawlessly,
+if you ignore the fact that it takes ages to compile with GCC. 
+If you want to add it to your project, you can simply add it as a submodule and add the subdirectory, 
+just like the example on linux.
+
+I have not tried compiling it with MSVC,
+but I assume that it would not work anyway,
+since I don't think that the precompiled headers are correctly included 
+where they should be.
+
+
 # Getting Started
 
 I recommend checking out the [wiki](https://github.com/Comodinoh/GCrisp/wiki) to get started with GCrisp (Still work in progress!).
