@@ -13,7 +13,7 @@ using EventCallbackFunc = std::function<void(Event&)>;
 struct WindowData
 {
   std::string Title;
-  uint Width, Height;
+  uint32_t Width, Height;
   bool VSync;
   bool Resizable;
 
@@ -23,12 +23,12 @@ struct WindowData
 struct WindowProps
 {
   std::string Title;
-  uint Width, Height;
+  uint32_t Width, Height;
   bool Resizable;
 
   WindowProps(const std::string& title = ENGINE_NAME,
-              uint width = 1280, 
-              uint height = 720, bool resizable = true) : Title(title), Width(width), Height(height), Resizable(resizable) {}
+              uint32_t width = 1280,
+              uint32_t height = 720, bool resizable = true) : Title(title), Width(width), Height(height), Resizable(resizable) {}
 };
 
 class Window

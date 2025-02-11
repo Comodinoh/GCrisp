@@ -20,7 +20,7 @@ public:
 
 private:
   std::vector<Layer*> m_Layers;
-  uint m_LayerInsertIndex;
+  uint32_t m_LayerInsertIndex;
 };
 
 }

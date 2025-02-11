@@ -67,3 +67,4 @@ CMakeUserPresets.json
 out
 .cache
 .ccls-cache
+/cmake-build-debug/

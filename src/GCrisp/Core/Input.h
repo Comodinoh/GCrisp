@@ -5,7 +5,7 @@ namespace GCrisp{
 namespace Input
 {
 
-using KeyCode = uint;
+using KeyCode = uint32_t;
 
 enum : KeyCode
 {

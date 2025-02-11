@@ -70,11 +70,11 @@ public:
     Graphics::EndRender();
 
 
-    Graphics2D::BeginRender(m_CameraController.GetCamera());
-
-    Graphics2D::DrawQuad({0, 0, 0}, {1, 1}, {1.0f, 0.0f,  0.0f, 1.0f});
-
-    Graphics2D::EndRender();
+    // Graphics2D::BeginRender(m_CameraController.GetCamera());
+    //
+    // Graphics2D::DrawQuad({0, 0, 0}, {1, 1}, {1.0f, 0.0f,  0.0f, 1.0f});
+    //
+    // Graphics2D::EndRender();
   }
 
   void OnEvent(GCrisp::Event& e) override
