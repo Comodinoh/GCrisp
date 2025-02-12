@@ -22,7 +22,7 @@ struct Data
 class API
 {
 public:
-  ~API() = default;
+  virtual ~API() = default;
 
   virtual void Init() = 0;
 

@@ -37,7 +37,7 @@ VertexArray* OpenGLCreator::CreateVertexArray()
 }
 Texture2D* OpenGLCreator::CreateTexture2D(const stbi_uc* data, const TextureSpec& spec)
 {
-  return new OpenGLTexture2D(data, spec);
+  return new OpenGLTexture(data, spec);
 }
 
 }

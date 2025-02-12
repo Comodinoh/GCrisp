@@ -23,10 +23,10 @@ static GLenum FromShaderDataTypeToOpenGLType(ShaderDataType type)
     case ShaderDataType::Int3:    return GL_INT;
     case ShaderDataType::Int4:    return GL_INT;
     case ShaderDataType::Bool:    return GL_BOOL;
+    default:
+      GC_CORE_ASSERT(false, "Unknown ShaderDataType for OpenGL data type conversion!");
+    return 0;
   }
-  
-  GC_CORE_ASSERT(false, "Unknown ShaderDataType for OpenGL data type conversion!");
-  return 0;
 }
 
 

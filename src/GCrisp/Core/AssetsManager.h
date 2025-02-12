@@ -10,10 +10,10 @@ using stbi_uc = unsigned char;
 class AssetsManager
 {
 public:
-
-public:
-  AssetsManager();
+  AssetsManager() = default;
   ~AssetsManager();
+
+  void Init();
 
   // Texture loading/fetching
   void LoadTexture2D(const std::string& path);

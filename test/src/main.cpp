@@ -9,105 +9,102 @@
 
 using namespace GCrisp;
 
-class TestLayer : public GCrisp::Layer
+class TestLayer : public Layer
 {
 public:
-  TestLayer() : GCrisp::Layer("Test"), m_CameraController(16.0f/9.0f)
-  {
-    auto& app = Application::Get();
-    m_VertexArray.reset(app.GetGraphicsCreator()->CreateVertexArray());
-
-    float vertices[] = 
+    TestLayer() : Layer("Test"), m_CameraController(16.0f / 9.0f)
     {
-      0.5,  0.5, 0.0,   1.0,  1.0,
-      0.5, -0.5, 0.0,   1.0,  0.0,
-     -0.5, -0.5, 0.0,   0.0,  0.0,
-     -0.5,  0.5, 0.0,   0.0,  1.0,
-    };
+        auto& app = Application::Get();
+        m_VertexArray.reset(app.GetGraphicsCreator()->CreateVertexArray());
 
-    m_VertexBuffer.reset(app.GetGraphicsCreator()->CreateVertexBuffer(vertices, sizeof(vertices)));
+        float vertices[] =
+        {
+            0.5, 0.5, 0.0, 1.0, 1.0,
+            0.5, -0.5, 0.0, 1.0, 0.0,
+            -0.5, -0.5, 0.0, 0.0, 0.0,
+            -0.5, 0.5, 0.0, 0.0, 1.0,
+        };
 
-    Graphics::BufferLayout layout = 
+        m_VertexBuffer.reset(app.GetGraphicsCreator()->CreateVertexBuffer(vertices, sizeof(vertices)));
+
+        Graphics::BufferLayout layout =
+        {
+            {"a_Position", Graphics::ShaderDataType::Float3},
+            {"a_TexCoord", Graphics::ShaderDataType::Float2}
+        };
+
+        m_VertexBuffer->SetLayout(layout);
+        m_VertexArray->AddVertexBuffer(m_VertexBuffer);
+
+        uint32_t indices[] =
+        {
+            0, 1, 2,
+            2, 3, 0
+        };
+        m_IndexBuffer.reset(app.GetGraphicsCreator()->CreateIndexBuffer(indices, sizeof(indices)));
+        m_VertexArray->SetIndexBuffer(m_IndexBuffer);
+    }
+
+    ~TestLayer()
     {
-        {"a_Position", Graphics::ShaderDataType::Float3},
-        {"a_TexCoord", Graphics::ShaderDataType::Float2}
-    };
+    }
 
-    m_VertexBuffer->SetLayout(layout);
-    m_VertexArray->AddVertexBuffer(m_VertexBuffer);
-
-    uint32_t indices[] =
+    void OnUpdate(const ProcessedTime& delta) override
     {
-        0, 1, 2, 
-        2, 3, 0
-    };
-    m_IndexBuffer.reset(app.GetGraphicsCreator()->CreateIndexBuffer(indices, sizeof(indices)));
-    m_VertexArray->SetIndexBuffer(m_IndexBuffer);
+        // GC_CORE_INFO("Elapsed time: {0}", static_cast<float>(delta));
+        // Warning: movement will get messy while the camera is rotating
 
-    app.GetAssetsManager().LoadShader("image.glsl");
-  }
-  
-  ~TestLayer()
-  {
+        m_CameraController.OnUpdate(delta);
 
-  }
+        Graphics::Clear({0, 0, 0, 1});
 
-  void OnUpdate(const ProcessedTime& delta) override
-  { 
-    /*GC_CORE_INFO("Elapsed time: {0}", (float)delta);*/
-    // Warning: movement will get messy while the camera is rotating
-    
-    m_CameraController.OnUpdate(delta);
-    
-    Graphics::Clear({0, 0, 0, 1});
+        auto shader = Application::Get().GetAssetsManager().FetchShader("Texture.glsl");
+        shader->Bind();
 
-    auto shader = Application::Get().GetAssetsManager().FetchShader("image.glsl");
-    Application::Get().GetAssetsManager().FetchTexture("default_texture.png")->Bind();
-    shader->UploadInt("u_Texture", 0);
+        Reference<Graphics::Texture>& texture = Application::Get().GetAssetsManager().FetchTexture(
+            "default_texture.png");
+        texture->Bind();
+        shader->UploadInt("u_Texture", 0);
 
-    Graphics::BeginRender(m_CameraController.GetCamera());
-    Graphics::Submit(m_VertexArray, shader);
-    Graphics::EndRender();
+        Graphics::BeginRender(m_CameraController.GetCamera());
+        Graphics::Submit(m_VertexArray, shader);
+        Graphics::EndRender();
 
 
-    // Graphics2D::BeginRender(m_CameraController.GetCamera());
-    //
-    // Graphics2D::DrawQuad({0, 0, 0}, {1, 1}, {1.0f, 0.0f,  0.0f, 1.0f});
-    //
-    // Graphics2D::EndRender();
-  }
+        // Graphics2D::BeginRender(m_CameraController.GetCamera());
+        //
+        // Graphics2D::DrawQuad({0, 0, 0}, {1, 1}, texture);
+        //
+        // Graphics2D::EndRender();
+    }
 
-  void OnEvent(GCrisp::Event& e) override
-  {
-    m_CameraController.OnEvent(e);
-  }
-
-
-
+    void OnEvent(GCrisp::Event& e) override
+    {
+        m_CameraController.OnEvent(e);
+    }
 
 private:
-  Reference<Graphics::VertexBuffer> m_VertexBuffer;
-  Reference<Graphics::IndexBuffer> m_IndexBuffer;
-  Reference<Graphics::VertexArray> m_VertexArray;
+    Reference<Graphics::VertexBuffer> m_VertexBuffer;
+    Reference<Graphics::IndexBuffer> m_IndexBuffer;
+    Reference<Graphics::VertexArray> m_VertexArray;
 
-  OrthoCameraController m_CameraController;
+    OrthoCameraController m_CameraController;
 };
 
 class TestApplication : public GCrisp::Application
 {
 public:
-  TestApplication()
-  {
-    PushLayer(new TestLayer());
-  }
+    TestApplication()
+    {
+        PushLayer(new TestLayer());
+    }
 
-  ~TestApplication()
-  {
-  }
+    ~TestApplication()
+    {
+    }
 };
 
 GCrisp::Application* GCrisp::CreateApplication()
 {
-  return new TestApplication();
+    return new TestApplication();
 }
-
