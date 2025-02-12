@@ -11,7 +11,6 @@ void OrthoCamera::Project()
 
 void OrthoCamera::UpdateProjection()
 {
-  //TODO: Implement the model/transform matrix
   m_Projection = glm::ortho(-m_AspectRatio*m_Scale, m_AspectRatio*m_Scale, -m_Scale, m_Scale);
 }
 

@@ -42,7 +42,6 @@ Application::~Application()
 
 void Application::Run()
 {
-  //TODO: implement delta time
   while(m_Running)
   {
 
