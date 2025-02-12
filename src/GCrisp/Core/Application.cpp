@@ -18,15 +18,17 @@ Application::Application()
   ProcessedTime delta;
   {
     ScopedTimer timer(steady_clock::now(), delta);
-    GC_CORE_ASSERT(!s_Instance, "Application instance cannot be null!")
+    GC_CORE_ASSERT(!s_Instance, "Application instance cannot be not null!")
     s_Instance = this;
 
     m_Window = std::unique_ptr<Window>(Window::Create(Graphics::Backend::OpenGL));
     m_Window->SetEventCallback(GC_BIND_FN1(Application::OnEvent));
 
-    Graphics::Init();
-
     m_AssetsManager = std::make_unique<AssetsManager>();
+
+    GC_CORE_ASSERT(m_AssetsManager, "AssetsManager should not be null!");
+
+    Graphics::Init();
   }
 
   GC_CORE_INFO("Took {0} seconds to initialize application.", delta.GetSeconds());

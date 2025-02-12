@@ -8,11 +8,11 @@ namespace Graphics{
 
 typedef unsigned char stbi_uc;
 
-class OpenGLTexture2D : public Texture2D
+class OpenGLTexture : public Texture2D
 {
 public:
-  OpenGLTexture2D(const stbi_uc* data, const TextureSpec& spec);
-  virtual ~OpenGLTexture2D();
+  OpenGLTexture(const stbi_uc* data, const TextureSpec& spec);
+  virtual ~OpenGLTexture();
 
   virtual void Bind(int slot) const override;
   virtual void SetMagFiltering(TextureFilter filtering) const override;

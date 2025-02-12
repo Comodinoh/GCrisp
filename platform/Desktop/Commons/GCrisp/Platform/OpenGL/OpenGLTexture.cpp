@@ -7,7 +7,7 @@ namespace GCrisp{
 
 namespace Graphics{
 
-OpenGLTexture2D::OpenGLTexture2D(const stbi_uc* data, const TextureSpec& spec)
+OpenGLTexture::OpenGLTexture(const stbi_uc* data, const TextureSpec& spec)
 {
   m_Spec.Width = spec.Width;
   m_Spec.Height = spec.Height;
@@ -25,18 +25,18 @@ OpenGLTexture2D::OpenGLTexture2D(const stbi_uc* data, const TextureSpec& spec)
   glGenerateMipmap(GL_TEXTURE_2D);
 }
 
-OpenGLTexture2D::~OpenGLTexture2D()
+OpenGLTexture::~OpenGLTexture()
 {
   glDeleteTextures(1, &m_RendererID);
 }
 
-void OpenGLTexture2D::Bind(int slot) const
+void OpenGLTexture::Bind(int slot) const
 {
   glActiveTexture(GL_TEXTURE0+slot);
   glBindTexture(GL_TEXTURE_2D, m_RendererID);
 }
 
-void OpenGLTexture2D::SetMagFiltering(TextureFilter filtering = TextureFilter::None) const
+void OpenGLTexture::SetMagFiltering(TextureFilter filtering = TextureFilter::None) const
 {
   GLenum glFiltering;
   switch(filtering)
@@ -59,7 +59,7 @@ void OpenGLTexture2D::SetMagFiltering(TextureFilter filtering = TextureFilter::N
   glTexParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, glFiltering);
 }
 
-void OpenGLTexture2D::SetMinFiltering(TextureFilter filtering = TextureFilter::None) const
+void OpenGLTexture::SetMinFiltering(TextureFilter filtering = TextureFilter::None) const
 {
   GLenum glFiltering;
   switch(filtering)

@@ -39,9 +39,9 @@ struct BufferElement
       case ShaderDataType::Int3:   return 4*3;
       case ShaderDataType::Int4:   return 4*4;
       case ShaderDataType::Bool:   return 1;
+      default:
+        GC_CORE_ASSERT(false, "Unknown ShaderDataType!");
     }
-
-    GC_CORE_ASSERT(false, "Unknown ShaderDataType!");
     return 0;
   }
   static uint32_t GetElementCount(const ShaderDataType& type)
@@ -58,11 +58,11 @@ struct BufferElement
       case ShaderDataType::Int2:   return 2;
       case ShaderDataType::Int3:   return 3;
       case ShaderDataType::Int4:   return 4;
-      case ShaderDataType::Bool:   return 1; 
+      case ShaderDataType::Bool:   return 1;
+      default:
+        GC_CORE_ASSERT(false, "Unknown ShaderDataType!");
+      return 0;
     }
-
-    GC_CORE_ASSERT(false, "Unknown ShaderDataType!");
-    return 0;
   }
 };
 

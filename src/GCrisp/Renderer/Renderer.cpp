@@ -20,6 +20,7 @@ void Init()
   s_RenderAPI->Init();
   GC_CORE_INFO("Initialized Renderer!");
 
+  Application::Get().GetAssetsManager().Init();
   
   Graphics2D::Init();
   GC_CORE_INFO("Initialized Renderer2D!");
