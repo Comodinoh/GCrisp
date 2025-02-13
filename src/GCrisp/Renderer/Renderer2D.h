@@ -14,8 +14,9 @@ namespace Graphics2D{
   struct Data
   {
     Reference<Graphics::VertexArray> QuadVA;
-    Reference<Graphics::Shader> ColorShader;
     Reference<Graphics::Shader> TextureShader;
+
+    Reference<Graphics::Texture> WhiteTexture;
   };
 
   void Init();
