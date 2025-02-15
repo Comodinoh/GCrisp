@@ -1,3 +1,4 @@
+#include "gcpch.h"
 #include "Renderer.h"
 
 #include "Renderer2D.h"
@@ -6,73 +7,69 @@
 #include <GCrisp/Core/Application.h>
 #include <memory>
 
-namespace GCrisp{
-
-namespace Graphics{
-
-Backend API::s_RendererBackend = Backend::None;
-
-void Init()
+namespace GCrisp
 {
-  s_RenderAPI = std::unique_ptr<API>(Application::Get().GetGraphicsCreator()->CreateAPI());
-  s_Data = std::make_unique<Data>();
+  namespace Graphics
+  {
+    Backend API::s_RendererBackend = Backend::None;
 
-  s_RenderAPI->Init();
-  GC_CORE_INFO("Initialized Renderer!");
+    void Init()
+    {
+      s_RenderAPI = std::unique_ptr<API>(Application::Get().GetGraphicsCreator()->CreateAPI());
+      s_Data = std::make_unique<Data>();
 
-  Application::Get().GetAssetsManager().Init();
-  
-  Graphics2D::Init();
-  GC_CORE_INFO("Initialized Renderer2D!");
-}
+      s_RenderAPI->Init();
+      GC_CORE_INFO("Initialized Renderer!");
 
-void Shutdown()
-{
-  Graphics2D::Shutdown();
+      Application::Get().GetAssetsManager().Init();
 
-  s_RenderAPI.reset();
-  s_Data.reset();
+      Graphics2D::Init();
+      GC_CORE_INFO("Initialized Renderer2D!");
+    }
 
-  s_RenderAPI = nullptr;
-  s_Data = nullptr;
-}
+    void Shutdown()
+    {
+      Graphics2D::Shutdown();
 
-void Clear(const glm::vec4& color)
-{
-  s_RenderAPI->Clear(color);
-}
+      s_RenderAPI.reset();
+      s_Data.reset();
 
-void SetViewport(const glm::vec2& pos, const glm::vec2& size)
-{
-  s_RenderAPI->SetViewport(pos, size);
-}
+      s_RenderAPI = nullptr;
+      s_Data = nullptr;
+    }
 
-void DrawIndexed(const Reference<VertexArray>& vertexArray)
-{
-  s_RenderAPI->DrawIndexed(vertexArray);
-}
+    void Clear(const glm::vec4& color)
+    {
+      s_RenderAPI->Clear(color);
+    }
 
-void BeginRender(Camera& camera)
-{
-  // "cache" the View projection matrix for the scene we're currently rendering
-  s_Data->ViewProjMatrix = camera.GetViewProj();
-}
+    void SetViewport(const glm::vec2& pos, const glm::vec2& size)
+    {
+      s_RenderAPI->SetViewport(pos, size);
+    }
 
-void EndRender()
-{
+    void DrawIndexed(const Reference<VertexArray>& vertexArray)
+    {
+      s_RenderAPI->DrawIndexed(vertexArray);
+    }
 
-}
+    void BeginRender(Camera& camera)
+    {
+      // "cache" the View projection matrix for the scene we're currently rendering
+      s_Data->ViewProjMatrix = camera.GetViewProj();
+    }
 
-void Submit(const Reference<VertexArray>& vertexArray, const Reference<Shader>& shader)
-{
-  shader->Bind();
-  shader->UploadMat4("u_ViewProj", s_Data->ViewProjMatrix);
+    void EndRender()
+    {
+    }
 
-  vertexArray->Bind();
-  DrawIndexed(vertexArray);
-}
+    void Submit(const Reference<VertexArray>& vertexArray, const Reference<Shader>& shader)
+    {
+      shader->Bind();
+      shader->UploadMat4("u_ViewProj", s_Data->ViewProjMatrix);
 
-
-}
-
+      vertexArray->Bind();
+      DrawIndexed(vertexArray);
+    }
+  }
 }

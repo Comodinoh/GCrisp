@@ -1,6 +1,5 @@
 #include <gcpch.h>
 
-#include "stdio.h"
 #include "AssetsManager.h"
 #include <GCrisp/Core/Application.h>
 
@@ -37,10 +36,10 @@ namespace GCrisp
 
         Reference<Graphics::Texture2D> texture = std::shared_ptr<Graphics::Texture2D>(
             GCrisp::Application::Get().GetGraphicsCreator()->CreateTexture2D(data,
-                {
-            (uint32_t)width, (uint32_t)height,
-            (uint32_t)channels
-                }));
+                                                                             {
+                                                                                 (uint32_t)width, (uint32_t)height,
+                                                                                 (uint32_t)channels
+                                                                             }));
 
         m_CachedTextures[name] = texture;
     }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <GCrisp/Events/Event.h>
-#include <GCrisp/Core/Timer.h>
+#include <GCrisp/Core/Timing.h>
 
 namespace GCrisp{
 

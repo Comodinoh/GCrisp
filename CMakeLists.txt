@@ -12,6 +12,9 @@ include(CMakeDependentOption)
 
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(GCRISP_BUILD_TESTS "Build tests" ON)
+option(GCRISP_PROFILING "Enable profiler" ON)
+option(GCRISP_FORCE_PROFILING "Force the use of the profiler regardless of build type" OFF)
+option(GCRISP_BUILD_DISTRIBUTABLE "Build GCrisp as a distributable" OFF)
 
 cmake_dependent_option(GCRISP_BUILD_WIN32 "Build support for Win32" ON "WIN32" OFF)
 cmake_dependent_option(GCRISP_BUILD_POSIX "Build support for Posix/Linux" ON "UNIX;NOT APPLE" OFF)
@@ -25,6 +28,10 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_RELEASE)
 endif()
 
+if(CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
+  set(GCRISP_BUILD_DISTRIBUTION ON)
+endif()
+
 add_subdirectory(lib)
 
 target_include_directories(${PROJECT_NAME} 
@@ -34,7 +41,6 @@ target_include_directories(${PROJECT_NAME}
  )
 
 if(GCRISP_BUILD_WIN32 OR GCRISP_BUILD_POSIX)
-
   file(GLOB_RECURSE COMMONS_SRC platform/Desktop/Commons/*.cpp)
   target_sources(${PROJECT_NAME} PRIVATE ${COMMONS_SRC})
   target_include_directories(${PROJECT_NAME} PRIVATE platform/Desktop/Commons)
@@ -79,9 +85,23 @@ target_link_libraries(${PROJECT_NAME}
   stb
 )
 
+if(GCRISP_BUILD_DISTRIBUTION)
+  target_compile_definitions(${PROJECT_NAME} PUBLIC GC_DIST=1)
+  set(GCRISP_PROFILING OFF)
+endif()
+
+if(GCRISP_PROFILING)
+  target_compile_definitions(${PROJECT_NAME} PUBLIC GC_PROFILING=1)
+else()
+  if(GCRISP_FORCE_PROFILING)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC GC_PROFILING=1)
+  endif()
+  target_compile_definitions(${PROJECT_NAME} PUBLIC GC_PROFILING=0)
+endif()
+
 target_precompile_headers(${PROJECT_NAME} PUBLIC src/gcpch.h)
+
 
 if(GCRISP_BUILD_TESTS)
   add_subdirectory(test)
 endif()
-

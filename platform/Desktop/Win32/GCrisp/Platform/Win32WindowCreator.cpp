@@ -2,12 +2,12 @@
 #include <GCrisp/Core/Core.h>
 #include <GCrisp/Platform/OpenGL/OpenGLWindow.h>
 
-namespace GCrisp{
-
-Window* Window::Create(const Graphics::Backend& backend, const WindowProps& props)
+namespace GCrisp
 {
-  switch(backend)
+  Window* Window::Create(const Graphics::Backend& backend, const WindowProps& props)
   {
+    switch (backend)
+    {
     case Graphics::Backend::OpenGL:
       {
         return new OpenGLWindow(backend, props);
@@ -21,7 +21,6 @@ Window* Window::Create(const Graphics::Backend& backend, const WindowProps& prop
       {
         return new VulkanWindow(props);
       }**/
+    }
   }
-}
-
 }

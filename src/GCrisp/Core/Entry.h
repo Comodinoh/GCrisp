@@ -1,6 +1,8 @@
-extern GCrisp::Application* GCrisp::CreateApplication(); 
+#pragma once
 
-int main(int argc, char** argv)
+extern GCrisp::Application* GCrisp::CreateApplication();
+
+inline int main(int argc, char** argv)
 {
   GCrisp::Log::Init();
   GCrisp::Log::GetCoreLogger()->info("Initialized Logger!");
