@@ -11,38 +11,37 @@
 
 namespace GCrisp
 {
-  class Application
-  {
-  public:
-    Application();
-    virtual ~Application();
+    class Application
+    {
+    public:
+        Application();
+        virtual ~Application();
 
-    void Run();
+        void Run();
 
-    void OnEvent(Event& e);
+        void OnEvent(Event& e);
 
-    void PushLayer(Layer* layer);
-    void PushOverlay(Layer* overlay);
+        void PushLayer(Layer* layer);
+        void PushOverlay(Layer* overlay);
 
-    static inline Application& Get() { return *s_Instance; }
-    inline Window& GetWindow() const { return *m_Window; }
-    inline Timer& GetFrameTimer() { return m_FrameTimer; }
-    inline Graphics::Creator* GetGraphicsCreator() const { return m_Window->GetCreator(); }
-    inline AssetsManager& GetAssetsManager() { return *m_AssetsManager; }
+        static inline Application& Get() { return *s_Instance; }
+        inline Window& GetWindow() const { return *m_Window; }
+        inline Timer& GetFrameTimer() { return m_FrameTimer; }
+        inline Graphics::Creator* GetGraphicsCreator() const { return m_Window->GetCreator(); }
+        inline AssetsManager& GetAssetsManager() { return *m_AssetsManager; }
 
-  private:
-    bool OnWindowClose(WindowCloseEvent& e);
-    bool OnWindowResize(WindowResizeEvent& e);
+    private:
+        bool OnWindowClose(WindowCloseEvent& e);
+        bool OnWindowResize(WindowResizeEvent& e);
 
-  private:
-    ScopedPtr<Window> m_Window;
-    bool m_Running = true;
-    LayerStack m_LayerStack;
-    Timer m_FrameTimer;
-    ScopedPtr<AssetsManager> m_AssetsManager;
-    static Application* s_Instance;
-  };
+    private:
+        ScopedPtr<Window> m_Window;
+        bool m_Running = true;
+        LayerStack m_LayerStack;
+        Timer m_FrameTimer;
+        ScopedPtr<AssetsManager> m_AssetsManager;
+        static Application* s_Instance;
+    };
 
-  Application* CreateApplication();
+    Application* CreateApplication();
 };
-

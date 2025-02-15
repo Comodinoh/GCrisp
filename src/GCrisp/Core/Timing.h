@@ -32,20 +32,20 @@ namespace GCrisp
     class Timer
     {
     public:
-        Timer() : m_Last(steady_clock::now())
+        Timer() : m_Start(steady_clock::now())
         {
         }
 
-        void ProcessTime(ProcessedTime& elapsed, const steady_clock::time_point& now);
+        void ProcessTime(ProcessedTime& elapsed, const steady_clock::time_point& end);
 
     private:
-        steady_clock::time_point m_Last;
+        steady_clock::time_point m_Start;
     };
 
     class ScopedTimer
     {
     public:
-        ScopedTimer(steady_clock::time_point start, ProcessedTime& elapsed) : m_Start(start), m_Elapsed(elapsed)
+        ScopedTimer(steady_clock::time_point start, ProcessedTime& elapsed) : m_Elapsed(elapsed), m_Start(start)
         {
         }
 
@@ -56,5 +56,16 @@ namespace GCrisp
         steady_clock::time_point m_Start;
     };
 
+    class TimingsProfiler
+    {
+    public:
+        static void StartProfiler(const char* file);
+        static void EndProfiler();
 
+        static void ProfileScope(const char* name);
+        static void ProfileFunction();
+
+    private:
+        static std::unordered_map<const char*, std::vector<ProcessedTime>> s_ProfilerMap;
+    };
 }

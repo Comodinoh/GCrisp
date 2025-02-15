@@ -7,39 +7,38 @@
 #include "OpenGLVertexArray.h"
 #include "OpenGLTexture.h"
 
-namespace GCrisp{
-
-namespace Graphics{
-
-API* OpenGLCreator::CreateAPI()
+namespace GCrisp
 {
-  return new OpenGLAPI();
-}
+    namespace Graphics
+    {
+        API* OpenGLCreator::CreateAPI()
+        {
+            return new OpenGLAPI();
+        }
 
-Shader* OpenGLCreator::CreateShader(const ShaderSpec& spec)
-{
-  return (Shader*)new OpenGLShader(spec);
-}
+        Shader* OpenGLCreator::CreateShader(const ShaderSpec& spec)
+        {
+            return (Shader*)new OpenGLShader(spec);
+        }
 
-VertexBuffer* OpenGLCreator::CreateVertexBuffer(float* vertices, uint32_t size)
-{
-  return new OpenGLVertexBuffer(vertices, size);
-}
+        VertexBuffer* OpenGLCreator::CreateVertexBuffer(float* vertices, uint32_t size)
+        {
+            return new OpenGLVertexBuffer(vertices, size);
+        }
 
-IndexBuffer* OpenGLCreator::CreateIndexBuffer(uint32_t* indices, uint32_t size)
-{
-  return new OpenGLIndexBuffer(indices, size);
-}
+        IndexBuffer* OpenGLCreator::CreateIndexBuffer(uint32_t* indices, uint32_t size)
+        {
+            return new OpenGLIndexBuffer(indices, size);
+        }
 
-VertexArray* OpenGLCreator::CreateVertexArray()
-{
-  return new OpenGLVertexArray();
-}
-Texture2D* OpenGLCreator::CreateTexture2D(const stbi_uc* data, const TextureSpec& spec)
-{
-  return new OpenGLTexture(data, spec);
-}
+        VertexArray* OpenGLCreator::CreateVertexArray()
+        {
+            return new OpenGLVertexArray();
+        }
 
-}
-
+        Texture2D* OpenGLCreator::CreateTexture2D(const stbi_uc* data, const TextureSpec& spec)
+        {
+            return new OpenGLTexture(data, spec);
+        }
+    }
 }

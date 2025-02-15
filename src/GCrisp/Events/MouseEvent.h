@@ -3,83 +3,94 @@
 #include <GCrisp/Core/Core.h>
 #include "Event.h"
 
-namespace GCrisp{
-
-class MouseMovedEvent : public Event
+namespace GCrisp
 {
-public:
-  MouseMovedEvent(float x, float y) : m_MouseX(x), m_MouseY(y) {}
+    class MouseMovedEvent : public Event
+    {
+    public:
+        MouseMovedEvent(float x, float y) : m_MouseX(x), m_MouseY(y)
+        {
+        }
 
-  inline float GetX() const {return m_MouseX;}
-  inline float GetY() const {return m_MouseY;}
+        inline float GetX() const { return m_MouseX; }
+        inline float GetY() const { return m_MouseY; }
 
-  std::string ToString() const override
-  {
-    std::stringstream stream;
-    stream << "MouseMovedEvent: " << m_MouseX << ", " << m_MouseY;
-    return stream.str();
-  }
-  
-  EVENT_CLASS_TYPE(MouseMoved)
-  EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
-private:
-  float m_MouseX, m_MouseY;
-};
+        std::string ToString() const override
+        {
+            std::stringstream stream;
+            stream << "MouseMovedEvent: " << m_MouseX << ", " << m_MouseY;
+            return stream.str();
+        }
 
-class MouseScrolledEvent : public Event
-{
-public:
-  MouseScrolledEvent(float xOffset, float yOffset) : m_XOffset(xOffset), m_YOffset(yOffset) {}
+        EVENT_CLASS_TYPE(MouseMoved)
+        EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
-  inline float GetXOffset() const {return m_XOffset;}
-  inline float GetYOffset() const {return m_YOffset;}
+    private:
+        float m_MouseX, m_MouseY;
+    };
 
-  EVENT_CLASS_TYPE(MouseScrolled)
-  EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+    class MouseScrolledEvent : public Event
+    {
+    public:
+        MouseScrolledEvent(float xOffset, float yOffset) : m_XOffset(xOffset), m_YOffset(yOffset)
+        {
+        }
 
-private:
-  float m_XOffset, m_YOffset;
-};
+        inline float GetXOffset() const { return m_XOffset; }
+        inline float GetYOffset() const { return m_YOffset; }
 
-class MouseButtonEvent : public Event
-{
-public:
-  inline int GetMouseButton() const {return m_Button;}
-  EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+        EVENT_CLASS_TYPE(MouseScrolled)
+        EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
-protected:
-  MouseButtonEvent(int button) : m_Button(button) {}
-  int m_Button;
-};
+    private:
+        float m_XOffset, m_YOffset;
+    };
 
-class MouseButtonPressedEvent : public MouseButtonEvent
-{
-public:
-  MouseButtonPressedEvent(int button) : MouseButtonEvent(button) {}
+    class MouseButtonEvent : public Event
+    {
+    public:
+        inline int GetMouseButton() const { return m_Button; }
+        EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
-  std::string ToString()
-  {
-    std::stringstream stream;
-    stream << "MouseButtonPressedEvent: " << m_Button;
-    return stream.str();
-  }
+    protected:
+        MouseButtonEvent(int button) : m_Button(button)
+        {
+        }
 
-  EVENT_CLASS_TYPE(MouseButtonPressed)
-};
+        int m_Button;
+    };
 
-class MouseButtonReleasedEvent : public MouseButtonEvent
-{
-public:
-  MouseButtonReleasedEvent(int button) : MouseButtonEvent(button) {}
+    class MouseButtonPressedEvent : public MouseButtonEvent
+    {
+    public:
+        MouseButtonPressedEvent(int button) : MouseButtonEvent(button)
+        {
+        }
 
-  std::string ToString()
-  {
-    std::stringstream stream;
-    stream << "MouseButtonReleasedEvent: " << m_Button;
-    return stream.str();
-  }
+        std::string ToString()
+        {
+            std::stringstream stream;
+            stream << "MouseButtonPressedEvent: " << m_Button;
+            return stream.str();
+        }
 
-  EVENT_CLASS_TYPE(MouseButtonReleased)
-};
+        EVENT_CLASS_TYPE(MouseButtonPressed)
+    };
 
+    class MouseButtonReleasedEvent : public MouseButtonEvent
+    {
+    public:
+        MouseButtonReleasedEvent(int button) : MouseButtonEvent(button)
+        {
+        }
+
+        std::string ToString()
+        {
+            std::stringstream stream;
+            stream << "MouseButtonReleasedEvent: " << m_Button;
+            return stream.str();
+        }
+
+        EVENT_CLASS_TYPE(MouseButtonReleased)
+    };
 }

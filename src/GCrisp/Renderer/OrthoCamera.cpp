@@ -2,23 +2,23 @@
 
 namespace GCrisp
 {
-  namespace Graphics2D
-  {
-    void OrthoCamera::Project()
+    namespace Graphics2D
     {
-      m_View = glm::inverse(glm::translate(glm::mat4(1.0f), m_Position));
-    }
+        void OrthoCamera::Project()
+        {
+            m_View = glm::inverse(glm::translate(glm::mat4(1.0f), m_Position));
+        }
 
-    void OrthoCamera::UpdateProjection()
-    {
-      m_Projection = glm::ortho(-m_AspectRatio * m_Scale, m_AspectRatio * m_Scale, -m_Scale, m_Scale);
-    }
+        void OrthoCamera::UpdateProjection()
+        {
+            m_Projection = glm::ortho(-m_AspectRatio * m_Scale, m_AspectRatio * m_Scale, -m_Scale, m_Scale);
+        }
 
-    void OrthoCamera::OnResize(const int& width, const int& height)
-    {
-      float aspectRatio = (float)width / (float)height;
+        void OrthoCamera::OnResize(const int& width, const int& height)
+        {
+            float aspectRatio = (float)width / (float)height;
 
-      SetAspectRatio(aspectRatio);
+            SetAspectRatio(aspectRatio);
+        }
     }
-  }
 }

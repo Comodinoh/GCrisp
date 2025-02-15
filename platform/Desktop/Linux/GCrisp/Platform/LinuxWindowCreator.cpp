@@ -1,9 +1,10 @@
-#include "GCrisp/Core/Log.h"
+#include <GCrisp/Core/Core.h>
 #include <GCrisp/Renderer/Renderer.h>
 #include <GCrisp/Core/GWindow.h>
 #include <GCrisp/Platform/OpenGL/OpenGLWindow.h>
 
-namespace GCrisp{
+namespace GCrisp
+{
 
 Window* Window::Create(const Graphics::Backend& backend, const WindowProps& props)
 {
@@ -11,16 +12,14 @@ Window* Window::Create(const Graphics::Backend& backend, const WindowProps& prop
   {
     case Graphics::Backend::None:
       {
-        GC_CORE_ASSERT(false, "No headless backend found!");
       }
     case Graphics::Backend::OpenGL:
       {
         return new OpenGLWindow(backend, props);
       }
-    /**case Vulkan:
-      {
-        return new VulkanWindow(props);
-      }**/
+    default:
+      GC_CORE_ASSERT(false, "Unknown Backend!");
+      return nullptr;
   }
 }
 

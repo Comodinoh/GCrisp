@@ -4,34 +4,34 @@
 
 namespace GCrisp
 {
-  namespace Graphics
-  {
-    class OpenGLShader : public Shader
+    namespace Graphics
     {
-      typedef unsigned int GLenum;
+        class OpenGLShader : public Shader
+        {
+            typedef unsigned int GLenum;
 
-    public:
-      OpenGLShader(const ShaderSpec& spec);
-      virtual ~OpenGLShader();
+        public:
+            OpenGLShader(const ShaderSpec& spec);
+            virtual ~OpenGLShader();
 
-      virtual void Bind() const override;
-      virtual void UnBind() const override;
+            virtual void Bind() const override;
+            virtual void UnBind() const override;
 
-      virtual void UploadMat4(const std::string& name, const glm::mat4& data) override;
-      virtual void UploadMat3(const std::string& name, const glm::mat3& data) override;
-      virtual void UploadVec4(const std::string& name, const glm::vec4& data) override;
-      virtual void UploadVec3(const std::string& name, const glm::vec3& data) override;
-      virtual void UploadInt(const std::string& name, int data) override;
-      virtual void UploadFloat(const std::string& name, float data) override;
-      virtual void UploadBool(const std::string& name, bool data) override;
+            virtual void UploadMat4(const std::string& name, const glm::mat4& data) override;
+            virtual void UploadMat3(const std::string& name, const glm::mat3& data) override;
+            virtual void UploadVec4(const std::string& name, const glm::vec4& data) override;
+            virtual void UploadVec3(const std::string& name, const glm::vec3& data) override;
+            virtual void UploadInt(const std::string& name, int data) override;
+            virtual void UploadFloat(const std::string& name, float data) override;
+            virtual void UploadBool(const std::string& name, bool data) override;
 
-    private:
-      uint32_t m_RendererID;
+        private:
+            uint32_t m_RendererID;
 
-      std::unordered_map<std::string, int> m_UniformLocationCache;
+            std::unordered_map<std::string, int> m_UniformLocationCache;
 
-    private:
-      int GetUniformLocation(const std::string& name);
-    };
-  }
+        private:
+            int GetUniformLocation(const std::string& name);
+        };
+    }
 }

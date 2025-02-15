@@ -33,10 +33,9 @@
 
 namespace GCrisp
 {
-  template <typename T>
-  using Reference = std::shared_ptr<T>;
+    template <typename T>
+    using Reference = std::shared_ptr<T>;
 
-  template <typename T>
-  using ScopedPtr = std::unique_ptr<T>;
+    template <typename T>
+    using ScopedPtr = std::unique_ptr<T>;
 }
-
