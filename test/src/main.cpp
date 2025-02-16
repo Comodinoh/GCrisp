@@ -59,12 +59,13 @@ public:
         Graphics::Clear({0, 0, 0, 1});
 
         auto shader = Application::Get().GetAssetsManager().FetchShader("Texture.glsl");
-        shader->Bind();
 
+        shader->Bind();
         Reference<Graphics::Texture>& texture = Application::Get().GetAssetsManager().FetchTexture(
             "default_texture.png");
         texture->Bind();
         shader->UploadInt("u_Texture", 0);
+        shader->UploadVec4("u_Color", glm::vec4(1.0f));
 
         Graphics::BeginRender(m_CameraController.GetCamera());
         Graphics::Submit(m_VertexArray, shader);

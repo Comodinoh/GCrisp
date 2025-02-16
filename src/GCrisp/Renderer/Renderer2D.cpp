@@ -14,6 +14,7 @@ namespace GCrisp
     {
         void Init()
         {
+            GC_PROFILE_FUNC();
             s_Data = new Data();
 
             auto& app = Application::Get();
@@ -24,10 +25,10 @@ namespace GCrisp
                 /* 0.0,  0.5, 0.0,*/
                 /* 0.5, -0.5, 0.0,*/
                 /*-0.5, -0.5, 0.0*/
-                -0.5f, -0.5f, 0.0f,   0.0f, 0.0f,
-                 0.5f, -0.5f, 0.0f,   1.0f, 0.0f,
-                 0.5f,  0.5f, 0.0f,   1.0f, 1.0f,
-                -0.5f,  0.5f, 0.0f,   0.0f, 1.0f
+                -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+                0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+                0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
+                -0.5f, 0.5f, 0.0f, 0.0f, 1.0f
             };
 
             Reference<Graphics::VertexBuffer> quadVB;
@@ -62,6 +63,7 @@ namespace GCrisp
 
         void Shutdown()
         {
+            GC_PROFILE_FUNC();
             delete s_Data;
         }
 

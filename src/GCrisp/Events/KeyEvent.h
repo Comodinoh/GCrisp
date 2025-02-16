@@ -3,52 +3,59 @@
 #include <GCrisp/Core/Core.h>
 #include "Event.h"
 
-namespace GCrisp{
-
-class KeyEvent : public Event
+namespace GCrisp
 {
-public:
-  inline int GetKeyCode() const { return m_KeyCode; }
+    class KeyEvent : public Event
+    {
+    public:
+        inline int GetKeyCode() const { return m_KeyCode; }
 
-  EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
-protected:
-  KeyEvent(int keycode) : m_KeyCode(keycode) {}
+        EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
-  int m_KeyCode;
-};
+    protected:
+        KeyEvent(int keycode) : m_KeyCode(keycode)
+        {
+        }
 
-class KeyPressedEvent : public KeyEvent
-{
-public:
-  KeyPressedEvent(int keycode, int repeatCount) : KeyEvent(keycode), m_RepeatCount(repeatCount) {}
+        int m_KeyCode;
+    };
 
-  inline int GetRepeatCount() const { return m_RepeatCount; }
+    class KeyPressedEvent : public KeyEvent
+    {
+    public:
+        KeyPressedEvent(int keycode, int repeatCount) : KeyEvent(keycode), m_RepeatCount(repeatCount)
+        {
+        }
 
-  std::string ToString() const override
-  {
-    std::stringstream stream;
-    stream << "KeyPressedEvent: " << m_KeyCode << " (" << m_RepeatCount << " repeats)";
-    return stream.str();
-  }
-  
-  EVENT_CLASS_TYPE(KeyPressed)
-private:
-  int m_RepeatCount;
-};
+        inline int GetRepeatCount() const { return m_RepeatCount; }
 
-class KeyReleasedEvent : public KeyEvent
-{ 
-public:
-  KeyReleasedEvent(int keycode) : KeyEvent(keycode) {}
+        std::string ToString() const override
+        {
+            std::stringstream stream;
+            stream << "KeyPressedEvent: " << m_KeyCode << " (" << m_RepeatCount << " repeats)";
+            return stream.str();
+        }
 
-  std::string ToString() const override
-  {
-    std::stringstream stream;
-    stream << "KeyReleasedEvent: " << m_KeyCode;
-    return stream.str();
-  }
+        EVENT_CLASS_TYPE(KeyPressed)
 
-  EVENT_CLASS_TYPE(KeyReleased)
-};
+    private:
+        int m_RepeatCount;
+    };
 
+    class KeyReleasedEvent : public KeyEvent
+    {
+    public:
+        KeyReleasedEvent(int keycode) : KeyEvent(keycode)
+        {
+        }
+
+        std::string ToString() const override
+        {
+            std::stringstream stream;
+            stream << "KeyReleasedEvent: " << m_KeyCode;
+            return stream.str();
+        }
+
+        EVENT_CLASS_TYPE(KeyReleased)
+    };
 }

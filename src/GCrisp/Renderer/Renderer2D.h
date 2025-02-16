@@ -7,39 +7,41 @@
 
 #include "Texture.h"
 
-namespace GCrisp{
+namespace GCrisp
+{
+    namespace Graphics2D
+    {
+        struct Data
+        {
+            Reference<Graphics::VertexArray> QuadVA;
+            Reference<Graphics::Shader> ColorShader;
+            Reference<Graphics::Shader> TextureShader;
+          
+            Reference<Graphics::Texture> WhiteTexture;
+        };
 
-namespace Graphics2D{
+        void Init();
+        void Shutdown();
 
-  struct Data
-  {
-    Reference<Graphics::VertexArray> QuadVA;
-    Reference<Graphics::Shader> TextureShader;
+        void BeginRender(Graphics::Camera& camera);
+        void EndRender();
+      
+        void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color);
 
-    Reference<Graphics::Texture> WhiteTexture;
-  };
+        inline void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
+        {
+            DrawQuad({position.x, position.y, 0}, size, color);
+        }
 
-  void Init();
-  void Shutdown();
+        void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Reference<Graphics::Texture>& texture);
 
-  void BeginRender(Graphics::Camera& camera);
-  void EndRender();
-
-  void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color);
-  inline void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
-  {
-    DrawQuad({position.x, position.y, 0}, size, color);
-  }
-
-  void DrawQuad(const glm::vec3 &position, const glm::vec2 &size, const Reference<Graphics::Texture>& texture);
-  inline void DrawQuad(const glm::vec2 &position, const glm::vec2 &size, const Reference<Graphics::Texture>& texture)
-  {
-    DrawQuad({position.x, position.y, 0}, size, texture);
-  }
+        inline void DrawQuad(const glm::vec2& position, const glm::vec2& size,
+                             const Reference<Graphics::Texture>& texture)
+        {
+            DrawQuad({position.x, position.y, 0}, size, texture);
+        }
 
 
-  static Data* s_Data;
-
-}
-
+        static Data* s_Data;
+    }
 }

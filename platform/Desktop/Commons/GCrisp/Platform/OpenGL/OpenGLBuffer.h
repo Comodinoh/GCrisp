@@ -10,7 +10,7 @@ class OpenGLVertexBuffer : public VertexBuffer
 {
 public:
   OpenGLVertexBuffer(float* vertices, uint32_t size);
-  virtual ~OpenGLVertexBuffer();
+  virtual ~OpenGLVertexBuffer() override;
 
   virtual void Bind() const override;
   virtual void UnBind() const override;
@@ -26,7 +26,7 @@ class OpenGLIndexBuffer : public IndexBuffer
 {
 public:
   OpenGLIndexBuffer(uint32_t* indices, uint32_t size);
-  virtual ~OpenGLIndexBuffer();
+  virtual ~OpenGLIndexBuffer() override;
 
   virtual void Bind() const override;
   virtual void UnBind() const override;
@@ -39,4 +39,4 @@ private:
 
 }
 
-} // namespace gcrisp
+}

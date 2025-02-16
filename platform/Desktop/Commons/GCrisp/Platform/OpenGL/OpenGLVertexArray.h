@@ -2,29 +2,29 @@
 
 #include <GCrisp/Renderer/VertexArray.h>
 
-namespace GCrisp{
-
-namespace Graphics{
-
-class OpenGLVertexArray : public VertexArray
+namespace GCrisp
 {
-public:
-  OpenGLVertexArray();
+    namespace Graphics
+    {
+        class OpenGLVertexArray : public VertexArray
+        {
+        public:
+            OpenGLVertexArray();
+            virtual ~OpenGLVertexArray() override;
 
-  virtual void Bind()   const override;
-  virtual void UnBind() const override;
+            virtual void Bind() const override;
+            virtual void UnBind() const override;
 
-  virtual void AddVertexBuffer(const Reference<VertexBuffer>& vertexBuffer) override;
-  virtual void SetIndexBuffer(const Reference<IndexBuffer>& vertexBuffer) override;
+            virtual void AddVertexBuffer(const Reference<VertexBuffer>& vertexBuffer) override;
+            virtual void SetIndexBuffer(const Reference<IndexBuffer>& vertexBuffer) override;
 
-  inline virtual Reference<IndexBuffer> GetIndexBuffer() const override {return m_IndexBuffer;};
-private:
-  std::vector<Reference<VertexBuffer>> m_VertexBuffers;
-  Reference<IndexBuffer> m_IndexBuffer;
+            inline virtual Reference<IndexBuffer> GetIndexBuffer() const override { return m_IndexBuffer; };
 
-  uint32_t m_RendererID;
-};
+        private:
+            std::vector<Reference<VertexBuffer>> m_VertexBuffers;
+            Reference<IndexBuffer> m_IndexBuffer;
 
-}
-
+            uint32_t m_RendererID;
+        };
+    }
 }

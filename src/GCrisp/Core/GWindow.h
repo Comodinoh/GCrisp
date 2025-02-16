@@ -6,62 +6,67 @@
 #include <GCrisp/Events/Event.h>
 #include <GCrisp/Renderer/Context.h>
 
-namespace GCrisp{
-
-using EventCallbackFunc = std::function<void(Event&)>;
-
-struct WindowData
+namespace GCrisp
 {
-  std::string Title;
-  uint32_t Width, Height;
-  bool VSync;
-  bool Resizable;
+    using EventCallbackFunc = std::function<void(Event&)>;
 
-  EventCallbackFunc EventCallback;
-};
+    struct WindowData
+    {
+        std::string Title;
+        uint32_t Width, Height;
+        bool VSync;
+        bool Resizable;
 
-struct WindowProps
-{
-  std::string Title;
-  uint32_t Width, Height;
-  bool Resizable;
+        EventCallbackFunc EventCallback;
+    };
 
-  WindowProps(const std::string& title = ENGINE_NAME,
-              uint32_t width = 1280,
-              uint32_t height = 720, bool resizable = true) : Title(title), Width(width), Height(height), Resizable(resizable) {}
-};
+    struct WindowProps
+    {
+        std::string Title;
+        uint32_t Width, Height;
+        bool Resizable;
 
-class Window
-{
-public:
-  Window(const Graphics::Backend& backend) : m_Backend(backend) {}
-  virtual ~Window() = default;
+        WindowProps(const std::string& title = ENGINE_NAME,
+                    uint32_t width = 1280,
+                    uint32_t height = 720, bool resizable = true) : Title(title), Width(width), Height(height),
+                                                                    Resizable(resizable)
+        {
+        }
+    };
 
-  virtual void OnUpdate() = 0;
+    class Window
+    {
+    public:
+        Window(const Graphics::Backend& backend) : m_Backend(backend)
+        {
+        }
 
-  inline Graphics::Creator*         GetCreator() const {return m_GraphicsCreator;}
-  inline Graphics::Backend          GetBackend() {return m_Backend;}
-  inline uint32_t                   GetWidth() const {return m_Data.Width;}
-  inline uint32_t                   GetHeight() const {return m_Data.Height;}
+        virtual ~Window() = default;
 
-  virtual void SetResizable(bool enabled) = 0;
-  inline bool IsResizable() const {return m_Data.Resizable;}
-  
+        virtual void OnUpdate() = 0;
 
-  inline virtual void* GetWindowPointer() = 0;
-  inline virtual Graphics::Context* GetContext() = 0;
+        inline Graphics::Creator* GetCreator() const { return m_GraphicsCreator; }
+        inline Graphics::Backend GetBackend() { return m_Backend; }
+        inline uint32_t GetWidth() const { return m_Data.Width; }
+        inline uint32_t GetHeight() const { return m_Data.Height; }
 
-  virtual void SetVSync(bool enabled) = 0;
-  inline bool HasVSync() const {return m_Data.VSync;}
+        virtual void SetResizable(bool enabled) = 0;
+        inline bool IsResizable() const { return m_Data.Resizable; }
 
-  void SetEventCallback(const EventCallbackFunc& callback) {m_Data.EventCallback = callback;};
 
-  static Window* Create(const Graphics::Backend& backend, const WindowProps& props = WindowProps());
+        inline virtual void* GetWindowPointer() = 0;
+        inline virtual Graphics::Context* GetContext() = 0;
 
-protected:
-  WindowData         m_Data;
-  Graphics::Backend  m_Backend;
-  Graphics::Creator* m_GraphicsCreator;
-};
+        virtual void SetVSync(bool enabled) = 0;
+        inline bool HasVSync() const { return m_Data.VSync; }
 
+        void SetEventCallback(const EventCallbackFunc& callback) { m_Data.EventCallback = callback; };
+
+        static Window* Create(const Graphics::Backend& backend, const WindowProps& props = WindowProps());
+
+    protected:
+        WindowData m_Data;
+        Graphics::Backend m_Backend;
+        Graphics::Creator* m_GraphicsCreator;
+    };
 }

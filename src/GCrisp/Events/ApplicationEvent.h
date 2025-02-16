@@ -3,65 +3,73 @@
 #include <GCrisp/Core/Core.h>
 #include "Event.h"
 
-namespace GCrisp{
-
-class WindowCloseEvent : public Event
+namespace GCrisp
 {
-public:
-  WindowCloseEvent() {}
+    class WindowCloseEvent : public Event
+    {
+    public:
+        WindowCloseEvent()
+        {
+        }
 
-  EVENT_CLASS_TYPE(WindowClose)
-  EVENT_CLASS_CATEGORY(EventCategoryApplication)
-};
+        EVENT_CLASS_TYPE(WindowClose)
+        EVENT_CLASS_CATEGORY(EventCategoryApplication)
+    };
 
-class WindowMinimizeEvent : public Event
-{
-public:
-  WindowMinimizeEvent(bool minimized) : m_Minimized(minimized) {}
+    class WindowMinimizeEvent : public Event
+    {
+    public:
+        WindowMinimizeEvent(bool minimized) : m_Minimized(minimized)
+        {
+        }
 
-  inline bool IsMinimized() const {return m_Minimized;}
+        inline bool IsMinimized() const { return m_Minimized; }
 
-  EVENT_CLASS_TYPE(WindowMinimize)
-  EVENT_CLASS_CATEGORY(EventCategoryApplication)
-private:
-  bool m_Minimized;
-};
+        EVENT_CLASS_TYPE(WindowMinimize)
+        EVENT_CLASS_CATEGORY(EventCategoryApplication)
 
-class WindowFocusEvent : public Event
-{
-public:
-  WindowFocusEvent(bool focused) : m_Focused(focused) {}
+    private:
+        bool m_Minimized;
+    };
 
-  inline bool IsFocused() const {return m_Focused;}
+    class WindowFocusEvent : public Event
+    {
+    public:
+        WindowFocusEvent(bool focused) : m_Focused(focused)
+        {
+        }
 
-  EVENT_CLASS_TYPE(WindowFocus)
-  EVENT_CLASS_CATEGORY(EventCategoryApplication)
-private:
-  bool m_Focused;
-};
+        inline bool IsFocused() const { return m_Focused; }
 
-class WindowResizeEvent : public Event
-{
-public:
+        EVENT_CLASS_TYPE(WindowFocus)
+        EVENT_CLASS_CATEGORY(EventCategoryApplication)
 
-  WindowResizeEvent(unsigned int width, unsigned int height) : 
-    m_Width(width), m_Height(height) {}
+    private:
+        bool m_Focused;
+    };
 
-  inline int GetNewWidth() const {return m_Width;}
-  inline int GetNewHeight() const {return m_Height;}
+    class WindowResizeEvent : public Event
+    {
+    public:
+        WindowResizeEvent(unsigned int width, unsigned int height) :
+            m_Width(width), m_Height(height)
+        {
+        }
 
-  std::string ToString() const override
-  {
-    std::stringstream stream;
-    stream << "WindowResizeEvent: " << m_Width << ", " << m_Height;
-    return stream.str();
-  }
-  
-  EVENT_CLASS_TYPE(WindowResize)
-  EVENT_CLASS_CATEGORY(EventCategoryApplication)
-  
-private:
-  unsigned int m_Width, m_Height;
-};
+        inline int GetNewWidth() const { return m_Width; }
+        inline int GetNewHeight() const { return m_Height; }
 
+        std::string ToString() const override
+        {
+            std::stringstream stream;
+            stream << "WindowResizeEvent: " << m_Width << ", " << m_Height;
+            return stream.str();
+        }
+
+        EVENT_CLASS_TYPE(WindowResize)
+        EVENT_CLASS_CATEGORY(EventCategoryApplication)
+
+    private:
+        unsigned int m_Width, m_Height;
+    };
 }
