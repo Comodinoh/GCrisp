@@ -33,8 +33,6 @@
     #define GC_CORE_VERIFY(condition, msg, ...)
 #endif
 
-#include <GCrisp/Core/Timing.h>
-
 #define GC_PROFILING 0
 #if GC_PROFILING
     #define GC_PROFILE_START(name) ::GCrisp::TimingsProfiler::StartProfiler(name);

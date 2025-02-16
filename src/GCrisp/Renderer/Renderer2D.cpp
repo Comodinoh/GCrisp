@@ -93,10 +93,10 @@ namespace GCrisp
             Graphics::DrawIndexed(s_Data->QuadVA);
         }
 
-        void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Reference<Graphics::Texture>& texture)
+        void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Reference<Graphics::Texture>& texture, const glm::vec4& tint)
         {
 
-            s_Data->TextureShader->UploadVec4("u_Color", {1.0f, 1.0f, 1.0f ,1.0f});
+            s_Data->TextureShader->UploadVec4("u_Color", tint);
 
             texture->Bind();
             s_Data->TextureShader->UploadInt("u_Texture", 0);

@@ -15,3 +15,5 @@
 #include <unordered_set>
 
 #include <GCrisp/Core/Log.h>
+#include <GCrisp/Core/Timing.h>
+
