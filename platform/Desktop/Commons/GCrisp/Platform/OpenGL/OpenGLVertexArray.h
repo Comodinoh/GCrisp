@@ -10,6 +10,7 @@ namespace GCrisp
         {
         public:
             OpenGLVertexArray();
+            virtual ~OpenGLVertexArray() override;
 
             virtual void Bind() const override;
             virtual void UnBind() const override;

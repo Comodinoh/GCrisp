@@ -11,6 +11,7 @@ namespace GCrisp
     {
         void OpenGLContext::Init() const
         {
+            GC_PROFILE_FUNC();
             glfwMakeContextCurrent(m_WindowHandle);
             int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
             GC_CORE_ASSERT(status, "Could not load glad from GLFW!");

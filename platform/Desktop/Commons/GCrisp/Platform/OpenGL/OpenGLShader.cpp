@@ -21,6 +21,7 @@ namespace GCrisp
 
         OpenGLShader::OpenGLShader(const ShaderSpec& spec)
         {
+            GC_PROFILE_FUNC();
             uint32_t programID = glCreateProgram();
 
             uint32_t IDs[3];
@@ -107,6 +108,7 @@ namespace GCrisp
 
         OpenGLShader::~OpenGLShader()
         {
+            GC_PROFILE_FUNC();
             glDeleteProgram(m_RendererID);
         }
 

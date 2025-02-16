@@ -13,9 +13,11 @@ namespace GCrisp
 
     Application::Application()
     {
+        GC_PROFILE_FUNC();
         ProcessedTime delta;
         {
-            ScopedTimer timer(steady_clock::now(), delta);
+            auto start = steady_clock::now();
+            ScopedTimer timer(start, delta);
             GC_CORE_ASSERT(!s_Instance, "Application instance cannot be not null!")
             s_Instance = this;
 
@@ -34,14 +36,17 @@ namespace GCrisp
 
     Application::~Application()
     {
+        GC_PROFILE_FUNC();
         s_Instance = nullptr;
         Graphics::Shutdown();
     }
 
     void Application::Run()
     {
+        GC_PROFILE_FUNC();
         while (m_Running)
         {
+            GC_PROFILE_SCOPE("RunLoop");
             ProcessedTime elapsed;
             m_FrameTimer.ProcessTime(elapsed, steady_clock::now());
 
@@ -65,6 +70,7 @@ namespace GCrisp
 
     void Application::OnEvent(Event& e)
     {
+        GC_PROFILE_FUNC();
         EventDispatcher dispatcher(e);
 
         dispatcher.Dispatch<WindowCloseEvent>(GC_BIND_FN1(Application::OnWindowClose));
@@ -87,6 +93,7 @@ namespace GCrisp
 
     bool Application::OnWindowResize(WindowResizeEvent& e)
     {
+        GC_PROFILE_FUNC();
         Graphics::SetViewport({0, 0}, {e.GetNewWidth(), e.GetNewHeight()});
         return false;
     }

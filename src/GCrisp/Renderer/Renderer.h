@@ -49,7 +49,7 @@ namespace GCrisp
         void BeginRender(Camera& camera);
         void EndRender();
 
-        void Submit(const Reference<VertexArray>& vertexArray, const Reference<Shader>& shader);
+        void Submit(const Reference<VertexArray>& vertexArray, const Reference<Shader>& shader, const glm::mat4& transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)));
 
 
         inline Backend GetBackend() { return API::GetBackend(); }

@@ -9,6 +9,7 @@ namespace GCrisp
     {
         OpenGLTexture::OpenGLTexture(const stbi_uc* data, const TextureSpec& spec)
         {
+            GC_PROFILE_FUNC();
             m_Spec.Width = spec.Width;
             m_Spec.Height = spec.Height;
 
@@ -27,6 +28,7 @@ namespace GCrisp
 
         OpenGLTexture::~OpenGLTexture()
         {
+            GC_PROFILE_FUNC();
             glDeleteTextures(1, &m_RendererID);
         }
 

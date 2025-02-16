@@ -26,10 +26,8 @@ add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_RELEASE)
-endif()
-
-if(CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
-  set(GCRISP_BUILD_DISTRIBUTION ON)
+elseif(CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
+  set(GCRISP_BUILD_DISTRIBUTABLE ON)
 endif()
 
 add_subdirectory(lib)
@@ -85,18 +83,20 @@ target_link_libraries(${PROJECT_NAME}
   stb
 )
 
-if(GCRISP_BUILD_DISTRIBUTION)
+if(GCRISP_BUILD_DISTRIBUTABLE)
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_DIST=1)
   set(GCRISP_PROFILING OFF)
 endif()
 
 if(GCRISP_PROFILING)
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_PROFILING=1)
+  message(STATUS "Profiling enabled")
 else()
   if(GCRISP_FORCE_PROFILING)
     target_compile_definitions(${PROJECT_NAME} PUBLIC GC_PROFILING=1)
   endif()
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_PROFILING=0)
+  message(STATUS "Profiling disabled")
 endif()
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC src/gcpch.h)

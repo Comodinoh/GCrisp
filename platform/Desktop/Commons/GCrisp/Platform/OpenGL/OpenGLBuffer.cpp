@@ -10,6 +10,7 @@ namespace GCrisp
     {
         OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
         {
+            GC_PROFILE_FUNC();
             glGenBuffers(1, &m_RendererID);
             glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 
@@ -18,6 +19,7 @@ namespace GCrisp
 
         OpenGLVertexBuffer::~OpenGLVertexBuffer()
         {
+            GC_PROFILE_FUNC();
             glDeleteBuffers(1, &m_RendererID);
         }
 
@@ -33,6 +35,7 @@ namespace GCrisp
 
         OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t size)
         {
+            GC_PROFILE_FUNC();
             m_Count = size / sizeof(uint32_t);
 
             glGenBuffers(1, &m_RendererID);
@@ -43,6 +46,7 @@ namespace GCrisp
 
         OpenGLIndexBuffer::~OpenGLIndexBuffer()
         {
+            GC_PROFILE_FUNC();
             glDeleteBuffers(1, &m_RendererID);
         }
 

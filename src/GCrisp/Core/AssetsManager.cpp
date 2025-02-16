@@ -11,11 +11,13 @@ namespace GCrisp
 
     AssetsManager::~AssetsManager()
     {
+        GC_PROFILE_FUNC();
         s_DefaultTexture.reset();
     }
 
     void AssetsManager::Init()
     {
+        GC_PROFILE_FUNC();
         LoadTexture2D("default_texture.png");
         LoadShader("Texture.glsl");
 
@@ -25,6 +27,7 @@ namespace GCrisp
 
     void AssetsManager::LoadTexture2D(const std::string& name)
     {
+        GC_PROFILE_FUNC();
         std::string path = "assets/textures/" + name;
         int width, height;
         int channels;
@@ -47,6 +50,7 @@ namespace GCrisp
     void AssetsManager::LoadRawTexture2D(const std::string& name, const stbi_uc* data,
                                          const Graphics::TextureSpec& spec)
     {
+        GC_PROFILE_FUNC();
         GC_CORE_ASSERT(data, "Provided null image to load!");
         m_CachedRawTextures[name] = std::shared_ptr<Graphics::Texture2D>(
             GCrisp::Application::Get().GetGraphicsCreator()->CreateTexture2D(data, spec));
@@ -54,6 +58,7 @@ namespace GCrisp
 
     Reference<Graphics::Texture>& AssetsManager::FetchTexture(const std::string& path) const
     {
+        GC_PROFILE_FUNC();
         auto iter = m_CachedTextures.find(path);
         if (iter == m_CachedTextures.end())
         {
@@ -64,6 +69,7 @@ namespace GCrisp
 
     Reference<Graphics::Texture>& AssetsManager::FetchRawTexture(const std::string& name) const
     {
+        GC_PROFILE_FUNC();
         auto iter = m_CachedRawTextures.find(name);
         if (iter == m_CachedRawTextures.end())
         {
@@ -74,6 +80,7 @@ namespace GCrisp
 
     void AssetsManager::LoadShader(const std::string& name)
     {
+        GC_PROFILE_FUNC();
         std::string path = "assets/shaders/" + name;
         std::ifstream file;
 
@@ -166,6 +173,7 @@ namespace GCrisp
 
     Reference<Graphics::Shader>& AssetsManager::FetchShader(const std::string& name) const
     {
+        GC_PROFILE_FUNC();
         auto iter = m_CachedShaders.find(name);
         if (iter == m_CachedShaders.end())
         {

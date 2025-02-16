@@ -30,6 +30,7 @@ namespace GCrisp
 
     void OpenGLWindow::Init(const WindowProps& props)
     {
+        GC_PROFILE_FUNC();
         m_Data.Title = props.Title;
         m_Data.Width = props.Width;
         m_Data.Height = props.Height;
@@ -41,6 +42,7 @@ namespace GCrisp
 
         if (!s_GLFWInitialized)
         {
+            GC_PROFILE_SCOPE("glfwInit - OpenGLWindow");
             int success = glfwInit();
             GC_CORE_ASSERT(success, "Could not initialize GLFW!");
 
@@ -51,7 +53,10 @@ namespace GCrisp
 
         glfwWindowHint(GLFW_RESIZABLE, props.Resizable);
 
-        m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+        {
+            GC_PROFILE_SCOPE("glfwCreateWindow - OpenGLWindow");
+            m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+        }
 
         m_Context = new Graphics::OpenGLContext(m_Window);
         m_Context->Init();
@@ -168,23 +173,27 @@ namespace GCrisp
 
     void OpenGLWindow::Shutdown()
     {
+        GC_PROFILE_FUNC();
         glfwDestroyWindow(m_Window);
     }
 
     void OpenGLWindow::OnUpdate()
     {
+        GC_PROFILE_FUNC();
         glfwPollEvents();
         m_Context->SwapBuffers();
     }
 
     void OpenGLWindow::SetResizable(bool enabled)
     {
+        GC_PROFILE_FUNC();
         glfwWindowHint(GLFW_RESIZABLE, enabled ? GLFW_TRUE : GLFW_FALSE);
         m_Data.Resizable = enabled;
     }
 
     void OpenGLWindow::SetVSync(bool enabled)
     {
+        GC_PROFILE_FUNC();
         if (enabled)
         {
             glfwSwapInterval(1);

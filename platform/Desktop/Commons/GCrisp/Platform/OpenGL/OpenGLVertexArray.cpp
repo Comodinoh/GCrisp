@@ -32,8 +32,15 @@ namespace GCrisp
 
         OpenGLVertexArray::OpenGLVertexArray()
         {
+            GC_PROFILE_FUNC();
             glGenVertexArrays(1, &m_RendererID);
             glBindVertexArray(m_RendererID);
+        }
+
+        OpenGLVertexArray::~OpenGLVertexArray()
+        {
+            GC_PROFILE_FUNC();
+            glDeleteVertexArrays(1, &m_RendererID);
         }
 
         void OpenGLVertexArray::Bind() const

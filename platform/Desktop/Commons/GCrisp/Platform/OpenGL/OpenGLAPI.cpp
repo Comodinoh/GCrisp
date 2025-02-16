@@ -9,6 +9,7 @@ namespace GCrisp
     {
         void OpenGLAPI::Init()
         {
+            GC_PROFILE_FUNC();
             s_RendererBackend = Backend::OpenGL;
 
             glEnable(GL_DEPTH_TEST);

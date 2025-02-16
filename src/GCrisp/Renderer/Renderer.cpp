@@ -15,6 +15,7 @@ namespace GCrisp
 
         void Init()
         {
+            GC_PROFILE_FUNC();
             s_RenderAPI = std::unique_ptr<API>(Application::Get().GetGraphicsCreator()->CreateAPI());
             s_Data = std::make_unique<Data>();
 
@@ -63,10 +64,11 @@ namespace GCrisp
         {
         }
 
-        void Submit(const Reference<VertexArray>& vertexArray, const Reference<Shader>& shader)
+        void Submit(const Reference<VertexArray>& vertexArray, const Reference<Shader>& shader, const glm::mat4& transform)
         {
             shader->Bind();
             shader->UploadMat4("u_ViewProj", s_Data->ViewProjMatrix);
+            shader->UploadMat4("u_Transform", transform);
 
             vertexArray->Bind();
             DrawIndexed(vertexArray);

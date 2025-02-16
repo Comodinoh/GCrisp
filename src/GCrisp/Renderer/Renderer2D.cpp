@@ -14,6 +14,7 @@ namespace GCrisp
     {
         void Init()
         {
+            GC_PROFILE_FUNC();
             s_Data = new Data();
 
             auto& app = Application::Get();
@@ -88,6 +89,7 @@ namespace GCrisp
 
         void Shutdown()
         {
+            GC_PROFILE_FUNC();
             delete s_Data;
         }
 
