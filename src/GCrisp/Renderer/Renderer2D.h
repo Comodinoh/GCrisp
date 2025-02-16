@@ -16,6 +16,8 @@ namespace GCrisp
             Reference<Graphics::VertexArray> QuadVA;
             Reference<Graphics::Shader> ColorShader;
             Reference<Graphics::Shader> TextureShader;
+          
+            Reference<Graphics::Texture> WhiteTexture;
         };
 
         void Init();
@@ -23,7 +25,7 @@ namespace GCrisp
 
         void BeginRender(Graphics::Camera& camera);
         void EndRender();
-
+      
         void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color);
 
         inline void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)

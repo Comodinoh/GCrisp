@@ -51,40 +51,14 @@ namespace GCrisp
             quadIB.reset(app.GetGraphicsCreator()->CreateIndexBuffer(quadIndices, sizeof(quadIndices)));
             s_Data->QuadVA->SetIndexBuffer(quadIB);
 
-
-            std::string vertexSrc = R"(
-                #version 330 core
-
-                in vec3 a_Position;
-
-                uniform mat4 u_ViewProj;
-                uniform mat4 u_Transform;
-
-                void main()
-                {
-                  gl_Position = u_ViewProj * u_Transform * vec4(a_Position, 1.0);
-                }
-          )";
-            std::string fragmentSrc = R"(
-                #version 330 core
-
-                out vec4 fragColor;
-
-                uniform vec4 u_Color;
-
-                void main()
-                {
-                  fragColor = vec4(u_Color);
-                }
-          )";
-            s_Data->ColorShader.reset(app.GetGraphicsCreator()->CreateShader(
-                {
-                    {Graphics::SHADER_VERTEX, vertexSrc.c_str()},
-                    {Graphics::SHADER_FRAGMENT, fragmentSrc.c_str()}
-                }
-            ));
-
             s_Data->TextureShader = app.GetAssetsManager().FetchShader("Texture.glsl");
+            //
+            // constexpr unsigned char whitePixel[4] = {0xFF, 0xFF, 0xFF, 0xFF};
+            // app.GetAssetsManager().LoadRawTexture2D("WhiteTexture", whitePixel, {1, 1, 4});
+
+            app.GetAssetsManager().LoadTexture2D("WhiteTexture.png");
+
+            s_Data->WhiteTexture = app.GetAssetsManager().FetchTexture("WhiteTexture.png");
         }
 
         void Shutdown()
@@ -95,9 +69,6 @@ namespace GCrisp
 
         void BeginRender(Graphics::Camera& camera)
         {
-            s_Data->ColorShader->Bind();
-            s_Data->ColorShader->UploadMat4("u_ViewProj", camera.GetViewProj());
-
             s_Data->TextureShader->Bind();
             s_Data->TextureShader->UploadMat4("u_ViewProj", camera.GetViewProj());
         }
@@ -109,12 +80,14 @@ namespace GCrisp
         void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
         {
             //TODO: implement shader bound checking system
-            s_Data->ColorShader->Bind();
-            s_Data->ColorShader->UploadVec4("u_Color", color);
+            s_Data->TextureShader->UploadVec4("u_Color", color);
+
+            s_Data->WhiteTexture->Bind();
+            s_Data->TextureShader->UploadInt("u_Texture", 0);
 
             glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(
                 glm::mat4(1.0f), {size.x, size.y, 1.0f});
-            s_Data->ColorShader->UploadMat4("u_Transform", transform);
+            s_Data->TextureShader->UploadMat4("u_Transform", transform);
 
             s_Data->QuadVA->Bind();
             Graphics::DrawIndexed(s_Data->QuadVA);
@@ -122,9 +95,10 @@ namespace GCrisp
 
         void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Reference<Graphics::Texture>& texture)
         {
-            s_Data->TextureShader->Bind();
-            texture->Bind();
 
+            s_Data->TextureShader->UploadVec4("u_Color", {1.0f, 1.0f, 1.0f ,1.0f});
+
+            texture->Bind();
             s_Data->TextureShader->UploadInt("u_Texture", 0);
 
             glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(
