@@ -4,6 +4,9 @@
 
 #include <memory>
 
+#define MAX_QUAD_COUNT 100000
+#define MAX_TEXTURE_SLOTS 32
+
 
 #define BIT(x) (1 << x)
 #define GC_BIND_FN1(func) std::bind(&func, this, std::placeholders::_1)

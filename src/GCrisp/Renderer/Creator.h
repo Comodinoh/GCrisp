@@ -19,8 +19,8 @@ namespace GCrisp
             virtual API* CreateAPI() = 0;
 
             virtual Shader* CreateShader(const ShaderSpec& spec) = 0;
-            virtual VertexBuffer* CreateVertexBuffer(float* vertices, uint32_t size) = 0;
-            virtual IndexBuffer* CreateIndexBuffer(uint32_t* indices, uint32_t count) = 0;
+            virtual VertexBuffer* CreateVertexBuffer(const VertexBufferSpec& spec) = 0;
+            virtual IndexBuffer* CreateIndexBuffer(const IndexBufferSpec& spec) = 0;
             virtual VertexArray* CreateVertexArray() = 0;
             virtual Texture2D* CreateTexture2D(const stbi_uc* data, const TextureSpec& spec) = 0;
         };

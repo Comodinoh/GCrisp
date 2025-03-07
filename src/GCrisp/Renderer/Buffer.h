@@ -9,6 +9,11 @@ namespace GCrisp
             None = 0, Float, Float2, Float3, Float4, Mat3, Mat4, Int, Int2, Int3, Int4, Bool,
         };
 
+        enum class DrawType : uint8_t
+        {
+            Static, Dynamic
+        };
+
         struct BufferElement
         {
             std::string Name;
@@ -100,6 +105,20 @@ namespace GCrisp
             uint32_t m_Stride = 0;
         };
 
+        struct VertexBufferSpec
+        {
+            float* Vertices;
+            uint32_t Size;
+            DrawType DrawType = DrawType::Static;
+        };
+
+        struct IndexBufferSpec
+        {
+            uint32_t* Indices;
+            uint32_t Size;
+            DrawType DrawType = DrawType::Static;
+        };
+
         class VertexBuffer
         {
         public:
@@ -107,6 +126,8 @@ namespace GCrisp
 
             virtual void Bind() const = 0;
             virtual void UnBind() const = 0;
+
+            virtual void UploadSubData(uint32_t size, const void* data) = 0;
 
             virtual const BufferLayout& GetLayout() const = 0;
             virtual void SetLayout(const BufferLayout& layout) = 0;

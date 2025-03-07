@@ -70,11 +70,14 @@ namespace GCrisp
 
     bool OrthoCameraController::OnMouseScrolled(MouseScrolledEvent& e)
     {
-        float add = e.GetYOffset() * 0.25f;
+        float add = e.GetYOffset() * 0.25f * m_MoveSpeed;
         float scale = m_Camera.GetScale();
         scale -= add;
 
-        scale = std::max(scale, 0.25f);
+        if (scale - 0.25f <= 0.0f)
+        {
+            scale -= scale-0.25f;
+        }
 
         m_Camera.SetScale(scale);
         return false;

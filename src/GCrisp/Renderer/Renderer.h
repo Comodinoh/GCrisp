@@ -31,6 +31,7 @@ namespace GCrisp
             virtual void SetViewport(const glm::vec2& pos, const glm::vec2& size) const = 0;
 
             virtual void DrawIndexed(const Reference<VertexArray>& vertexArray) const = 0;
+            virtual void DrawIndexed(const Reference<VertexArray>& vertexArray, uint32_t count) const = 0;
 
             inline static Backend GetBackend() { return s_RendererBackend; }
 
@@ -45,6 +46,7 @@ namespace GCrisp
         void SetViewport(const glm::vec2& pos, const glm::vec2& size);
 
         void DrawIndexed(const Reference<VertexArray>& vertexArray);
+        void DrawIndexed(const Reference<VertexArray>& vertexArray, uint32_t count);
 
         void BeginRender(Camera& camera);
         void EndRender();

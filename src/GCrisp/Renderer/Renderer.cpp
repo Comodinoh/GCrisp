@@ -54,6 +54,11 @@ namespace GCrisp
             s_RenderAPI->DrawIndexed(vertexArray);
         }
 
+        void DrawIndexed(const Reference<VertexArray>& vertexArray, uint32_t count)
+        {
+            s_RenderAPI->DrawIndexed(vertexArray, count);
+        }
+
         void BeginRender(Camera& camera)
         {
             // "cache" the View projection matrix for the scene we're currently rendering

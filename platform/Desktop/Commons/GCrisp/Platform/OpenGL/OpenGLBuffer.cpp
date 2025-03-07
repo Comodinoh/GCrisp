@@ -8,13 +8,13 @@ namespace GCrisp
 {
     namespace Graphics
     {
-        OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
+        OpenGLVertexBuffer::OpenGLVertexBuffer(const VertexBufferSpec& spec)
         {
             GC_PROFILE_FUNC();
             glGenBuffers(1, &m_RendererID);
             glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 
-            glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, spec.Size, spec.Vertices, spec.DrawType == DrawType::Static ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
         }
 
         OpenGLVertexBuffer::~OpenGLVertexBuffer()
@@ -25,23 +25,31 @@ namespace GCrisp
 
         void OpenGLVertexBuffer::Bind() const
         {
+            GC_PROFILE_FUNC();
             glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
         }
 
         void OpenGLVertexBuffer::UnBind() const
         {
+            GC_PROFILE_FUNC();
             glBindBuffer(GL_ARRAY_BUFFER, 0);
         }
 
-        OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t size)
+        void OpenGLVertexBuffer::UploadSubData(uint32_t size, const void* data)
+        {
+            glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+        }
+
+        OpenGLIndexBuffer::OpenGLIndexBuffer(const IndexBufferSpec& spec)
         {
             GC_PROFILE_FUNC();
-            m_Count = size / sizeof(uint32_t);
+            m_Count = spec.Size / sizeof(uint32_t);
 
             glGenBuffers(1, &m_RendererID);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, spec.Size, spec.Indices, spec.DrawType == DrawType::Static ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
         }
 
         OpenGLIndexBuffer::~OpenGLIndexBuffer()
@@ -52,11 +60,13 @@ namespace GCrisp
 
         void OpenGLIndexBuffer::Bind() const
         {
+            GC_PROFILE_FUNC();
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
         }
 
         void OpenGLIndexBuffer::UnBind() const
         {
+            GC_PROFILE_FUNC();
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         }
     }

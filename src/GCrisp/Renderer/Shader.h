@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/matrix.hpp>
+#include <GCrisp/Assets/Assets.h>
 
 namespace GCrisp
 {
@@ -26,7 +27,7 @@ namespace GCrisp
             default:
                 {
                     GC_CORE_ASSERT(false, "Unknown shader type!");
-                    return nullptr;
+                    return "";
                 }
             }
         }
@@ -47,7 +48,7 @@ namespace GCrisp
 
             ShaderSpec(const std::initializer_list<std::pair<ShaderType, std::string>>& pairs)
             {
-                for (auto pair : pairs)
+                for (const auto& pair : pairs)
                 {
                     shaders[pair.first] = pair.second;
                 }
@@ -63,10 +64,9 @@ namespace GCrisp
             }
         };
 
-        class Shader
+        class Shader : public Asset
         {
         public:
-            virtual ~Shader() = default;
 
             virtual void Bind() const = 0;
             virtual void UnBind() const = 0;
@@ -76,8 +76,11 @@ namespace GCrisp
             virtual void UploadVec4(const std::string& name, const glm::vec4& data) = 0;
             virtual void UploadVec3(const std::string& name, const glm::vec3& data) = 0;
             virtual void UploadInt(const std::string& name, int data) = 0;
+            virtual void UploadInt(const std::string& name, int* data, int count) = 0;
             virtual void UploadFloat(const std::string& name, float data) = 0;
             virtual void UploadBool(const std::string& name, bool data) = 0;
+
+            virtual AssetType GetType() const override {return AssetType::Shader;};
         };
     }
 }

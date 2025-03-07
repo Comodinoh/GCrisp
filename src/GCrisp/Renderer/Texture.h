@@ -1,4 +1,5 @@
 #pragma once
+#include "GCrisp/Assets/Assets.h"
 
 namespace GCrisp
 {
@@ -15,7 +16,7 @@ namespace GCrisp
             None = 0, Nearest, Linear
         };
 
-        class Texture
+        class Texture : public Asset
         {
         public:
             virtual ~Texture() = default;
@@ -27,6 +28,7 @@ namespace GCrisp
             virtual void SetMagFiltering(TextureFilter filtering) const = 0;
             virtual void SetMinFiltering(TextureFilter filtering) const = 0;
 
+            virtual AssetType GetType() const override {return AssetType::Texture2D;};
         protected:
             TextureSpec m_Spec;
         };

@@ -23,16 +23,16 @@ namespace GCrisp
             return (Shader*)new OpenGLShader(spec);
         }
 
-        VertexBuffer* OpenGLCreator::CreateVertexBuffer(float* vertices, uint32_t size)
+        VertexBuffer* OpenGLCreator::CreateVertexBuffer(const VertexBufferSpec& spec)
         {
             GC_PROFILE_FUNC();
-            return new OpenGLVertexBuffer(vertices, size);
+            return new OpenGLVertexBuffer(spec);
         }
 
-        IndexBuffer* OpenGLCreator::CreateIndexBuffer(uint32_t* indices, uint32_t size)
+        IndexBuffer* OpenGLCreator::CreateIndexBuffer(const IndexBufferSpec& spec)
         {
             GC_PROFILE_FUNC();
-            return new OpenGLIndexBuffer(indices, size);
+            return new OpenGLIndexBuffer(spec);
         }
 
         VertexArray* OpenGLCreator::CreateVertexArray()

@@ -7,7 +7,7 @@
 #include <GCrisp/Events/Event.h>
 #include <GCrisp/Events/ApplicationEvent.h>
 #include <GCrisp/Core/Timing.h>
-#include <GCrisp/Core/AssetsManager.h>
+#include <GCrisp/Assets/AssetsManager.h>
 
 namespace GCrisp
 {

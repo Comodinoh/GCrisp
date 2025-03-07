@@ -21,44 +21,67 @@ namespace GCrisp
             s_Data->QuadVA.reset(app.GetGraphicsCreator()->CreateVertexArray());
             s_Data->QuadVA->Bind();
 
-            float quadVerts[] = {
-                /* 0.0,  0.5, 0.0,*/
-                /* 0.5, -0.5, 0.0,*/
-                /*-0.5, -0.5, 0.0*/
-                -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-                0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-                0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
-                -0.5f, 0.5f, 0.0f, 0.0f, 1.0f
-            };
+            s_Data->Vertices = new QuadVertex[MAX_QUAD_COUNT*4];
+            s_Data->VerticesSize = MAX_QUAD_COUNT*4;
 
-            Reference<Graphics::VertexBuffer> quadVB;
-            quadVB.reset(app.GetGraphicsCreator()->CreateVertexBuffer(quadVerts, sizeof(quadVerts)));
+            const uint32_t size = s_Data->VerticesSize*sizeof(QuadVertex);
+            s_Data->QuadVB.reset(app.GetGraphicsCreator()->CreateVertexBuffer(
+                {nullptr, size, Graphics::DrawType::Dynamic}
+                ));
 
-            quadVB->SetLayout(
+
+            s_Data->QuadVB->SetLayout(
                 {
                     {"a_Position", Graphics::ShaderDataType::Float3},
-                    {"a_TexCoord", Graphics::ShaderDataType::Float2}
+                    {"a_Color", Graphics::ShaderDataType::Float4},
+                    {"a_TexCoord", Graphics::ShaderDataType::Float2},
+                    {"a_TexID", Graphics::ShaderDataType::Float}
                 }
             );
-            s_Data->QuadVA->AddVertexBuffer(quadVB);
+            s_Data->QuadVA->AddVertexBuffer(s_Data->QuadVB);
 
-            uint32_t quadIndices[] = {
-                0, 1, 2,
-                2, 3, 0,
-            };
+            // uint32_t quadIndices[] = {
+            //     0, 1, 2,
+            //     2, 3, 0,
+            // };
 
+            uint32_t maxIndices = MAX_QUAD_COUNT * 6;
+            uint32_t* quadIndices = new uint32_t[maxIndices];
+
+            int offset = 0;
+            for (int i = 0;i < maxIndices; i+= 6)
+            {
+                quadIndices[i] = offset;
+                quadIndices[i+1] = 1+offset;
+                quadIndices[i+2] = 2+offset;
+
+                quadIndices[i+3] = 2+offset;
+                quadIndices[i+4] = 3+offset;
+                quadIndices[i+5] = offset;
+
+                offset += 4;
+            }
+
+            uint32_t indicesSize = maxIndices * sizeof(uint32_t);
             Reference<Graphics::IndexBuffer> quadIB;
-            quadIB.reset(app.GetGraphicsCreator()->CreateIndexBuffer(quadIndices, sizeof(quadIndices)));
+            quadIB.reset(app.GetGraphicsCreator()->CreateIndexBuffer({quadIndices, indicesSize}));
             s_Data->QuadVA->SetIndexBuffer(quadIB);
 
-            s_Data->TextureShader = app.GetAssetsManager().FetchShader("Texture.glsl");
+            delete[] quadIndices;
+
+            s_Data->TextureShader = app.GetAssetsManager().LoadAsset({AssetType::Shader, "Texture.glsl"});
             //
             // constexpr unsigned char whitePixel[4] = {0xFF, 0xFF, 0xFF, 0xFF};
             // app.GetAssetsManager().LoadRawTexture2D("WhiteTexture", whitePixel, {1, 1, 4});
 
-            app.GetAssetsManager().LoadTexture2D("WhiteTexture.png");
-
-            s_Data->WhiteTexture = app.GetAssetsManager().FetchTexture("WhiteTexture.png");
+            s_Data->TextureSlots = (AssetID*)calloc(MAX_TEXTURE_SLOTS, sizeof(AssetID));
+            s_Data->WhiteTexture = app.GetAssetsManager().LoadAsset({AssetType::Texture2D, "WhiteTexture.png"});
+            s_Data->TextureSlots[0] = s_Data->WhiteTexture;
+            for (size_t i = 1; i<MAX_TEXTURE_SLOTS;i++)
+            {
+                s_Data->TextureSlots[i] = AssetID(0);
+            }
+            s_Data->CurrentVertex = s_Data->Vertices;
         }
 
         void Shutdown()
@@ -69,44 +92,145 @@ namespace GCrisp
 
         void BeginRender(Graphics::Camera& camera)
         {
-            s_Data->TextureShader->Bind();
-            s_Data->TextureShader->UploadMat4("u_ViewProj", camera.GetViewProj());
+            auto shader = Application::Get().GetAssetsManager().FetchAsset<Graphics::Shader>(s_Data->TextureShader);
+            shader->Bind();
+            shader->UploadMat4("u_ViewProj", camera.GetViewProj());
+        }
+
+        void Flush()
+        {
+            uint32_t size = (uint8_t*)s_Data->CurrentVertex-(uint8_t*)s_Data->Vertices;
+            // GC_CORE_TRACE("<------------------------------->\n  Draw Call #{0}\n    Vertices size: {1}", s_Data->DrawCalls, size/sizeof(QuadVertex));
+            s_Data->QuadVB->UploadSubData(size, s_Data->Vertices);
+
+            // GC_CORE_INFO("{0} {1} {2}", s_Data->Vertices[0].Position.x, s_Data->Vertices[0].Position.y, s_Data->Vertices[0].Position.z);
+
+            int slots[MAX_TEXTURE_SLOTS];
+            for (int i = 0; i < MAX_TEXTURE_SLOTS; i++)
+            {
+                slots[i] = i;
+                if (i < s_Data->TextureSlotCount)
+                    Application::Get().GetAssetsManager().FetchAsset<Graphics::Texture2D>(s_Data->TextureSlots[i])->Bind(i);
+                // GC_CORE_INFO("Texture slot #{0}: {1}", i, s_Data->TextureSlots[i].Get());
+            //     if (i != 0)
+            //     {
+            //         s_Data->TextureSlots[i] = AssetID(0);
+            //     }
+            }
+
+            auto shader = Application::Get().GetAssetsManager().FetchAsset<Graphics::Shader>(s_Data->TextureShader);
+
+            shader->Bind();
+            shader->UploadInt("u_Textures", slots, MAX_TEXTURE_SLOTS);
+
+            s_Data->QuadVA->Bind();
+            Graphics::DrawIndexed(s_Data->QuadVA, s_Data->QuadIndexCount);
+            s_Data->DrawCalls++;
+
+            s_Data->QuadIndexCount = 0;
+            s_Data->TextureSlotCount = 1;
+
+            s_Data->CurrentVertex = s_Data->Vertices;
+
+            // GC_CORE_TRACE("<------------------------------->\n");
+
         }
 
         void EndRender()
         {
+            Flush();
+            s_Data->DrawCalls = 0;
         }
 
         void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
         {
-            //TODO: implement shader bound checking system
-            s_Data->TextureShader->UploadVec4("u_Color", color);
+            if (s_Data->QuadIndexCount >= MAX_QUAD_COUNT*6 || s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
+            {
+                Flush();
+            }
 
-            s_Data->WhiteTexture->Bind();
-            s_Data->TextureShader->UploadInt("u_Texture", 0);
+            // s_Data->WhiteTexture->Bind();
+            // s_Data->TextureShader->UploadInt("u_Texture", 0);
 
-            glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(
-                glm::mat4(1.0f), {size.x, size.y, 1.0f});
-            s_Data->TextureShader->UploadMat4("u_Transform", transform);
 
-            s_Data->QuadVA->Bind();
-            Graphics::DrawIndexed(s_Data->QuadVA);
+            s_Data->CurrentVertex->Position = {position.x, position.y, position.z};
+            s_Data->CurrentVertex->Color = color;
+            s_Data->CurrentVertex->TexCoord = {0, 0};
+            s_Data->CurrentVertex->TextureID = 0;
+            s_Data->CurrentVertex++;
+
+            s_Data->CurrentVertex->Position = {position.x + size.x, position.y, position.z};
+            s_Data->CurrentVertex->Color = color;
+            s_Data->CurrentVertex->TexCoord = {1, 0};
+            s_Data->CurrentVertex->TextureID = 0;
+            s_Data->CurrentVertex++;
+
+            s_Data->CurrentVertex->Position = {position.x + size.x, position.y + size.y, position.z};
+            s_Data->CurrentVertex->Color = color;
+            s_Data->CurrentVertex->TexCoord = {1, 1};
+            s_Data->CurrentVertex->TextureID = 0;
+            s_Data->CurrentVertex++;
+
+            s_Data->CurrentVertex->Position = {position.x, position.y + size.y, position.z};
+            s_Data->CurrentVertex->Color = color;
+            s_Data->CurrentVertex->TexCoord = {0, 1};
+            s_Data->CurrentVertex->TextureID = 0;
+            s_Data->CurrentVertex++;
+
+            s_Data->QuadIndexCount += 6;
         }
 
-        void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Reference<Graphics::Texture>& texture, const glm::vec4& tint)
+        void DrawQuad(const glm::vec3& position, const glm::vec2& size, const AssetID& texture, const glm::vec4& tint)
         {
+            if (s_Data->QuadIndexCount >= MAX_QUAD_COUNT*6 || s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
+            {
+                Flush();
+            }
 
-            s_Data->TextureShader->UploadVec4("u_Color", tint);
+            int texID = s_Data->TextureSlotCount;
+            for (int i = 0; i<s_Data->TextureSlotCount; i++)
+            {
+                if (s_Data->TextureSlots[i] == texture)
+                {
+                    texID = i;
+                    break;
+                }
+            }
 
-            texture->Bind();
-            s_Data->TextureShader->UploadInt("u_Texture", 0);
+            if (texID >= s_Data->TextureSlotCount)
+            {
+                s_Data->TextureSlots[texID] = texture;
+                s_Data->TextureSlotCount++;
+            }
 
-            glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(
-                glm::mat4(1.0f), {size.x, size.y, 1.0f});
-            s_Data->TextureShader->UploadMat4("u_Transform", transform);
+            float texIDF = (float)texID;
 
-            s_Data->QuadVA->Bind();
-            Graphics::DrawIndexed(s_Data->QuadVA);
+
+            s_Data->CurrentVertex->Position = {position.x, position.y, position.z};
+            s_Data->CurrentVertex->Color = tint;
+            s_Data->CurrentVertex->TexCoord = {0, 0};
+            s_Data->CurrentVertex->TextureID = texIDF;
+            s_Data->CurrentVertex++;
+
+            s_Data->CurrentVertex->Position = {position.x + size.x, position.y, position.z};
+            s_Data->CurrentVertex->Color = tint;
+            s_Data->CurrentVertex->TexCoord = {1, 0};
+            s_Data->CurrentVertex->TextureID = texIDF;
+            s_Data->CurrentVertex++;
+
+            s_Data->CurrentVertex->Position = {position.x + size.x, position.y + size.y, position.z};
+            s_Data->CurrentVertex->Color = tint;
+            s_Data->CurrentVertex->TexCoord = {1, 1};
+            s_Data->CurrentVertex->TextureID = texIDF;
+            s_Data->CurrentVertex++;
+
+            s_Data->CurrentVertex->Position = {position.x, position.y + size.y, position.z};
+            s_Data->CurrentVertex->Color = tint;
+            s_Data->CurrentVertex->TexCoord = {0, 1};
+            s_Data->CurrentVertex->TextureID = texIDF;
+            s_Data->CurrentVertex++;
+
+            s_Data->QuadIndexCount += 6;
         }
     }
 }

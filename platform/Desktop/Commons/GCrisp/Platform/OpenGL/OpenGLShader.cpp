@@ -31,6 +31,7 @@ namespace GCrisp
             int shaderIndex = 0;
             for (auto&& [type, source] : spec.shaders)
             {
+                GC_CORE_ASSERT(!StringFromShaderType(type).empty(), "ShaderType string cannot be empty!");
                 GLenum glType = GLShaderFromGC(type);
                 uint32_t id = glCreateShader(glType);
 
@@ -146,6 +147,12 @@ namespace GCrisp
         {
             GLint location = GetUniformLocation(name);
             glUniform1iv(location, 1, &data);
+        }
+
+        void OpenGLShader::UploadInt(const std::string& name, int* data, int count)
+        {
+            GLint location = GetUniformLocation(name);
+            glUniform1iv(location, count, data);
         }
 
         void OpenGLShader::UploadFloat(const std::string& name, float data)
