@@ -24,7 +24,7 @@ namespace GCrisp
             GC_PROFILE_FUNC();
             uint32_t programID = glCreateProgram();
 
-            uint32_t IDs[3];
+            uint32_t IDs[MAX_SHADER_TYPES];
 
 
             // We compile the vertex source if the provided pointer isn't null

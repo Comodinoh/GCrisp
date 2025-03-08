@@ -8,8 +8,7 @@ namespace GCrisp
     namespace Graphics
     {
         void OpenGLAPI::Init()
-        {
-            GC_PROFILE_FUNC();
+        {GC_PROFILE_FUNC();
             s_RendererBackend = Backend::OpenGL;
 
             // glEnable(GL_DEPTH_TEST);

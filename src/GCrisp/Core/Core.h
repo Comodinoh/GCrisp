@@ -6,6 +6,7 @@
 
 #define MAX_QUAD_COUNT 100000
 #define MAX_TEXTURE_SLOTS 32
+#define MAX_SHADER_TYPES 2
 
 
 #define BIT(x) (1 << x)
