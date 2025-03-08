@@ -9,10 +9,10 @@ namespace GCrisp
 {
     namespace Graphics
     {
-        class OpenGLContext : public Context
+        class GLContext : public Context
         {
         public:
-            OpenGLContext(GLFWwindow* window_handle) : m_WindowHandle(window_handle)
+            GLContext(GLFWwindow* window_handle) : m_WindowHandle(window_handle)
             {
                 GC_CORE_ASSERT(window_handle, "Provided invalid window handle! (nullptr)");
             };

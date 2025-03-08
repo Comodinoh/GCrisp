@@ -6,13 +6,13 @@ namespace GCrisp
 {
     namespace Graphics
     {
-        class OpenGLShader : public Shader
+        class GLShader : public Shader
         {
             typedef unsigned int GLenum;
 
         public:
-            OpenGLShader(const ShaderSpec& spec);
-            virtual ~OpenGLShader();
+            GLShader(const ShaderSpec& spec);
+            virtual ~GLShader();
 
             virtual void Bind() const override;
             virtual void UnBind() const override;

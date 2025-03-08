@@ -1,6 +1,6 @@
 #include <GCrisp/Core/GWindow.h>
 #include <GCrisp/Core/Core.h>
-#include <GCrisp/Platform/OpenGL/OpenGLWindow.h>
+#include <GCrisp/Platform/OpenGL/GLWindow.h>
 
 namespace GCrisp
 {
@@ -10,7 +10,7 @@ namespace GCrisp
         {
         case Graphics::Backend::OpenGL:
             {
-                return new OpenGLWindow(backend, props);
+                return new GLWindow(backend, props);
             }
         default:
             {

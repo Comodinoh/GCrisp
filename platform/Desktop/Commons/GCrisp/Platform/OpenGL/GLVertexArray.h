@@ -6,11 +6,11 @@ namespace GCrisp
 {
     namespace Graphics
     {
-        class OpenGLVertexArray : public VertexArray
+        class GLVertexArray : public VertexArray
         {
         public:
-            OpenGLVertexArray();
-            virtual ~OpenGLVertexArray() override;
+            GLVertexArray();
+            virtual ~GLVertexArray() override;
 
             virtual void Bind() const override;
             virtual void UnBind() const override;

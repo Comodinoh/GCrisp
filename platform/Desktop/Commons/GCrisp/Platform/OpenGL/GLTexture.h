@@ -8,11 +8,11 @@ namespace GCrisp
     {
         typedef unsigned char stbi_uc;
 
-        class OpenGLTexture : public Texture2D
+        class GLTexture : public Texture2D
         {
         public:
-            OpenGLTexture(const stbi_uc* data, const TextureSpec& spec);
-            virtual ~OpenGLTexture();
+            GLTexture(const stbi_uc* data, const TextureSpec& spec);
+            virtual ~GLTexture();
 
             virtual void Bind(int slot) const override;
             virtual void SetMagFiltering(TextureFilter filtering) const override;

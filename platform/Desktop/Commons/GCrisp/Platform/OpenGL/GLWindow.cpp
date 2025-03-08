@@ -1,8 +1,8 @@
 #include <gcpch.h>
-#include "OpenGLWindow.h"
+#include "GLWindow.h"
 
-#include <GCrisp/Platform/OpenGL/OpenGLCreator.h>
-#include <GCrisp/Platform/OpenGL/OpenGLContext.h>
+#include <GCrisp/Platform/OpenGL/GLCreator.h>
+#include <GCrisp/Platform/OpenGL/GLContext.h>
 #include <GCrisp/Events/ApplicationEvent.h>
 #include <GCrisp/Events/MouseEvent.h>
 #include <GCrisp/Events/KeyEvent.h>
@@ -18,17 +18,17 @@ namespace GCrisp
         GC_CORE_ERROR("GLFW Error: {0}: {1}", error, desc);
     }
 
-    OpenGLWindow::OpenGLWindow(const Graphics::Backend& backend, const WindowProps& props) : Window(backend)
+    GLWindow::GLWindow(const Graphics::Backend& backend, const WindowProps& props) : Window(backend)
     {
         Init(props);
     }
 
-    OpenGLWindow::~OpenGLWindow()
+    GLWindow::~GLWindow()
     {
         Shutdown();
     }
 
-    void OpenGLWindow::Init(const WindowProps& props)
+    void GLWindow::Init(const WindowProps& props)
     {
         GC_PROFILE_FUNC();
         m_Data.Title = props.Title;
@@ -58,7 +58,7 @@ namespace GCrisp
             m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
         }
 
-        m_Context = new Graphics::OpenGLContext(m_Window);
+        m_Context = new Graphics::GLContext(m_Window);
         m_Context->Init();
 
         GC_CORE_INFO("Initialized OpenGL context:");
@@ -167,31 +167,31 @@ namespace GCrisp
             data.EventCallback(event);
         });
 
-        m_GraphicsCreator = new Graphics::OpenGLCreator();
+        m_GraphicsCreator = new Graphics::GLCreator();
     }
 
 
-    void OpenGLWindow::Shutdown()
+    void GLWindow::Shutdown()
     {
         GC_PROFILE_FUNC();
         glfwDestroyWindow(m_Window);
     }
 
-    void OpenGLWindow::OnUpdate()
+    void GLWindow::OnUpdate()
     {
         GC_PROFILE_FUNC();
         glfwPollEvents();
         m_Context->SwapBuffers();
     }
 
-    void OpenGLWindow::SetResizable(bool enabled)
+    void GLWindow::SetResizable(bool enabled)
     {
         GC_PROFILE_FUNC();
         glfwWindowHint(GLFW_RESIZABLE, enabled ? GLFW_TRUE : GLFW_FALSE);
         m_Data.Resizable = enabled;
     }
 
-    void OpenGLWindow::SetVSync(bool enabled)
+    void GLWindow::SetVSync(bool enabled)
     {
         GC_PROFILE_FUNC();
         if (enabled)

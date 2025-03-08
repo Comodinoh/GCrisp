@@ -1,5 +1,5 @@
 #include <gcpch.h>
-#include "OpenGLVertexArray.h"
+#include "GLVertexArray.h"
 
 #include <GCrisp/Core/Core.h>
 #include <glad/glad.h>
@@ -30,30 +30,30 @@ namespace GCrisp
         }
 
 
-        OpenGLVertexArray::OpenGLVertexArray()
+        GLVertexArray::GLVertexArray()
         {
             GC_PROFILE_FUNC();
             glGenVertexArrays(1, &m_RendererID);
             glBindVertexArray(m_RendererID);
         }
 
-        OpenGLVertexArray::~OpenGLVertexArray()
+        GLVertexArray::~GLVertexArray()
         {
             GC_PROFILE_FUNC();
             glDeleteVertexArrays(1, &m_RendererID);
         }
 
-        void OpenGLVertexArray::Bind() const
+        void GLVertexArray::Bind() const
         {
             glBindVertexArray(m_RendererID);
         }
 
-        void OpenGLVertexArray::UnBind() const
+        void GLVertexArray::UnBind() const
         {
             glBindVertexArray(0);
         }
 
-        void OpenGLVertexArray::AddVertexBuffer(const Reference<VertexBuffer>& vertexBuffer)
+        void GLVertexArray::AddVertexBuffer(const Reference<VertexBuffer>& vertexBuffer)
         {
             GC_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex buffer has no layout!")
 
@@ -78,7 +78,7 @@ namespace GCrisp
             m_VertexBuffers.push_back(vertexBuffer);
         }
 
-        void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
+        void GLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
         {
             glBindVertexArray(m_RendererID);
             indexBuffer->Bind();

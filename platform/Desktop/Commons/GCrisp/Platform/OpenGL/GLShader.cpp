@@ -1,5 +1,5 @@
 #include <gcpch.h>
-#include "OpenGLShader.h"
+#include "GLShader.h"
 
 #include <glad/glad.h>
 #include <GCrisp/Core/Log.h>
@@ -19,7 +19,7 @@ namespace GCrisp
             }
         }
 
-        OpenGLShader::OpenGLShader(const ShaderSpec& spec)
+        GLShader::GLShader(const ShaderSpec& spec)
         {
             GC_PROFILE_FUNC();
             uint32_t programID = glCreateProgram();
@@ -107,68 +107,68 @@ namespace GCrisp
             m_RendererID = programID;
         }
 
-        OpenGLShader::~OpenGLShader()
+        GLShader::~GLShader()
         {
             GC_PROFILE_FUNC();
             glDeleteProgram(m_RendererID);
         }
 
-        void OpenGLShader::Bind() const
+        void GLShader::Bind() const
         {
             glUseProgram(m_RendererID);
         }
 
-        void OpenGLShader::UploadMat4(const std::string& name, const glm::mat4& data)
+        void GLShader::UploadMat4(const std::string& name, const glm::mat4& data)
         {
             GLint location = GetUniformLocation(name);
             glUniformMatrix4fv(location, 1, false, glm::value_ptr(data));
         }
 
-        void OpenGLShader::UploadMat3(const std::string& name, const glm::mat3& data)
+        void GLShader::UploadMat3(const std::string& name, const glm::mat3& data)
         {
             GLint location = GetUniformLocation(name);
             glUniformMatrix3fv(location, 1, false, glm::value_ptr(data));
         }
 
-        void OpenGLShader::UploadVec3(const std::string& name, const glm::vec3& data)
+        void GLShader::UploadVec3(const std::string& name, const glm::vec3& data)
         {
             GLint location = GetUniformLocation(name);
             glUniform3fv(location, 1, glm::value_ptr(data));
         }
 
-        void OpenGLShader::UploadVec4(const std::string& name, const glm::vec4& data)
+        void GLShader::UploadVec4(const std::string& name, const glm::vec4& data)
         {
             GLint location = GetUniformLocation(name);
             glUniform4fv(location, 1, glm::value_ptr(data));
         }
 
 
-        void OpenGLShader::UploadInt(const std::string& name, int data)
+        void GLShader::UploadInt(const std::string& name, int data)
         {
             GLint location = GetUniformLocation(name);
             glUniform1iv(location, 1, &data);
         }
 
-        void OpenGLShader::UploadInt(const std::string& name, int* data, int count)
+        void GLShader::UploadInt(const std::string& name, int* data, int count)
         {
             GLint location = GetUniformLocation(name);
             glUniform1iv(location, count, data);
         }
 
-        void OpenGLShader::UploadFloat(const std::string& name, float data)
+        void GLShader::UploadFloat(const std::string& name, float data)
         {
             GLint location = GetUniformLocation(name);
             glUniform1fv(location, 1, &data);
         }
 
-        void OpenGLShader::UploadBool(const std::string& name, bool data)
+        void GLShader::UploadBool(const std::string& name, bool data)
         {
             GLint location = GetUniformLocation(name);
             int dataI = data;
             glUniform1iv(location, 1, &dataI);
         }
 
-        int OpenGLShader::GetUniformLocation(const std::string& name)
+        int GLShader::GetUniformLocation(const std::string& name)
         {
             auto it = m_UniformLocationCache.find(name);
             if (it == m_UniformLocationCache.end())
@@ -180,7 +180,7 @@ namespace GCrisp
             return it->second;
         }
 
-        void OpenGLShader::UnBind() const
+        void GLShader::UnBind() const
         {
             glUseProgram(0);
         }

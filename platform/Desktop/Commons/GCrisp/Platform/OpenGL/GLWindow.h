@@ -1,6 +1,6 @@
 #pragma once
 
-#include "OpenGLContext.h"
+#include "GLContext.h"
 
 #include <GCrisp/Core/GWindow.h>
 
@@ -8,11 +8,11 @@ struct GLFWwindow;
 
 namespace GCrisp
 {
-    class OpenGLWindow : public Window
+    class GLWindow : public Window
     {
     public:
-        OpenGLWindow(const Graphics::Backend& backend, const WindowProps& props);
-        virtual ~OpenGLWindow();
+        GLWindow(const Graphics::Backend& backend, const WindowProps& props);
+        virtual ~GLWindow();
 
         virtual void OnUpdate() override;
 
@@ -25,7 +25,7 @@ namespace GCrisp
 
     protected:
         GLFWwindow* m_Window;
-        Graphics::OpenGLContext* m_Context;
+        Graphics::GLContext* m_Context;
 
         virtual void Init(const WindowProps& props);
         virtual void Shutdown();

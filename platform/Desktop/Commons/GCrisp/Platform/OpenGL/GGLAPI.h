@@ -1,14 +1,14 @@
 #pragma once
 
 #include "GCrisp/Renderer/Renderer.h"
-#include "OpenGLVertexArray.h"
-#include "OpenGLBuffer.h"
+#include "GLVertexArray.h"
+#include "GLBuffer.h"
 
 namespace GCrisp
 {
     namespace Graphics
     {
-        class OpenGLAPI : public API
+        class GGLAPI : public API
         {
         public:
             virtual void Init() override;

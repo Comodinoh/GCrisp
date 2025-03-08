@@ -6,7 +6,7 @@ namespace GCrisp
 {
     namespace Graphics
     {
-        class OpenGLCreator : public Creator
+        class GLCreator : public Creator
         {
         public:
             virtual API* CreateAPI() override;

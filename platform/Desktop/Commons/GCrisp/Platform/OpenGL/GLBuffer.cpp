@@ -1,5 +1,5 @@
 #include <gcpch.h>
-#include "OpenGLBuffer.h"
+#include "GLBuffer.h"
 
 #include <glad/glad.h>
 #include <GCrisp/Core/Log.h>
