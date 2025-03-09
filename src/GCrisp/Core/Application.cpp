@@ -28,7 +28,7 @@ namespace GCrisp
 
             GC_CORE_ASSERT(m_AssetsManager, "AssetsManager should not be null!");
 
-            Graphics::Init();
+            Graphics::Init({1000});
         }
 
         GC_CORE_INFO("Took {0} seconds to initialize application.", delta.GetSeconds());
