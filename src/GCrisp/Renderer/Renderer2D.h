@@ -7,11 +7,15 @@
 
 #include "Texture.h"
 
+namespace GCrisp::Graphics
+{
+    struct RendererProp;
+}
+
 namespace GCrisp
 {
     namespace Graphics2D
     {
-
         struct QuadVertex
         {
             glm::vec3 Position;
@@ -28,7 +32,6 @@ namespace GCrisp
 
             QuadVertex* Vertices;
             QuadVertex* CurrentVertex;
-            uint32_t VerticesSize;
 
             AssetID* TextureSlots = nullptr;
             AssetID WhiteTexture;
@@ -37,9 +40,17 @@ namespace GCrisp
             int TextureSlotCount = 1;
             uint32_t DrawCalls = 0;
 
+            uint32_t MaxVertexCount = 0;
+            uint32_t MaxIndexCount = 0;
+            uint32_t MaxQuadCount = 0;
         };
 
-        void Init();
+        struct Renderer2DProp
+        {
+            uint32_t MaxQuadCount = 1000;
+        };
+
+        void Init(const Graphics::RendererProp& prop);
         void Shutdown();
 
         void BeginRender(Graphics::Camera& camera);

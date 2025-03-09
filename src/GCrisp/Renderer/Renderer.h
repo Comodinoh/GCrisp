@@ -5,6 +5,7 @@
 #include <GCrisp/Renderer/Shader.h>
 #include <glm/glm.hpp>
 
+
 namespace GCrisp
 {
     namespace Graphics
@@ -17,6 +18,11 @@ namespace GCrisp
         struct Data
         {
             glm::mat4 ViewProjMatrix;
+        };
+
+        struct RendererProp
+        {
+            uint32_t MaxQuadCount = 0;
         };
 
         class API
@@ -39,7 +45,7 @@ namespace GCrisp
             static Backend s_RendererBackend;
         };
 
-        void Init();
+        void Init(const RendererProp& prop);
         void Shutdown();
 
         void Clear(const glm::vec4& color);

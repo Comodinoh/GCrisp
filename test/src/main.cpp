@@ -59,7 +59,7 @@ public:
 
         Graphics::Clear({0, 0, 0, 1});
 
-        // auto shader = Application::Get().GetAssetsManager().FetchShader("Texture.glsl");
+        // auto shader = Application::Get().GetAssetsManager().FetchShader("TextureBatchSlots.glsl");
         // Reference<Graphics::Texture>& texture = Application::Get().GetAssetsManager().FetchTexture("default_texture.png");
 
         // {

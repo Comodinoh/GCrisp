@@ -13,7 +13,7 @@ namespace GCrisp
     {
         Backend API::s_RendererBackend = Backend::None;
 
-        void Init()
+        void Init(const RendererProp& prop)
         {
             GC_PROFILE_FUNC();
             s_RenderAPI = std::unique_ptr<API>(Application::Get().GetGraphicsCreator()->CreateAPI());
@@ -24,7 +24,7 @@ namespace GCrisp
 
             Application::Get().GetAssetsManager().Init();
 
-            Graphics2D::Init();
+            Graphics2D::Init(prop);
             GC_CORE_INFO("Initialized Renderer2D!");
         }
 

@@ -12,19 +12,22 @@ namespace GCrisp
 {
     namespace Graphics2D
     {
-        void Init()
+        void Init(const Graphics::RendererProp& prop)
         {
             GC_PROFILE_FUNC();
             s_Data = new Data();
+
+            s_Data->MaxQuadCount = prop.MaxQuadCount;
+            s_Data->MaxVertexCount = prop.MaxQuadCount*4;
+            s_Data->MaxIndexCount = prop.MaxQuadCount*6;
 
             auto& app = Application::Get();
             s_Data->QuadVA.reset(app.GetGraphicsCreator()->CreateVertexArray());
             s_Data->QuadVA->Bind();
 
-            s_Data->Vertices = new QuadVertex[MAX_QUAD_COUNT*4];
-            s_Data->VerticesSize = MAX_QUAD_COUNT*4;
+            s_Data->Vertices = new QuadVertex[s_Data->MaxVertexCount];
 
-            const uint32_t size = s_Data->VerticesSize*sizeof(QuadVertex);
+            const uint32_t size = s_Data->MaxVertexCount*sizeof(QuadVertex);
             s_Data->QuadVB.reset(app.GetGraphicsCreator()->CreateVertexBuffer(
                 {nullptr, size, Graphics::DrawType::Dynamic}
                 ));
@@ -45,11 +48,10 @@ namespace GCrisp
             //     2, 3, 0,
             // };
 
-            uint32_t maxIndices = MAX_QUAD_COUNT * 6;
-            uint32_t* quadIndices = new uint32_t[maxIndices];
+            uint32_t* quadIndices = new uint32_t[s_Data->MaxIndexCount];
 
             int offset = 0;
-            for (int i = 0;i < maxIndices; i+= 6)
+            for (int i = 0;i < s_Data->MaxIndexCount; i+= 6)
             {
                 quadIndices[i] = offset;
                 quadIndices[i+1] = 1+offset;
@@ -62,14 +64,14 @@ namespace GCrisp
                 offset += 4;
             }
 
-            uint32_t indicesSize = maxIndices * sizeof(uint32_t);
+            uint32_t indicesSize = s_Data->MaxIndexCount * sizeof(uint32_t);
             Reference<Graphics::IndexBuffer> quadIB;
             quadIB.reset(app.GetGraphicsCreator()->CreateIndexBuffer({quadIndices, indicesSize}));
             s_Data->QuadVA->SetIndexBuffer(quadIB);
 
             delete[] quadIndices;
 
-            s_Data->TextureShader = app.GetAssetsManager().LoadAsset({AssetType::Shader, "Texture.glsl"});
+            s_Data->TextureShader = app.GetAssetsManager().LoadAsset({AssetType::Shader, "TextureBatchSlots.glsl"});
             //
             // constexpr unsigned char whitePixel[4] = {0xFF, 0xFF, 0xFF, 0xFF};
             // app.GetAssetsManager().LoadRawTexture2D("WhiteTexture", whitePixel, {1, 1, 4});
@@ -100,10 +102,7 @@ namespace GCrisp
         void Flush()
         {
             uint32_t size = (uint8_t*)s_Data->CurrentVertex-(uint8_t*)s_Data->Vertices;
-            // GC_CORE_TRACE("<------------------------------->\n  Draw Call #{0}\n    Vertices size: {1}", s_Data->DrawCalls, size/sizeof(QuadVertex));
             s_Data->QuadVB->UploadSubData(size, s_Data->Vertices);
-
-            // GC_CORE_INFO("{0} {1} {2}", s_Data->Vertices[0].Position.x, s_Data->Vertices[0].Position.y, s_Data->Vertices[0].Position.z);
 
             int slots[MAX_TEXTURE_SLOTS];
             for (int i = 0; i < MAX_TEXTURE_SLOTS; i++)
@@ -131,8 +130,6 @@ namespace GCrisp
             s_Data->TextureSlotCount = 1;
 
             s_Data->CurrentVertex = s_Data->Vertices;
-
-            // GC_CORE_TRACE("<------------------------------->\n");
 
         }
 

@@ -10,7 +10,7 @@ in float a_TexID;
 
 out vec4 color;
 out vec2 texCoord;
-out float texID;
+flat out float texID;
 
 uniform mat4 u_ViewProj;
 
@@ -28,7 +28,7 @@ void main()
 
 in vec4 color;
 in vec2 texCoord;
-in float texID;
+flat in float texID;
 
 out vec4 fragColor;
 
@@ -37,16 +37,5 @@ uniform sampler2D[32] u_Textures;
 void main()
 {
     int texIDInt = int(texID);
-    //    int tx = u_Textures[texID];
-        fragColor = texture(u_Textures[texIDInt], texCoord) * color;
-//    fragColor = vec4(texID, 0.0f, 0.0f, 1.0f);
-//    float diff = float(texID) / 100000000.0f;
-//    if (texID == 31)
-//    {
-//        fragColor = vec4(0.0f, 1.0f, 0.0f, 1.0f);
-//    }
-//    else
-//    {
-//        fragColor = vec4(diff, 0.0f, 0.0f, 1.0f);
-//    }
+    fragColor = texture(u_Textures[texIDInt], texCoord) * color;
 }
