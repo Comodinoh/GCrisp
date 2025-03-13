@@ -20,11 +20,6 @@ namespace GCrisp
             virtual void Init() const override;
             virtual void SwapBuffers() const override;
 
-            virtual std::string GetRendererName() const override;
-            virtual std::string GetVendorName() const override;
-            virtual std::string GetVersion() const override;
-            virtual std::string GetSLVersion() const override;
-
         private:
             GLFWwindow* m_WindowHandle;
         };

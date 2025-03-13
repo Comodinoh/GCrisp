@@ -21,26 +21,5 @@ namespace GCrisp
         {
             glfwSwapBuffers(m_WindowHandle);
         }
-
-        std::string GLContext::GetRendererName() const
-        {
-            return (char*)glGetString(GL_RENDERER);
-        }
-
-        std::string GLContext::GetVendorName() const
-        {
-            return (char*)glGetString(GL_VENDOR);
-        }
-
-
-        std::string GLContext::GetVersion() const
-        {
-            return (char*)glGetString(GL_VERSION);
-        }
-
-        std::string GLContext::GetSLVersion() const
-        {
-            return (char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
-        }
     }
 }

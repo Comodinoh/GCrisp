@@ -7,6 +7,7 @@
 #include <GCrisp/Events/MouseEvent.h>
 #include <GCrisp/Events/KeyEvent.h>
 #include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 
 namespace GCrisp
@@ -61,11 +62,16 @@ namespace GCrisp
         m_Context = new Graphics::GLContext(m_Window);
         m_Context->Init();
 
+        m_GraphicsSpec = GraphicsSpec{(char*)glGetString(GL_RENDERER),
+            (char*)glGetString(GL_VENDOR),
+            (char*)glGetString(GL_VERSION),
+            (char*)glGetString(GL_SHADING_LANGUAGE_VERSION)};
+
         GC_CORE_INFO("Initialized OpenGL context:");
-        GC_CORE_INFO("   Vendor: {0}", m_Context->GetVendorName());
-        GC_CORE_INFO("   Renderer: {0}", m_Context->GetRendererName());
-        GC_CORE_INFO("   OpenGL Version: {0}", m_Context->GetVersion());
-        GC_CORE_INFO("   GLSL Version: {0}", m_Context->GetSLVersion());
+        GC_CORE_INFO("   Vendor: {0}", m_GraphicsSpec.Vendor);
+        GC_CORE_INFO("   Renderer: {0}", m_GraphicsSpec.Renderer);
+        GC_CORE_INFO("   OpenGL Version: {0}", m_GraphicsSpec.Version);
+        GC_CORE_INFO("   GLSL Version: {0}", m_GraphicsSpec.SLVersion);
 
         glfwSetWindowUserPointer(m_Window, &m_Data);
         SetVSync(true);

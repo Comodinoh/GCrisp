@@ -10,6 +10,14 @@ namespace GCrisp
 {
     using EventCallbackFunc = std::function<void(Event&)>;
 
+    struct GraphicsSpec
+    {
+        const char* Renderer;
+        const char* Vendor;
+        const char* Version;
+        const char* SLVersion;
+    };
+
     struct WindowData
     {
         std::string Title;
@@ -49,6 +57,7 @@ namespace GCrisp
         inline Graphics::Backend GetBackend() { return m_Backend; }
         inline uint32_t GetWidth() const { return m_Data.Width; }
         inline uint32_t GetHeight() const { return m_Data.Height; }
+        inline GraphicsSpec GetGraphicsSpec() const {return m_GraphicsSpec;}
 
         virtual void SetResizable(bool enabled) = 0;
         inline bool IsResizable() const { return m_Data.Resizable; }
@@ -68,5 +77,6 @@ namespace GCrisp
         WindowData m_Data;
         Graphics::Backend m_Backend;
         Graphics::Creator* m_GraphicsCreator;
+        GraphicsSpec m_GraphicsSpec;
     };
 }

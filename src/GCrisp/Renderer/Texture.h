@@ -33,8 +33,6 @@ namespace GCrisp
             TextureSpec m_Spec;
         };
 
-        class Texture2D : public Texture
-        {
-        };
+        class Texture2D : public Texture {};
     }
 }
