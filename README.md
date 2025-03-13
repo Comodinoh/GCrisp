@@ -200,7 +200,7 @@ GCrisp::Application* GCrisp::CreateApplication()
 
 ```
 
-## Window
+## Windows
 __Note:__ CMake >= 3.30.4 required
 
 Using GCrisp on windows is similar.
