@@ -16,6 +16,8 @@ namespace GCrisp
         const char* Vendor;
         const char* Version;
         const char* SLVersion;
+
+        uint32_t TextureSlots;
     };
 
     struct WindowData

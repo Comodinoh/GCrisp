@@ -20,7 +20,7 @@ namespace GCrisp
         Shader* GLCreator::CreateShader(const ShaderSpec& spec)
         {
             GC_PROFILE_FUNC();
-            return (Shader*)new GLShader(spec);
+            return new GLShader(spec);
         }
 
         VertexBuffer* GLCreator::CreateVertexBuffer(const VertexBufferSpec& spec)

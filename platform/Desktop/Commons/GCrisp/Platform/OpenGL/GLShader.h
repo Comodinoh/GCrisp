@@ -25,7 +25,6 @@ namespace GCrisp
             virtual void UploadInt(const std::string& name, int* data, int count) override;
             virtual void UploadFloat(const std::string& name, float data) override;
             virtual void UploadBool(const std::string& name, bool data) override;
-
         private:
             uint32_t m_RendererID;
 

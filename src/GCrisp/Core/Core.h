@@ -4,11 +4,6 @@
 
 #include <memory>
 
-#define MAX_QUAD_COUNT 100000
-#define MAX_TEXTURE_SLOTS 32
-#define MAX_SHADER_TYPES 2
-
-
 #define BIT(x) (1 << x)
 #define GC_BIND_FN1(func) std::bind(&func, this, std::placeholders::_1)
 #define GC_CONCAT(x, y) x##y
@@ -41,8 +36,8 @@
 #if GC_PROFILING
     #define GC_PROFILE_START(name) ::GCrisp::TimingsProfiler::StartProfiler(name);
     #define GC_PROFILE_END() ::GCrisp::TimingsProfiler::EndProfiler();
-    #define GC_PROFILE_SCOPE2(name, line) ProfileResult result = {name, std::this_thread::get_id()};\
-        ::GCrisp::ProfilerTimer GC_CONCAT(timer, line)(result);
+    #define GC_PROFILE_SCOPE2(name, line) ProfileResult GC_CONCAT(result, line) = {name, std::this_thread::get_id()};\
+        ::GCrisp::ProfilerTimer GC_CONCAT(timer, line)(GC_CONCAT(result, line));
     #define GC_PROFILE_SCOPE(name) GC_PROFILE_SCOPE2(name, __LINE__)
     #define GC_PROFILE_FUNC() GC_PROFILE_SCOPE(__PRETTY_FUNCTION__)
 #else
@@ -50,7 +45,7 @@
     #define GC_PROFILE_END()
     #define GC_PROFILE_SCOPE2(name, line)
     #define GC_PROFILE_SCOPE(name)
-    #define GC_PROFILE_FUNC() GC_PROFILE_SCOPE(__PRETTY_FUNCTION__)
+    #define GC_PROFILE_FUNC() GC_PROFILE_SCOPE(__PRETTY_FUNCTION__) // TODO: Test if ____PRETTY_FUNCTION__ works for all compilers
 #endif
 
 

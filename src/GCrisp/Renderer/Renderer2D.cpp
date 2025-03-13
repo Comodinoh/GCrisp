@@ -2,6 +2,8 @@
 
 #include "Renderer2D.h"
 
+#include "GraphicsConstants.h"
+
 #include <GCrisp/Core/Application.h>
 
 #include "Renderer.h"
@@ -141,7 +143,7 @@ namespace GCrisp
 
         void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
         {
-            if (s_Data->QuadIndexCount >= MAX_QUAD_COUNT*6 || s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
+            if (s_Data->QuadIndexCount >= s_Data->MaxIndexCount || s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
             {
                 Flush();
             }
@@ -179,7 +181,7 @@ namespace GCrisp
 
         void DrawQuad(const glm::vec3& position, const glm::vec2& size, const AssetID& texture, const glm::vec4& tint)
         {
-            if (s_Data->QuadIndexCount >= MAX_QUAD_COUNT*6 || s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
+            if (s_Data->QuadIndexCount >= s_Data->MaxIndexCount || s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
             {
                 Flush();
             }

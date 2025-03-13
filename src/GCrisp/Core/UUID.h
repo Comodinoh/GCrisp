@@ -23,7 +23,6 @@ namespace GCrisp
         {
             s_Counter++;
             return UUID(s_Counter);
-            GC_CORE_TRACE("UUID {0} generated", s_Counter);
         }
 
         static void Destroy(const UUID& uuid)

@@ -62,10 +62,12 @@ namespace GCrisp
         m_Context = new Graphics::GLContext(m_Window);
         m_Context->Init();
 
+        int textureSlots = 0;
+        glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &textureSlots);
         m_GraphicsSpec = GraphicsSpec{(char*)glGetString(GL_RENDERER),
             (char*)glGetString(GL_VENDOR),
             (char*)glGetString(GL_VERSION),
-            (char*)glGetString(GL_SHADING_LANGUAGE_VERSION)};
+            (char*)glGetString(GL_SHADING_LANGUAGE_VERSION), (uint32_t)textureSlots};
 
         GC_CORE_INFO("Initialized OpenGL context:");
         GC_CORE_INFO("   Vendor: {0}", m_GraphicsSpec.Vendor);
@@ -90,14 +92,14 @@ namespace GCrisp
         glfwSetWindowIconifyCallback(m_Window, [](GLFWwindow* window, int iconified)
         {
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-            WindowMinimizeEvent event(iconified == GLFW_TRUE ? true : false);
+            WindowMinimizeEvent event(iconified == GLFW_TRUE);
             data.EventCallback(event);
         });
 
         glfwSetWindowFocusCallback(m_Window, [](GLFWwindow* window, int focused)
         {
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-            WindowFocusEvent event(focused == GLFW_TRUE ? true : false);
+            WindowFocusEvent event(focused == GLFW_TRUE);
             data.EventCallback(event);
         });
 

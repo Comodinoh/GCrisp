@@ -11,6 +11,7 @@ namespace GCrisp
         LayerStack();
         ~LayerStack();
 
+        // TODO: Test with more layers
         void PushLayer(Layer* layer);
         void PushOverlay(Layer* layer);
         void PopLayer(Layer* layer);
