@@ -1,18 +1,19 @@
 #pragma once
 
-#include "GLContext.h"
-
 #include <GCrisp/Core/GWindow.h>
+#include <vulkan/vulkan.hpp>
 
 struct GLFWwindow;
 
-namespace GCrisp
-{
-    class GLWindow : public Window
+namespace GCrisp{
+
+    // TODO: Implement vulkan window backend
+
+    class VKWindow : Window
     {
     public:
-        GLWindow(const Graphics::Backend& backend, const WindowProps& props);
-        virtual ~GLWindow();
+        VKWindow(const Graphics::Backend& backend, const WindowProps& props);
+        virtual ~VKWindow();
 
         virtual void OnUpdate() override;
         virtual void TransferContext() override;
@@ -24,11 +25,17 @@ namespace GCrisp
 
         virtual void SetVSync(bool enabled) override;
 
+        static VkInstance& GetVulkan() {return m_VulkanInstance;};
+
     protected:
         GLFWwindow* m_Window;
-        Graphics::GLContext* m_Context;
+        Graphics::Context* m_Context;
+
+        static VkInstance m_VulkanInstance;
 
         virtual void Init(const WindowProps& props);
         virtual void Shutdown();
     };
+
+
 }

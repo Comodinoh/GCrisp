@@ -45,11 +45,6 @@ namespace GCrisp
             );
             s_Data->QuadVA->AddVertexBuffer(s_Data->QuadVB);
 
-            // uint32_t quadIndices[] = {
-            //     0, 1, 2,
-            //     2, 3, 0,
-            // };
-
             uint32_t* quadIndices = new uint32_t[s_Data->MaxIndexCount];
 
             int offset = 0;
@@ -112,11 +107,6 @@ namespace GCrisp
                 slots[i] = i;
                 if (i < s_Data->TextureSlotCount)
                     Application::Get().GetAssetsManager().FetchAsset<Graphics::Texture2D>(s_Data->TextureSlots[i])->Bind(i);
-                // GC_CORE_INFO("Texture slot #{0}: {1}", i, s_Data->TextureSlots[i].Get());
-            //     if (i != 0)
-            //     {
-            //         s_Data->TextureSlots[i] = AssetID(0);
-            //     }
             }
 
             auto shader = Application::Get().GetAssetsManager().FetchAsset<Graphics::Shader>(s_Data->TextureShader);

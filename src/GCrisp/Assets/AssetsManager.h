@@ -4,8 +4,6 @@
 #include <GCrisp/Renderer/Shader.h>
 #include <GCrisp/Assets/Assets.h>
 
-
-
 namespace GCrisp
 {
     using stbi_uc = unsigned char;
@@ -50,11 +48,6 @@ namespace GCrisp
     private:
         mutable std::unordered_map<AssetID, AssetMetadata> m_AssetRegistry;
         mutable std::unordered_map<AssetID, Reference<Asset>> m_Assets;
-        //
-        // mutable std::unordered_map<std::string, Reference<Graphics::Texture>> m_CachedTextures;
-        // mutable std::unordered_map<std::string, Reference<Graphics::Texture>> m_CachedRawTextures;
-        //
-        // mutable std::unordered_map<std::string, Reference<Graphics::Shader>> m_CachedShaders;
 
         static AssetID s_DefaultTexture;
     };

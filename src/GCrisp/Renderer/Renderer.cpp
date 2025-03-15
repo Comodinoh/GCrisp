@@ -5,6 +5,7 @@
 
 #include <GCrisp/Core/Core.h>
 #include <GCrisp/Core/Application.h>
+#include <GLFW/glfw3.h>
 #include <memory>
 
 namespace GCrisp
@@ -78,5 +79,35 @@ namespace GCrisp
             vertexArray->Bind();
             DrawIndexed(vertexArray);
         }
+
+        // RenderThread::~RenderThread()
+        // {
+        // }
+        //
+        // void RenderThread::Update()
+        // {
+        //     std::unique_lock<std::mutex> lock(m_Mutex);
+        //     // glfwMakeContextCurrent(NULL);
+        //     Application::Get().GetWindow().TransferContext();
+        //     for (int i = 0;i <m_Queue.size();i++)
+        //     {
+        //         RenderCommand& command = m_Queue[i];
+        //
+        //         command.Shader->Bind();
+        //         command.Shader->UploadMat4("u_Transform", command.Transform);
+        //         command.Shader->UploadMat4("u_ViewProj", s_Data->ViewProjMatrix);
+        //
+        //         DrawIndexed(command.VertexArray);
+        //     }
+        //     m_Queue.clear();
+        //
+        //     Application::Get().GetWindow().GetContext()->SwapBuffers();
+        // }
+        //
+        // void RenderThread::Queue(const RenderCommand& command)
+        // {
+        //     std::unique_lock<std::mutex> lock(m_Mutex);
+        //     m_Queue.emplace_back(command.Shader, command.VertexArray, command.Transform);
+        // }
     }
 }

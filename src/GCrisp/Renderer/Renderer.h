@@ -1,10 +1,14 @@
 #pragma once
 
+#include <queue>
 #include <GCrisp/Renderer/VertexArray.h>
 #include <GCrisp/Renderer/Camera.h>
 #include <GCrisp/Renderer/Shader.h>
 #include <glm/glm.hpp>
 
+#include "GCrisp/Collections/ConcurrentQueue.h"
+
+#define MAX_RENDER_COMMANDS 1024
 
 namespace GCrisp
 {
@@ -23,6 +27,13 @@ namespace GCrisp
         struct RendererProp
         {
             uint32_t MaxQuadCount = 0;
+        };
+
+        struct RenderCommand
+        {
+            Reference<Shader> Shader;
+            Reference<VertexArray> VertexArray;
+            glm::mat4 Transform;
         };
 
         class API
@@ -59,10 +70,30 @@ namespace GCrisp
 
         void Submit(const Reference<VertexArray>& vertexArray, const Reference<Shader>& shader, const glm::mat4& transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)));
 
-
         inline Backend GetBackend() { return API::GetBackend(); }
 
         static ScopedPtr<API> s_RenderAPI;
         static ScopedPtr<Data> s_Data;
+        // static std::mutex s_Mutex;
+
+        // static std::mutex& GetMutex()
+        // {
+        //     return s_Mutex;
+        // }
+
+        // class RenderThread
+        // {
+        // public:
+        //     RenderThread() {};
+        //     ~RenderThread();
+        //
+        //     void Queue(const RenderCommand& command);
+        // protected:
+        //     void Update();
+        // private:
+        //     std::vector<RenderCommand> m_Queue;
+        //     std::mutex m_Mutex;
+        //     std::thread m_Thread;
+        // };
     }
 }

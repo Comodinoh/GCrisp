@@ -34,12 +34,21 @@
 
 #define GC_PROFILING 0
 #if GC_PROFILING
-    #define GC_PROFILE_START(name) ::GCrisp::TimingsProfiler::StartProfiler(name);
-    #define GC_PROFILE_END() ::GCrisp::TimingsProfiler::EndProfiler();
-    #define GC_PROFILE_SCOPE2(name, line) ProfileResult GC_CONCAT(result, line) = {name, std::this_thread::get_id()};\
-        ::GCrisp::ProfilerTimer GC_CONCAT(timer, line)(GC_CONCAT(result, line));
-    #define GC_PROFILE_SCOPE(name) GC_PROFILE_SCOPE2(name, __LINE__)
-    #define GC_PROFILE_FUNC() GC_PROFILE_SCOPE(__PRETTY_FUNCTION__)
+    #ifndef __JETBRAINS_IDE__
+        #define GC_PROFILE_START(name) ::GCrisp::TimingsProfiler::StartProfiler(name);
+        #define GC_PROFILE_END() ::GCrisp::TimingsProfiler::EndProfiler();
+        #define GC_PROFILE_SCOPE2(name, line) ProfileResult GC_CONCAT(result, line) = {name, std::this_thread::get_id()};\
+            ::GCrisp::ProfilerTimer GC_CONCAT(timer, line)(GC_CONCAT(result, line));
+        #define GC_PROFILE_SCOPE(name) GC_PROFILE_SCOPE2(name, __LINE__)
+        #define GC_PROFILE_FUNC() GC_PROFILE_SCOPE(__PRETTY_FUNCTION__)
+    #else
+        #define GC_PROFILE_START(1)
+        #define GC_PROFILE_END()
+        #define GC_PROFILE_SCOPE2(1, 2)
+        #define GC_PROFILE_SCOPE(1)
+        #define GC_PROFILE_FUNC() GC_PROFILE_SCOPE(__PRETTY_FUNCTION__) // TODO: Test if ____PRETTY_FUNCTION__ works for all compilers
+    #endif
+
 #else
     #define GC_PROFILE_START(name)
     #define GC_PROFILE_END()

@@ -54,6 +54,7 @@ namespace GCrisp
         virtual ~Window() = default;
 
         virtual void OnUpdate() = 0;
+        virtual void TransferContext() = 0;
 
         inline Graphics::Creator* GetCreator() const { return m_GraphicsCreator; }
         inline Graphics::Backend GetBackend() { return m_Backend; }

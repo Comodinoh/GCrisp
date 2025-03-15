@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(GCRISP_VULKAN_VERSION 1.3.296.0)
 
 set(CMAKE_CXX_FLAGS "-fdiagnostics-color=always")
 
@@ -38,7 +39,23 @@ target_include_directories(${PROJECT_NAME}
   src
  )
 
+function(link_vulkan)
+  find_package(Vulkan ${GCRISP_VULKAN_VERSION} COMPONENTS glslc)
+
+  if(NOT ${Vulkan_FOUND})
+    include(FetchContent)
+    message(FATAL_ERROR "${PROJECT_NAME}: Vulkan SDK not found.
+    Please download the SDK at https://sdk.lunarg.com/sdk/download/1.3.296.0/windows/VulkanSDK-1.3.296.0-Installer.exe
+    and install it (Be sure to install glslc too)")
+  else()
+    target_include_directories(${PROJECT_NAME} PRIVATE ${Vulkan_INCLUDE_DIRS})
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${Vulkan_LIBRARIES})
+  endif()
+endfunction()
+
 if(GCRISP_BUILD_WIN32 OR GCRISP_BUILD_POSIX)
+  link_vulkan()
+
   file(GLOB_RECURSE COMMONS_SRC platform/Desktop/Commons/*.cpp)
   target_sources(${PROJECT_NAME} PRIVATE ${COMMONS_SRC})
   target_include_directories(${PROJECT_NAME} PRIVATE platform/Desktop/Commons)

@@ -1,17 +1,18 @@
 #include <gcpch.h>
-#include "GLWindow.h"
+#include "VKWindow.h"
 
-#include <GCrisp/Platform/OpenGL/GLCreator.h>
-#include <GCrisp/Platform/OpenGL/GLContext.h>
 #include <GCrisp/Events/ApplicationEvent.h>
 #include <GCrisp/Events/MouseEvent.h>
 #include <GCrisp/Events/KeyEvent.h>
 #include <GLFW/glfw3.h>
-#include <glad/glad.h>
+
+#include "VKContext.h"
+#include "VKCreator.h"
 
 
 namespace GCrisp
 {
+    namespace
     static bool s_GLFWInitialized = false;
 
     static void GLFWErrorCallback(int error, const char* desc)
@@ -19,17 +20,17 @@ namespace GCrisp
         GC_CORE_ERROR("GLFW Error: {0}: {1}", error, desc);
     }
 
-    GLWindow::GLWindow(const Graphics::Backend& backend, const WindowProps& props) : Window(backend)
+    VKWindow::VKWindow(const Graphics::Backend& backend, const WindowProps& props) : Window(backend)
     {
         Init(props);
     }
 
-    GLWindow::~GLWindow()
+    VKWindow::~VKWindow()
     {
         Shutdown();
     }
 
-    void GLWindow::Init(const WindowProps& props)
+    void VKWindow::Init(const WindowProps& props)
     {
         GC_PROFILE_FUNC();
         m_Data.Title = props.Title;
@@ -43,7 +44,7 @@ namespace GCrisp
 
         if (!s_GLFWInitialized)
         {
-            GC_PROFILE_SCOPE("glfwInit - OpenGLWindow");
+            GC_PROFILE_SCOPE("glfwInit - OpenVKWindow");
             int success = glfwInit();
             GC_CORE_ASSERT(success, "Could not initialize GLFW!");
 
@@ -55,19 +56,36 @@ namespace GCrisp
         glfwWindowHint(GLFW_RESIZABLE, props.Resizable);
 
         {
-            GC_PROFILE_SCOPE("glfwCreateWindow - OpenGLWindow");
+            GC_PROFILE_SCOPE("glfwCreateWindow - OpenVKWindow");
             m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
         }
 
-        m_Context = new Graphics::GLContext(m_Window);
+        VkApplicationInfo appInfo = {
+            .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
+            .pApplicationName = m_Data.Title.c_str(),
+            1,
+            ENGINE_NAME,
+            1,
+            VK_API_VERSION_1_2
+        };
+        VkInstanceCreateInfo info = {
+            .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
+            .pNext = nullptr,
+            .flags = 0,
+            .pApplicationInfo = &appInfo,
+
+
+        };
+
+        vkCreateInstance(&info, nullptr, &m_VulkanInstance);
+        m_Context = new Graphics::VKContext(m_Window);
         m_Context->Init();
 
         int textureSlots = 0;
-        glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &textureSlots);
-        m_GraphicsSpec = GraphicsSpec{(char*)glGetString(GL_RENDERER),
-            (char*)glGetString(GL_VENDOR),
-            (char*)glGetString(GL_VERSION),
-            (char*)glGetString(GL_SHADING_LANGUAGE_VERSION), (uint32_t)textureSlots};
+        // m_GraphicsSpec = GraphicsSpec{(char*)glGetString(GL_RENDERER),
+        //     (char*)glGetString(GL_VENDOR),
+        //     (char*)glGetString(GL_VERSION),
+        //     (char*)glGetString(GL_SHADING_LANGUAGE_VERSION), (uint32_t)textureSlots};
 
         GC_CORE_INFO("Initialized OpenGL context:");
         GC_CORE_INFO("   Vendor: {0}", m_GraphicsSpec.Vendor);
@@ -175,36 +193,36 @@ namespace GCrisp
             data.EventCallback(event);
         });
 
-        m_GraphicsCreator = new Graphics::GLCreator();
+        m_GraphicsCreator = new Graphics::VKCreator();
     }
 
 
-    void GLWindow::Shutdown()
+    void VKWindow::Shutdown()
     {
         GC_PROFILE_FUNC();
         glfwDestroyWindow(m_Window);
     }
 
-    void GLWindow::OnUpdate()
+    void VKWindow::OnUpdate()
     {
         GC_PROFILE_FUNC();
         glfwPollEvents();
         m_Context->SwapBuffers();
     }
 
-    void GLWindow::TransferContext()
+    void VKWindow::TransferContext()
     {
         glfwMakeContextCurrent(m_Window);
     }
 
-    void GLWindow::SetResizable(bool enabled)
+    void VKWindow::SetResizable(bool enabled)
     {
         GC_PROFILE_FUNC();
         glfwWindowHint(GLFW_RESIZABLE, enabled ? GLFW_TRUE : GLFW_FALSE);
         m_Data.Resizable = enabled;
     }
 
-    void GLWindow::SetVSync(bool enabled)
+    void VKWindow::SetVSync(bool enabled)
     {
         GC_PROFILE_FUNC();
         if (enabled)
@@ -219,3 +237,4 @@ namespace GCrisp
         m_Data.VSync = enabled;
     }
 }
+

@@ -16,6 +16,8 @@ namespace GCrisp
         class Creator
         {
         public:
+            virtual ~Creator() = default;
+
             virtual API* CreateAPI() = 0;
 
             virtual Shader* CreateShader(const ShaderSpec& spec) = 0;
