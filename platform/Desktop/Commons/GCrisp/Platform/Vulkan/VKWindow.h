@@ -1,19 +1,24 @@
 #pragma once
 
 #include <GCrisp/Core/GWindow.h>
-#include <vulkan/vulkan.hpp>
 
-struct GLFWwindow;
+#define GLFW_INCLUDE_VULKAN
+#include <GLFW/glfw3.h>
 
 namespace GCrisp{
 
     // TODO: Implement vulkan window backend
 
+    struct VKData
+    {
+        VkPhysicalDevice PhysicalDevices[];
+    };
+
     class VKWindow : Window
     {
     public:
         VKWindow(const Graphics::Backend& backend, const WindowProps& props);
-        virtual ~VKWindow();
+        virtual ~VKWindow() override;
 
         virtual void OnUpdate() override;
         virtual void TransferContext() override;
@@ -25,13 +30,16 @@ namespace GCrisp{
 
         virtual void SetVSync(bool enabled) override;
 
-        static VkInstance& GetVulkan() {return m_VulkanInstance;};
+        static VkInstance& GetVulkan() {return s_VulkanInstance;};
+        static VKData& GetVulkanData() {return s_VulkanData;};
+
 
     protected:
         GLFWwindow* m_Window;
         Graphics::Context* m_Context;
 
-        static VkInstance m_VulkanInstance;
+        static VkInstance s_VulkanInstance;
+        static VKData s_VulkanData;
 
         virtual void Init(const WindowProps& props);
         virtual void Shutdown();

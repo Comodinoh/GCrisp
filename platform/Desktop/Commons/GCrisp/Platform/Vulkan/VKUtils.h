@@ -1,0 +1,67 @@
+#pragma once
+#include <GCrisp/Core/Application.h>
+
+#include "VKWindow.h"
+
+
+namespace GCrisp
+{
+    namespace Utils
+    {
+        static void GetPhysicalDevice(const std::string_view& deviceName, VkPhysicalDevice* device)
+        {
+            for (int i = 0; i< Application::Get().GetWindow().GetGraphicsSpec().PhysicalDeviceCount; i++)
+            {
+                std::string_view& selected = Application::Get().GetWindow().GetGraphicsSpec().PhysicalDevices[i];
+
+                if (deviceName == selected)
+                {
+                    *device = VKWindow::GetVulkanData().PhysicalDevices[i];
+                    return;
+                }
+            }
+        }
+
+        static void GetVendorName(uint32_t vendorID, std::string_view* result)
+        {
+            switch (vendorID)
+            {
+            case 0x1002:
+                {
+                    *result = "AMD";
+                    return;
+                }
+            case 0x1010:
+                {
+                    *result = "ImgTec";
+                    return;
+                }
+            case 0x10DE:
+                {
+                    *result = "NVIDIA";
+                    return;
+                }
+            case 0x13B5:
+                {
+                    *result = "ARM";
+                    return;
+                }
+            case 0x5143:
+                {
+                    *result = "Qualcomm";
+                    return;
+                }
+            case 0x8086:
+                {
+                    *result = "INTEL";
+                    return;
+                }
+            default:
+                {
+                    result = nullptr; // Might be better to return a SUCCESS/FAIL result.
+                    return;
+                }
+            }
+        }
+    }
+}

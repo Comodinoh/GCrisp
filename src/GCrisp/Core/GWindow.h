@@ -18,6 +18,13 @@ namespace GCrisp
         const char* SLVersion;
 
         uint32_t TextureSlots;
+
+        // Usually used only with Vulkan, otherwise it's going to be a nullptr
+        std::string_view* ExtensionNames = nullptr;
+        uint32_t ExtensionCount = 0;
+
+        std::string_view* PhysicalDevices = nullptr;
+        uint32_t PhysicalDeviceCount = 0;
     };
 
     struct WindowData

@@ -4,15 +4,14 @@
 #include <GCrisp/Events/ApplicationEvent.h>
 #include <GCrisp/Events/MouseEvent.h>
 #include <GCrisp/Events/KeyEvent.h>
-#include <GLFW/glfw3.h>
 
 #include "VKContext.h"
 #include "VKCreator.h"
+#include "VKUtils.h"
 
 
 namespace GCrisp
 {
-    namespace
     static bool s_GLFWInitialized = false;
 
     static void GLFWErrorCallback(int error, const char* desc)
@@ -22,12 +21,12 @@ namespace GCrisp
 
     VKWindow::VKWindow(const Graphics::Backend& backend, const WindowProps& props) : Window(backend)
     {
-        Init(props);
+        VKWindow::Init(props);
     }
 
     VKWindow::~VKWindow()
     {
-        Shutdown();
+        VKWindow::Shutdown();
     }
 
     void VKWindow::Init(const WindowProps& props)
@@ -54,6 +53,7 @@ namespace GCrisp
         }
 
         glfwWindowHint(GLFW_RESIZABLE, props.Resizable);
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
         {
             GC_PROFILE_SCOPE("glfwCreateWindow - OpenVKWindow");
@@ -63,21 +63,67 @@ namespace GCrisp
         VkApplicationInfo appInfo = {
             .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
             .pApplicationName = m_Data.Title.c_str(),
-            1,
+            VK_MAKE_VERSION(1, 0, 0),
             ENGINE_NAME,
-            1,
-            VK_API_VERSION_1_2
+            VK_MAKE_VERSION(1, 0, 0),
+            VK_API_VERSION_1_3
         };
+
+        uint32_t glfwExtCount;
+        const char** glfwExt = glfwGetRequiredInstanceExtensions(&glfwExtCount);
+
         VkInstanceCreateInfo info = {
             .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
-            .pNext = nullptr,
-            .flags = 0,
             .pApplicationInfo = &appInfo,
-
-
+            .enabledExtensionCount = glfwExtCount,
+            .ppEnabledExtensionNames = glfwExt,
+            .enabledLayerCount = 0,
         };
 
-        vkCreateInstance(&info, nullptr, &m_VulkanInstance);
+        uint32_t extCount = 0;
+
+        vkEnumerateInstanceExtensionProperties(nullptr, &extCount, nullptr);
+
+        VkExtensionProperties exts[extCount];
+
+        vkEnumerateInstanceExtensionProperties(nullptr, &extCount, exts);
+
+
+        // May get VK_ERROR_INCOMPATIBLE_DRIVER on MacOS with latest MoltenVK sdk
+        GC_CORE_VERIFY(vkCreateInstance(&info, nullptr, &s_VulkanInstance) == VK_SUCCESS, "Failed to create Vulkan instance!", nullptr);
+
+        uint32_t deviceCount = 0;
+        vkEnumeratePhysicalDevices(s_VulkanInstance, &deviceCount, nullptr);
+
+        VkPhysicalDevice devices[deviceCount];
+        vkEnumeratePhysicalDevices(s_VulkanInstance, &deviceCount, devices);
+
+        VkPhysicalDeviceProperties deviceProperties;
+
+        for (int i = 0; i< deviceCount; i++)
+        {
+            vkGetPhysicalDeviceProperties(devices[i], &deviceProperties);
+            std::string_view name = deviceProperties.deviceName;
+
+            std::string_view vendor;
+            Utils::GetVendorName(deviceProperties.vendorID, &vendor);
+
+            // TODO: How do you even get the texture bound limit?!
+
+        }
+
+
+
+        // m_GraphicsSpec = {
+        //     .Renderer =
+        // };
+
+        GC_CORE_INFO("Vulkan Specifications:");
+        GC_CORE_INFO("   Vendor: {0}", m_GraphicsSpec.Vendor);
+        GC_CORE_INFO("   Renderer: {0}", m_GraphicsSpec.Renderer);
+        GC_CORE_INFO("   Vulkan Version: {0}", m_GraphicsSpec.Version);
+        GC_CORE_INFO("   SL Version: {0}", m_GraphicsSpec.SLVersion);
+
         m_Context = new Graphics::VKContext(m_Window);
         m_Context->Init();
 
@@ -86,12 +132,6 @@ namespace GCrisp
         //     (char*)glGetString(GL_VENDOR),
         //     (char*)glGetString(GL_VERSION),
         //     (char*)glGetString(GL_SHADING_LANGUAGE_VERSION), (uint32_t)textureSlots};
-
-        GC_CORE_INFO("Initialized OpenGL context:");
-        GC_CORE_INFO("   Vendor: {0}", m_GraphicsSpec.Vendor);
-        GC_CORE_INFO("   Renderer: {0}", m_GraphicsSpec.Renderer);
-        GC_CORE_INFO("   OpenGL Version: {0}", m_GraphicsSpec.Version);
-        GC_CORE_INFO("   GLSL Version: {0}", m_GraphicsSpec.SLVersion);
 
         glfwSetWindowUserPointer(m_Window, &m_Data);
         SetVSync(true);

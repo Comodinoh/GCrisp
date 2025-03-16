@@ -48,7 +48,7 @@ function(link_vulkan)
     Please download the SDK at https://sdk.lunarg.com/sdk/download/1.3.296.0/windows/VulkanSDK-1.3.296.0-Installer.exe
     and install it (Be sure to install glslc too)")
   else()
-    target_include_directories(${PROJECT_NAME} PRIVATE ${Vulkan_INCLUDE_DIRS})
+    target_include_directories(${PROJECT_NAME} PUBLIC ${Vulkan_INCLUDE_DIRS})
     target_link_libraries(${PROJECT_NAME} PRIVATE ${Vulkan_LIBRARIES})
   endif()
 endfunction()

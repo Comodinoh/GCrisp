@@ -69,7 +69,7 @@ namespace GCrisp
             (char*)glGetString(GL_VERSION),
             (char*)glGetString(GL_SHADING_LANGUAGE_VERSION), (uint32_t)textureSlots};
 
-        GC_CORE_INFO("Initialized OpenGL context:");
+        GC_CORE_INFO("OpenGL Specifications:");
         GC_CORE_INFO("   Vendor: {0}", m_GraphicsSpec.Vendor);
         GC_CORE_INFO("   Renderer: {0}", m_GraphicsSpec.Renderer);
         GC_CORE_INFO("   OpenGL Version: {0}", m_GraphicsSpec.Version);

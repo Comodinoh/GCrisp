@@ -12,7 +12,6 @@ namespace GCrisp
   void VKContext::Init() const
   {
    GC_PROFILE_FUNC();
-   vkGetInstanceProcAddr();
   }
 
   void VKContext::SwapBuffers() const

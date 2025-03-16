@@ -6,8 +6,6 @@
 #include <GCrisp/Renderer/Shader.h>
 #include <glm/glm.hpp>
 
-#include "GCrisp/Collections/ConcurrentQueue.h"
-
 #define MAX_RENDER_COMMANDS 1024
 
 namespace GCrisp
