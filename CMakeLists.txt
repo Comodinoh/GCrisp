@@ -7,7 +7,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED On)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(GCRISP_VULKAN_VERSION 1.3.296.0)
 
-set(CMAKE_CXX_FLAGS "-fdiagnostics-color=always")
 
 include(CMakeDependentOption)
 
@@ -21,7 +20,7 @@ cmake_dependent_option(GCRISP_BUILD_WIN32 "Build support for Win32" ON "WIN32" O
 cmake_dependent_option(GCRISP_BUILD_POSIX "Build support for Posix/Linux" ON "UNIX;NOT APPLE" OFF)
 cmake_dependent_option(GCRISP_BUILD_ANDROID "Build support for Android" ON "ANDROID" OFF)
 
-file(GLOB_RECURSE SRC_FILES src/GCrisp/*.cpp)
+file(GLOB_RECURSE SRC_FILES src/GCrisp/*.cpp src/GCrisp/*.h)
 
 add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
 
@@ -45,8 +44,8 @@ function(link_vulkan)
   if(NOT ${Vulkan_FOUND})
     include(FetchContent)
     message(FATAL_ERROR "${PROJECT_NAME}: Vulkan SDK not found.
-    Please download the SDK at https://sdk.lunarg.com/sdk/download/1.3.296.0/windows/VulkanSDK-1.3.296.0-Installer.exe
-    and install it (Be sure to install glslc too)")
+    Please follow this guide https://vulkan-tutorial.com/Development_environment  to setup the SDK based on your OS 
+    (Be sure to install glslc too)")
   else()
     target_include_directories(${PROJECT_NAME} PUBLIC ${Vulkan_INCLUDE_DIRS})
     target_link_libraries(${PROJECT_NAME} PRIVATE ${Vulkan_LIBRARIES})
@@ -55,6 +54,8 @@ endfunction()
 
 if(GCRISP_BUILD_WIN32 OR GCRISP_BUILD_POSIX)
   link_vulkan()
+
+  add_definitions(-DGLFW_INCLUDE_NONE)
 
   file(GLOB_RECURSE COMMONS_SRC platform/Desktop/Commons/*.cpp)
   target_sources(${PROJECT_NAME} PRIVATE ${COMMONS_SRC})
@@ -65,9 +66,6 @@ endif()
 if(GCRISP_BUILD_WIN32)
   message(STATUS "${PROJECT_NAME}: Building for Windows systems")
 
-  add_definitions(-DGLFW_INCLUDE_NONE)
-
-
   file(GLOB_RECURSE WIN32_SRC platform/Desktop/Win32/*.cpp)
 
   target_sources(${PROJECT_NAME} PRIVATE ${WIN32_SRC})
@@ -76,16 +74,16 @@ if(GCRISP_BUILD_WIN32)
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_WIN32)
 elseif(GCRISP_BUILD_POSIX)
   message(STATUS "${PROJECT_NAME}: Building for Posix systems")
+  
+  set(CMAKE_CXX_FLAGS "-fdiagnostics-color=always")
 
-  add_definitions(-DGLFW_INCLUDE_NONE)
   file(GLOB_RECURSE LINUX_SRC platform/Desktop/Linux/*.cpp)
-
 
   target_sources(${PROJECT_NAME} PRIVATE ${LINUX_SRC})
   target_include_directories(${PROJECT_NAME} PRIVATE platform/Desktop/Linux)
 
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_POSIX)
-elseif(ANDROID)
+elseif(GCRISP_BUILD_ANDROID)
   message(FATAL_ERROR "${PROJECT_NAME}: Building for Android systems isn't supported yet!")
   # Support still in progress
 endif()

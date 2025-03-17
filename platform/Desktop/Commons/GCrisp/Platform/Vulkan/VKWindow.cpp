@@ -63,10 +63,10 @@ namespace GCrisp
         VkApplicationInfo appInfo = {
             .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
             .pApplicationName = m_Data.Title.c_str(),
-            VK_MAKE_VERSION(1, 0, 0),
-            ENGINE_NAME,
-            VK_MAKE_VERSION(1, 0, 0),
-            VK_API_VERSION_1_3
+            .applicationVersion = VK_MAKE_API_VERSION(1, 1, 0, 0),
+            .pEngineName = ENGINE_NAME,
+            .engineVersion = VK_MAKE_API_VERSION(1, 1, 0, 0),
+            .apiVersion = VK_API_VERSION_1_3
         };
 
         uint32_t glfwExtCount;
@@ -75,16 +75,17 @@ namespace GCrisp
         VkInstanceCreateInfo info = {
             .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
             .pApplicationInfo = &appInfo,
+            .enabledLayerCount = 0,
+            .ppEnabledLayerNames = nullptr,
             .enabledExtensionCount = glfwExtCount,
             .ppEnabledExtensionNames = glfwExt,
-            .enabledLayerCount = 0,
         };
 
         uint32_t extCount = 0;
 
         vkEnumerateInstanceExtensionProperties(nullptr, &extCount, nullptr);
 
-        VkExtensionProperties exts[extCount];
+        VkExtensionProperties* exts = (VkExtensionProperties*)calloc(extCount, sizeof(VkExtensionProperties));
 
         vkEnumerateInstanceExtensionProperties(nullptr, &extCount, exts);
 
@@ -95,7 +96,7 @@ namespace GCrisp
         uint32_t deviceCount = 0;
         vkEnumeratePhysicalDevices(s_VulkanInstance, &deviceCount, nullptr);
 
-        VkPhysicalDevice devices[deviceCount];
+        VkPhysicalDevice* devices = (VkPhysicalDevice*)calloc(deviceCount, sizeof(VkPhysicalDevice));
         vkEnumeratePhysicalDevices(s_VulkanInstance, &deviceCount, devices);
 
         VkPhysicalDeviceProperties deviceProperties;

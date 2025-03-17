@@ -167,7 +167,7 @@ namespace GCrisp
         std::string path = "assets/shaders/" + name;
         std::ifstream file;
 
-        file.open(path, std::iostream::openmode::_S_in | std::iostream::openmode::_S_bin);
+        file.open(path, std::ios_base::in | std::ios_base::binary);
         if (!file.is_open())
         {
             GC_CORE_ERROR("Could not open file '{0}'", path);

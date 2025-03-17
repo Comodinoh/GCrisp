@@ -49,7 +49,7 @@ namespace GCrisp
                     GLint maxLength;
                     glGetShaderiv(id, GL_INFO_LOG_LENGTH, &maxLength);
 
-                    GLchar infoLog[maxLength];
+                    GLchar* infoLog = (GLchar*)calloc(maxLength, sizeof(GLchar));
                     glGetShaderInfoLog(id, maxLength, &maxLength, infoLog);
 
                     glDeleteShader(id);
@@ -78,7 +78,7 @@ namespace GCrisp
                 GLint maxLength;
                 glGetProgramiv(programID, GL_INFO_LOG_LENGTH, &maxLength);
 
-                GLchar infoLog[maxLength];
+                GLchar* infoLog = (GLchar*)calloc(maxLength, sizeof(GLchar));
                 glGetProgramInfoLog(programID, maxLength, &maxLength, infoLog);
 
                 glDeleteProgram(programID);
