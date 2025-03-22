@@ -10,12 +10,47 @@ namespace GCrisp
 {
     using EventCallbackFunc = std::function<void(Event&)>;
 
+    struct Version
+    {
+        Version(const uint32_t variant = 0, const uint32_t major = 1, const uint32_t minor = 0, const uint32_t patch = 0)
+        {
+            Variant = variant;
+            Major = major;
+            Minor = minor;
+            Patch = patch;
+        }
+
+        std::string_view GetName() const
+        {
+            const size_t len = 256;
+            char buf[len];
+            snprintf(buf, len, "%d-%d.%d.%d", Variant, Major, Minor, Patch);
+
+            return buf;
+        }
+
+        std::string_view GetNameNoVariant()
+        {
+            const size_t len = 256;
+            char buf[len];
+            snprintf(buf, len, "%d.%d.%d", Major, Minor, Patch);
+
+            return buf;
+        }
+
+        uint32_t Variant;
+        uint32_t Major;
+        uint32_t Minor;
+        uint32_t Patch;
+    };
+
     struct GraphicsSpec
     {
-        const char* Renderer;
-        const char* Vendor;
-        const char* Version;
-        const char* SLVersion;
+        std::string_view Renderer;
+        std::string_view Vendor;
+        std::string_view SLVersion; 
+
+        Version APIVersion;
 
         uint32_t TextureSlots;
 
@@ -23,7 +58,7 @@ namespace GCrisp
         std::string_view* ExtensionNames = nullptr;
         uint32_t ExtensionCount = 0;
 
-        std::string_view* PhysicalDevices = nullptr;
+        std::string_view SelectedDevice;
         uint32_t PhysicalDeviceCount = 0;
     };
 
@@ -76,7 +111,7 @@ namespace GCrisp
         inline virtual void* GetWindowPointer() = 0;
         inline virtual Graphics::Context* GetContext() = 0;
 
-        virtual void SetVSync(bool enabled) = 0;
+        virtual void SetVSync(bool enabled) = 0; 
         inline bool HasVSync() const { return m_Data.VSync; }
 
         void SetEventCallback(const EventCallbackFunc& callback) { m_Data.EventCallback = callback; };

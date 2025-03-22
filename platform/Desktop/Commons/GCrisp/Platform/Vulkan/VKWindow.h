@@ -11,7 +11,7 @@ namespace GCrisp{
 
     struct VKData
     {
-        VkPhysicalDevice PhysicalDevices[];
+        VkPhysicalDevice SelectedDevice;
     };
 
     class VKWindow : Window
@@ -29,7 +29,7 @@ namespace GCrisp{
         virtual void SetResizable(bool enabled) override;
 
         virtual void SetVSync(bool enabled) override;
-
+         
         static VkInstance& GetVulkan() {return s_VulkanInstance;};
         static VKData& GetVulkanData() {return s_VulkanData;};
 

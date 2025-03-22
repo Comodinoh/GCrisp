@@ -64,15 +64,22 @@ namespace GCrisp
 
         int textureSlots = 0;
         glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &textureSlots);
-        m_GraphicsSpec = GraphicsSpec{(char*)glGetString(GL_RENDERER),
-            (char*)glGetString(GL_VENDOR),
-            (char*)glGetString(GL_VERSION),
-            (char*)glGetString(GL_SHADING_LANGUAGE_VERSION), (uint32_t)textureSlots};
+        
+        m_GraphicsSpec.Vendor = (const char*)glGetString(GL_VENDOR);
+        m_GraphicsSpec.Renderer = (const char*)glGetString(GL_RENDERER);
+        m_GraphicsSpec.SLVersion = (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
+
+        int majorVer, minorVer;
+
+        glGetIntegerv(GL_MAJOR_VERSION, &majorVer);
+        glGetIntegerv(GL_MINOR_VERSION, &minorVer);
+        
+        m_GraphicsSpec.APIVersion = Version(1, majorVer, minorVer);
 
         GC_CORE_INFO("OpenGL Specifications:");
         GC_CORE_INFO("   Vendor: {0}", m_GraphicsSpec.Vendor);
         GC_CORE_INFO("   Renderer: {0}", m_GraphicsSpec.Renderer);
-        GC_CORE_INFO("   OpenGL Version: {0}", m_GraphicsSpec.Version);
+        GC_CORE_INFO("   OpenGL Version: {0}", m_GraphicsSpec.APIVersion.GetNameNoVariant());
         GC_CORE_INFO("   GLSL Version: {0}", m_GraphicsSpec.SLVersion);
 
         glfwSetWindowUserPointer(m_Window, &m_Data);

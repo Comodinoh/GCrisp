@@ -8,20 +8,6 @@ namespace GCrisp
 {
     namespace Utils
     {
-        static void GetPhysicalDevice(const std::string_view& deviceName, VkPhysicalDevice* device)
-        {
-            for (int i = 0; i< Application::Get().GetWindow().GetGraphicsSpec().PhysicalDeviceCount; i++)
-            {
-                std::string_view& selected = Application::Get().GetWindow().GetGraphicsSpec().PhysicalDevices[i];
-
-                if (deviceName == selected)
-                {
-                    *device = VKWindow::GetVulkanData().PhysicalDevices[i];
-                    return;
-                }
-            }
-        }
-
         static void GetVendorName(uint32_t vendorID, std::string_view* result)
         {
             switch (vendorID)

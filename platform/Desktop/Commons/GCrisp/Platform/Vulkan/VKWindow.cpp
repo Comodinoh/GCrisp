@@ -101,28 +101,57 @@ namespace GCrisp
 
         VkPhysicalDeviceProperties deviceProperties;
 
+        uint32_t n = 0;
+        uint32_t selected = 0;
+
+        VkPhysicalDevice device = nullptr;
+
         for (int i = 0; i< deviceCount; i++)
         {
             vkGetPhysicalDeviceProperties(devices[i], &deviceProperties);
-            std::string_view name = deviceProperties.deviceName;
 
-            std::string_view vendor;
-            Utils::GetVendorName(deviceProperties.vendorID, &vendor);
+            if (deviceProperties.deviceType == VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
+            {
+                device = devices[i];
+                break;
+            }
 
             // TODO: How do you even get the texture bound limit?!
-
+            // TODO: Pick the device based on a score
         }
 
+        if (!device)
+        {
+            GC_CORE_ERROR("Couldn't find a compatible discrete graphic card for Vulkan.");
+            return;
+        }
+
+        s_VulkanData.SelectedDevice = device;
 
 
-        // m_GraphicsSpec = {
-        //     .Renderer =
-        // };
+        std::string_view name = deviceProperties.deviceName;
+
+        std::string_view vendor;
+        Utils::GetVendorName(deviceProperties.vendorID, &vendor);
+
+        
+        m_GraphicsSpec.Renderer = name;
+        m_GraphicsSpec.Vendor = vendor;
+
+        uint32_t apiVer = deviceProperties.apiVersion;
+
+        Version apiVersion =
+        {
+            VK_API_VERSION_VARIANT(apiVer),
+            VK_API_VERSION_MAJOR(apiVer),
+            VK_API_VERSION_MINOR(apiVer),
+            VK_API_VERSION_PATCH(apiVer)
+        };
 
         GC_CORE_INFO("Vulkan Specifications:");
         GC_CORE_INFO("   Vendor: {0}", m_GraphicsSpec.Vendor);
         GC_CORE_INFO("   Renderer: {0}", m_GraphicsSpec.Renderer);
-        GC_CORE_INFO("   Vulkan Version: {0}", m_GraphicsSpec.Version);
+        GC_CORE_INFO("   Vulkan Version: {0}", m_GraphicsSpec.APIVersion.GetName());
         GC_CORE_INFO("   SL Version: {0}", m_GraphicsSpec.SLVersion);
 
         m_Context = new Graphics::VKContext(m_Window);
