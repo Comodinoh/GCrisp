@@ -50,6 +50,16 @@ namespace GCrisp
             uint32_t MaxQuadCount = 1000;
         };
 
+        struct QuadProp
+        {
+            QuadProp(const glm::vec3& pos, const glm::vec2& size, const glm::vec4& tint = { 1.0f, 1.0f, 1.0f, 1.0f }) : Position(pos), Size(size), Tint(tint) {}
+            QuadProp(const glm::vec2& pos, const glm::vec2& size, const glm::vec4& tint = { 1.0f, 1.0f, 1.0f, 1.0f }) : Position(pos.x, pos.y, 0.0f), Size(size), Tint(tint) {}
+
+            glm::vec3 Position;
+            glm::vec2 Size;
+            glm::vec4 Tint;
+        };
+
         void Init(const Graphics::RendererProp& prop);
         void Shutdown();
 
@@ -57,13 +67,18 @@ namespace GCrisp
         void EndRender();
         void Flush();
       
-        void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color);
-        inline void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color){DrawQuad({position.x, position.y, 0}, size, color);}
+        void DrawQuad(const QuadProp& prop);
 
-        void DrawQuad(const glm::vec3& position, const glm::vec2& size, const AssetID& texture, const glm::vec4& tint);
-        inline void DrawQuad(const glm::vec3& position, const glm::vec2& size, const AssetID& texture) {DrawQuad(position, size, texture, {1.0f, 1.0f, 1.0f, 1.0f});}
-        inline void DrawQuad(const glm::vec2& position, const glm::vec2& size, const AssetID& texture, const glm::vec4& tint) {DrawQuad({position.x, position.y, 0.0f}, size, texture, tint);}
-        inline void DrawQuad(const glm::vec2& position, const glm::vec2& size, const AssetID& texture){DrawQuad({position.x, position.y, 0}, size, texture);}
+        /*
+        * Draws a textured quad 
+        */
+        void DrawQuadT(const QuadProp& prop, const AssetID& texture);
+
+        /*
+        * Draws a quad selected from a texture atlas
+        */
+        void DrawQuadTA(const QuadProp& prop, const AssetID& textureAtlas, const glm::vec2& uv);
+
 
         static Data* s_Data;
     }

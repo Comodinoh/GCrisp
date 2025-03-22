@@ -11,9 +11,9 @@ namespace GCrisp
             GC_PROFILE_FUNC();
             s_RendererBackend = Backend::OpenGL;
 
-            // glEnable(GL_DEPTH_TEST);
-            // glEnable(GL_BLEND);
-            // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+             glEnable(GL_DEPTH_TEST);
+             glEnable(GL_BLEND);
+             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             // TODO: Figure out blending + depth testing
         }
 

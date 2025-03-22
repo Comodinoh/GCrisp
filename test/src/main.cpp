@@ -94,7 +94,7 @@ public:
             GC_PROFILE_SCOPE("Render2D Draw - TestLayer");
             // Graphics2D::DrawQuad({-0.6, -0.6}, {1, 1}, texture);
             // Graphics2D::DrawQuad({1.4, 1.4}, {1, 1}, texture, {1, 0.8, 0.8, 1});
-            // Graphics2D::DrawQuad({0, 0}, {1, 1}, {1, 0, 0, 1});
+            // Graphics2D::DrawQuad({0, 0},  {1, 1}, {1, 0, 0, 1});
             // Graphics2D::DrawQuad({-0.5, -0.5}, {0.5, 0.5}, {1, 0, 0, 1});
             // for (int y = -80;y<80;y++)
             // {
@@ -104,8 +104,8 @@ public:
             //     }
             // }
 
-            Graphics2D::DrawQuad({0.5f, 0.5f}, {1.0f, 1.0f}, {1.0f, 0.0f, 0.0f, 1.0f});
-            Graphics2D::DrawQuad({-0.5f, -0.5f}, {1.0f, 1.0f}, AssetsManager::GetDefaultTexture());
+            Graphics2D::DrawQuadT({ {-0.5f, -0.5f}, {1.0f, 1.0f} }, AssetsManager::GetDefaultTexture());
+            Graphics2D::DrawQuad({ { 0.0f, 0.0f, 1.0f }, { 1.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 0.9f } });
 
         }
 

@@ -23,7 +23,7 @@ namespace GCrisp
             GLenum format = spec.channels > 3 ? GL_RGBA : GL_RGB;
 
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, spec.Width, spec.Height, 0, format, GL_UNSIGNED_BYTE, data);
-            glGenerateMipmap(GL_TEXTURE_2D);
+            glGenerateMipmap(GL_TEXTURE_2D); 
         }
 
         GLTexture::~GLTexture()

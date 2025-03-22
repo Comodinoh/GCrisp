@@ -131,7 +131,7 @@ namespace GCrisp
             s_Data->DrawCalls = 0;
         }
 
-        void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
+        void DrawQuad(const QuadProp& prop)
         {
             if (s_Data->QuadIndexCount >= s_Data->MaxIndexCount || s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
             {
@@ -142,26 +142,26 @@ namespace GCrisp
             // s_Data->TextureShader->UploadInt("u_Texture", 0);
 
 
-            s_Data->CurrentVertex->Position = {position.x, position.y, position.z};
-            s_Data->CurrentVertex->Color = color;
+            s_Data->CurrentVertex->Position = {prop.Position.x, prop.Position.y, prop.Position.z};
+            s_Data->CurrentVertex->Color = prop.Tint;
             s_Data->CurrentVertex->TexCoord = {0, 0};
             s_Data->CurrentVertex->TextureID = 0;
             s_Data->CurrentVertex++;
 
-            s_Data->CurrentVertex->Position = {position.x + size.x, position.y, position.z};
-            s_Data->CurrentVertex->Color = color;
+            s_Data->CurrentVertex->Position = { prop.Position.x + prop.Size.x, prop.Position.y, prop.Position.z};
+            s_Data->CurrentVertex->Color = prop.Tint;
             s_Data->CurrentVertex->TexCoord = {1, 0};
             s_Data->CurrentVertex->TextureID = 0;
             s_Data->CurrentVertex++;
 
-            s_Data->CurrentVertex->Position = {position.x + size.x, position.y + size.y, position.z};
-            s_Data->CurrentVertex->Color = color;
+            s_Data->CurrentVertex->Position = { prop.Position.x + prop.Size.x, prop.Position.y + prop.Size.y, prop.Position.z};
+            s_Data->CurrentVertex->Color = prop.Tint;
             s_Data->CurrentVertex->TexCoord = {1, 1};
             s_Data->CurrentVertex->TextureID = 0;
             s_Data->CurrentVertex++;
 
-            s_Data->CurrentVertex->Position = {position.x, position.y + size.y, position.z};
-            s_Data->CurrentVertex->Color = color;
+            s_Data->CurrentVertex->Position = { prop.Position.x, prop.Position.y + prop.Size.y, prop.Position.z};
+            s_Data->CurrentVertex->Color = prop.Tint;
             s_Data->CurrentVertex->TexCoord = {0, 1};
             s_Data->CurrentVertex->TextureID = 0;
             s_Data->CurrentVertex++;
@@ -169,7 +169,7 @@ namespace GCrisp
             s_Data->QuadIndexCount += 6;
         }
 
-        void DrawQuad(const glm::vec3& position, const glm::vec2& size, const AssetID& texture, const glm::vec4& tint)
+        void DrawQuadT(const QuadProp& prop, const AssetID& texture)
         {
             if (s_Data->QuadIndexCount >= s_Data->MaxIndexCount || s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
             {
@@ -195,27 +195,27 @@ namespace GCrisp
             float texIDF = (float)texID;
 
 
-            s_Data->CurrentVertex->Position = {position.x, position.y, position.z};
-            s_Data->CurrentVertex->Color = tint;
-            s_Data->CurrentVertex->TexCoord = {0, 0};
+            s_Data->CurrentVertex->Position = { prop.Position.x, prop.Position.y, prop.Position.z };
+            s_Data->CurrentVertex->Color = prop.Tint;
+            s_Data->CurrentVertex->TexCoord = { 0, 0 };
             s_Data->CurrentVertex->TextureID = texIDF;
             s_Data->CurrentVertex++;
 
-            s_Data->CurrentVertex->Position = {position.x + size.x, position.y, position.z};
-            s_Data->CurrentVertex->Color = tint;
-            s_Data->CurrentVertex->TexCoord = {1, 0};
+            s_Data->CurrentVertex->Position = { prop.Position.x + prop.Size.x, prop.Position.y, prop.Position.z };
+            s_Data->CurrentVertex->Color = prop.Tint;
+            s_Data->CurrentVertex->TexCoord = { 1, 0 };
             s_Data->CurrentVertex->TextureID = texIDF;
             s_Data->CurrentVertex++;
 
-            s_Data->CurrentVertex->Position = {position.x + size.x, position.y + size.y, position.z};
-            s_Data->CurrentVertex->Color = tint;
-            s_Data->CurrentVertex->TexCoord = {1, 1};
+            s_Data->CurrentVertex->Position = { prop.Position.x + prop.Size.x, prop.Position.y + prop.Size.y, prop.Position.z };
+            s_Data->CurrentVertex->Color = prop.Tint;
+            s_Data->CurrentVertex->TexCoord = { 1, 1 };
             s_Data->CurrentVertex->TextureID = texIDF;
             s_Data->CurrentVertex++;
 
-            s_Data->CurrentVertex->Position = {position.x, position.y + size.y, position.z};
-            s_Data->CurrentVertex->Color = tint;
-            s_Data->CurrentVertex->TexCoord = {0, 1};
+            s_Data->CurrentVertex->Position = { prop.Position.x, prop.Position.y + prop.Size.y, prop.Position.z };
+            s_Data->CurrentVertex->Color = prop.Tint;
+            s_Data->CurrentVertex->TexCoord = { 0, 1 };
             s_Data->CurrentVertex->TextureID = texIDF;
             s_Data->CurrentVertex++;
 
