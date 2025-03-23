@@ -1,5 +1,6 @@
 #pragma once
 
+#include "gcpch.h"
 #include <GCrisp/Core/Core.h>
 
 namespace GCrisp

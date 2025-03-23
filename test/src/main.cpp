@@ -1,10 +1,4 @@
 #include <GCrisp/GCrisp.h>
-#include <GCrisp/Renderer/Renderer.h>
-#include <GCrisp/Renderer/Renderer2D.h>
-#include <GCrisp/Renderer/Shader.h>
-#include <GCrisp/Renderer/Buffer.h>
-#include <GCrisp/Renderer/VertexArray.h>
-#include <GCrisp/Core/CameraController.h>
 #include <GLFW/glfw3.h>
 
 using namespace GCrisp;
@@ -12,8 +6,7 @@ using namespace GCrisp;
 class TestLayer : public Layer
 {
 public:
-    TestLayer() : Layer("Test"), m_CameraController(16.0f / 9.0f,  5)
-    {
+    TestLayer() : Layer("Test"), m_CameraController(16.0f / 9.0f,  5){
         // auto& app = Application::Get();
         // m_VertexArray.reset(app.GetGraphicsCreator()->CreateVertexArray());
         //
@@ -43,7 +36,7 @@ public:
         // };
         // m_IndexBuffer.reset(app.GetGraphicsCreator()->CreateIndexBuffer({indices, sizeof(indices)}));
         // m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-        // m_Texture = Application::Get().GetAssetsManager().LoadAsset({AssetType::Texture2D, ""})
+        m_SubTexture = std::shared_ptr<Graphics::SubTexture2D>(Graphics::SubTexture2D::CreateFromCoords(AssetsManager::GetDefaultTexture(), {2, 2}, {256, 256 }));
     }
 
     void OnUpdate(const ProcessedTime& delta) override
@@ -104,7 +97,7 @@ public:
             //     }
             // }
 
-            Graphics2D::DrawQuadT({ {-0.5f, -0.5f}, {1.0f, 1.0f} }, AssetsManager::GetDefaultTexture());
+            Graphics2D::DrawQuadST({ {-0.5f, -0.5f}, {1.0f, 1.0f} }, m_SubTexture);
             Graphics2D::DrawQuad({ { 0.0f, 0.0f, 1.0f }, { 1.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 0.9f } });
 
         }
@@ -124,7 +117,7 @@ private:
     // Reference<Graphics::VertexBuffer> m_VertexBuffer;
     // Reference<Graphics::IndexBuffer> m_IndexBuffer;
     // Reference<Graphics::VertexArray> m_VertexArray;
-    AssetID m_Texture;
+    Reference<Graphics::SubTexture2D> m_SubTexture;
 
     OrthoCameraController m_CameraController;
 };

@@ -18,7 +18,7 @@ namespace GCrisp
         {
             auto start = steady_clock::now();
             ScopedTimer timer(start, delta);
-            GC_CORE_ASSERT(!s_Instance, "Application instance cannot be not null!")
+            GC_CORE_ASSERT(!s_Instance, "Application should not be initalized twice!")
             s_Instance = this;
           
             m_Window = std::unique_ptr<Window>(Window::Create(Graphics::Backend::OpenGL));

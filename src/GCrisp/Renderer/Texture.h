@@ -1,5 +1,7 @@
 #pragma once
+
 #include "GCrisp/Assets/Assets.h"
+#include <glm/glm.hpp>
 
 namespace GCrisp
 {
@@ -7,7 +9,7 @@ namespace GCrisp
     {
         struct TextureSpec
         {
-            uint32_t Width, Height;
+            glm::vec2 Size;
             uint32_t channels;
         };
 

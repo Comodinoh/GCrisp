@@ -3,6 +3,7 @@
 #include <GCrisp/Renderer/VertexArray.h>
 #include <GCrisp/Renderer/Camera.h>
 #include <GCrisp/Renderer/Shader.h>
+#include <GCrisp/Renderer/SubTexture.h>
 #include <glm/glm.hpp>
 
 #include "Texture.h"
@@ -75,9 +76,9 @@ namespace GCrisp
         void DrawQuadT(const QuadProp& prop, const AssetID& texture);
 
         /*
-        * Draws a quad selected from a texture atlas
+        * Draws a quad textured from a sub texture region
         */
-        void DrawQuadTA(const QuadProp& prop, const AssetID& textureAtlas, const glm::vec2& uv);
+        void DrawQuadST(const QuadProp& prop, const Reference<Graphics::SubTexture2D>& subTexture);
 
 
         static Data* s_Data;
