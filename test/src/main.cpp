@@ -99,8 +99,15 @@ public:
             //         Graphics2D::DrawQuad(glm::vec2(x, y)*0.50f, {0.25, 0.25}, {1, 0, 0, 1});
             //     }
             // }
-            i += 5.0f * delta;
-            Graphics2D::DrawQuadRST({ {0, 0}, {1.0f, 1.0f} }, m_SubTexture, i);
+            //GC_CORE_INFO("delta: {0}", delta.GetMillis());
+            i += 3.0f * delta;
+            for (float x = -20.0f; x < 20.0f; x += 0.5f)
+            {
+                for (float y = -20.0f; y < 20.0f; y += 0.5f)
+                {
+                    Graphics2D::DrawQuadRST({ {x, y}, {0.25f, 0.25f} }, m_SubTexture, i);
+                }
+            }
             //Graphics2D::DrawQuad({ { 0.5f, 0.5f, 1.0f }, { 1.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 0.9f } });
 
         }

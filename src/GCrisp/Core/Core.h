@@ -32,6 +32,8 @@
     #define GC_CORE_VERIFY(condition, msg, ...)
 #endif
 
+// Note: This is currently way too slow to use for 
+// true profiling purposes, to be remade.
 #define GC_PROFILING 0
 #if GC_PROFILING
     #ifndef __JETBRAINS_IDE__
@@ -40,15 +42,18 @@
         #define GC_PROFILE_SCOPE2(name, line) ProfileResult GC_CONCAT(result, line) = {name, std::this_thread::get_id()};\
             ::GCrisp::ProfilerTimer GC_CONCAT(timer, line)(GC_CONCAT(result, line));
         #define GC_PROFILE_SCOPE(name) GC_PROFILE_SCOPE2(name, __LINE__)
-        #define GC_PROFILE_FUNC() GC_PROFILE_SCOPE(__PRETTY_FUNCTION__)
+        #if defined(_MSC_VER) && !defined(__llvm__) && !defined(__GNUC__) && !defined(__clang__)
+            #define GC_PROFILE_FUNC() GC_PROFILE_SCOPE(__FUNCSIG__)
+        #else
+            #define GC_PROFILE_FUNC() GC_PROFILE_SCOPE(__PRETTY_FUNCTION__)
+        #endif
     #else
         #define GC_PROFILE_START(1)
         #define GC_PROFILE_END()
         #define GC_PROFILE_SCOPE2(1, 2)
         #define GC_PROFILE_SCOPE(1)
-        #define GC_PROFILE_FUNC() GC_PROFILE_SCOPE(__PRETTY_FUNCTION__) // TODO: Test if ____PRETTY_FUNCTION__ works for all compilers
+        #define GC_PROFILE_FUNC() GC_PROFILE_SCOPE(__PRETTY_FUNCTION__) 
     #endif
-
 #else
     #define GC_PROFILE_START(name)
     #define GC_PROFILE_END()

@@ -138,6 +138,8 @@ namespace GCrisp
 
         void DrawQuadI(const QuadProp& prop, float textureID, const glm::vec2 texCoords[4])
         {
+            GC_PROFILE_FUNC();
+
             glm::mat4 transform = glm::scale(glm::translate(glm::mat4(1.0f), prop.Position), { prop.Size.x, prop.Size.y, 1.0f });
 
             for (int i = 0; i < 4; i++)
@@ -154,6 +156,8 @@ namespace GCrisp
 
         void DrawQuadIR(const QuadProp& prop, float textureID, const glm::vec2 texCoords[4], const float rotationAngle)
         {
+            GC_PROFILE_FUNC();
+
             glm::mat4 transform = glm::rotate(
                 glm::scale(
                     glm::translate(
@@ -167,6 +171,10 @@ namespace GCrisp
 
             for (int i = 0; i < 4; i++)
             {
+                //char buf[64];
+                //snprintf(buf, 64, "Renderer2D Vertex Calculations - %d", i);
+                GC_PROFILE_SCOPE(std::string_view(buf).data());
+
                 s_Data->CurrentVertex->Position = transform * s_Data->VertexPositions[i];
                 s_Data->CurrentVertex->Color = prop.Tint;
                 s_Data->CurrentVertex->TexCoord = texCoords[i];
