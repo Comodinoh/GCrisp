@@ -3,6 +3,9 @@
 
 using namespace GCrisp;
 
+
+#define PI 3.14159265358979323846
+
 class TestLayer : public Layer
 {
 public:
@@ -96,9 +99,9 @@ public:
             //         Graphics2D::DrawQuad(glm::vec2(x, y)*0.50f, {0.25, 0.25}, {1, 0, 0, 1});
             //     }
             // }
-
-            Graphics2D::DrawQuadST({ {-0.5f, -0.5f}, {1.0f, 1.0f} }, m_SubTexture);
-            Graphics2D::DrawQuad({ { 0.0f, 0.0f, 1.0f }, { 1.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 0.9f } });
+            i += 5.0f * delta;
+            Graphics2D::DrawQuadRST({ {0, 0}, {1.0f, 1.0f} }, m_SubTexture, i);
+            //Graphics2D::DrawQuad({ { 0.5f, 0.5f, 1.0f }, { 1.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 0.9f } });
 
         }
 
@@ -120,6 +123,7 @@ private:
     Reference<Graphics::SubTexture2D> m_SubTexture;
 
     OrthoCameraController m_CameraController;
+    float i = 0.0f;
 };
 
 class TestApplication : public GCrisp::Application

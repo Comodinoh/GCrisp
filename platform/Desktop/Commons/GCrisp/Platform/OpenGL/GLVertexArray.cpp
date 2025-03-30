@@ -78,7 +78,7 @@ namespace GCrisp
             m_VertexBuffers.push_back(vertexBuffer);
         }
 
-        void GLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
+        void GLVertexArray::SetIndexBuffer(const Reference<IndexBuffer>& indexBuffer)
         {
             glBindVertexArray(m_RendererID);
             indexBuffer->Bind();

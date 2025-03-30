@@ -81,6 +81,11 @@ namespace GCrisp
                 s_Data->TextureSlots[i] = AssetID(0);
             }
             s_Data->CurrentVertex = s_Data->Vertices;
+
+            s_Data->VertexPositions[0] = glm::vec4(-0.5f, -0.5f, 0.0f, 1.0f);
+            s_Data->VertexPositions[1] = glm::vec4(0.5f, -0.5f, 0.0f, 1.0f);
+            s_Data->VertexPositions[2] = glm::vec4(0.5f, 0.5f, 0.0f, 1.0f);
+            s_Data->VertexPositions[3] = glm::vec4(-0.5f, 0.5f, 0.0f, 1.0f);
         }
 
         void Shutdown()
@@ -133,30 +138,41 @@ namespace GCrisp
 
         void DrawQuadI(const QuadProp& prop, float textureID, const glm::vec2 texCoords[4])
         {
-            s_Data->CurrentVertex->Position = { prop.Position.x, prop.Position.y, prop.Position.z };
-            s_Data->CurrentVertex->Color = prop.Tint;
-            s_Data->CurrentVertex->TexCoord = texCoords[0];
-            s_Data->CurrentVertex->TextureID = textureID;
-            s_Data->CurrentVertex++;
+            glm::mat4 transform = glm::scale(glm::translate(glm::mat4(1.0f), prop.Position), { prop.Size.x, prop.Size.y, 1.0f });
 
-            s_Data->CurrentVertex->Position = { prop.Position.x + prop.Size.x, prop.Position.y, prop.Position.z };
-            s_Data->CurrentVertex->Color = prop.Tint;
-            s_Data->CurrentVertex->TexCoord = texCoords[1];
-            s_Data->CurrentVertex->TextureID = textureID;
-            s_Data->CurrentVertex++;
+            for (int i = 0; i < 4; i++)
+            {
+                s_Data->CurrentVertex->Position = transform*s_Data->VertexPositions[i];
+                s_Data->CurrentVertex->Color = prop.Tint;
+                s_Data->CurrentVertex->TexCoord = texCoords[i];
+                s_Data->CurrentVertex->TextureID = textureID;
+                s_Data->CurrentVertex++;
+            }
 
-            s_Data->CurrentVertex->Position = { prop.Position.x + prop.Size.x, prop.Position.y + prop.Size.y, prop.Position.z };
-            s_Data->CurrentVertex->Color = prop.Tint;
-            s_Data->CurrentVertex->TexCoord = texCoords[2];
-            s_Data->CurrentVertex->TextureID = textureID;
-            s_Data->CurrentVertex++;
+            s_Data->QuadIndexCount += 6;
+        }
 
-            s_Data->CurrentVertex->Position = { prop.Position.x, prop.Position.y + prop.Size.y, prop.Position.z };
-            s_Data->CurrentVertex->Color = prop.Tint;
-            s_Data->CurrentVertex->TexCoord = texCoords[3];
-            s_Data->CurrentVertex->TextureID = textureID;
-            s_Data->CurrentVertex++;
+        void DrawQuadIR(const QuadProp& prop, float textureID, const glm::vec2 texCoords[4], const float rotationAngle)
+        {
+            glm::mat4 transform = glm::rotate(
+                glm::scale(
+                    glm::translate(
+                        glm::mat4(1.0f), prop.Position
+                    ), 
+                    { prop.Size.x, prop.Size.y, 1.0f }
+                )
+                , rotationAngle, 
+                {0.0f, 0.0f, 1.0f}
+            );
 
+            for (int i = 0; i < 4; i++)
+            {
+                s_Data->CurrentVertex->Position = transform * s_Data->VertexPositions[i];
+                s_Data->CurrentVertex->Color = prop.Tint;
+                s_Data->CurrentVertex->TexCoord = texCoords[i];
+                s_Data->CurrentVertex->TextureID = textureID;
+                s_Data->CurrentVertex++;
+            }
             s_Data->QuadIndexCount += 6;
         }
 
@@ -175,15 +191,26 @@ namespace GCrisp
             
         }
 
-        void DrawQuadT(const QuadProp& prop, const AssetID& texture)
+        void DrawQuadR(const QuadProp& prop, const float rotationAngle)
         {
             if (s_Data->QuadIndexCount >= s_Data->MaxIndexCount || s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
             {
                 Flush();
             }
 
+            glm::vec2 texCoords[4] = { {0, 0}, {1, 0}, {1, 1}, {0, 1} };
+            DrawQuadIR(prop, 0, texCoords, rotationAngle);
+        }
+
+        void DrawQuadRT(const QuadProp& prop, const AssetID& texture, const float rotationAngle)
+        {
+            if (s_Data->QuadIndexCount >= s_Data->MaxIndexCount)
+            {
+                Flush();
+            }
+
             int texID = s_Data->TextureSlotCount;
-            for (int i = 0; i<s_Data->TextureSlotCount; i++)
+            for (int i = 0; i < s_Data->TextureSlotCount; i++)
             {
                 if (s_Data->TextureSlots[i] == texture)
                 {
@@ -194,6 +221,10 @@ namespace GCrisp
 
             if (texID >= s_Data->TextureSlotCount)
             {
+                if (s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
+                {
+                    Flush();
+                }
                 s_Data->TextureSlots[texID] = texture;
                 s_Data->TextureSlotCount++;
             }
@@ -201,12 +232,12 @@ namespace GCrisp
             float texIDF = (float)texID;
 
             glm::vec2 texCoords[4] = { {0, 0}, {1, 0}, {1, 1}, {0, 1} };
-            DrawQuadI(prop, texIDF, texCoords);
+            DrawQuadIR(prop, texIDF, texCoords, rotationAngle);
         }
 
-        void DrawQuadST(const QuadProp& prop, const Reference<Graphics::SubTexture2D>& subTexture)
+        void DrawQuadRST(const QuadProp& prop, const Reference<Graphics::SubTexture2D>& subTexture, const float rotationAngle)
         {
-            if (s_Data->QuadIndexCount >= s_Data->MaxIndexCount || s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
+            if (s_Data->QuadIndexCount >= s_Data->MaxIndexCount)
             {
                 Flush();
             }
@@ -225,6 +256,79 @@ namespace GCrisp
 
             if (texID >= s_Data->TextureSlotCount)
             {
+                if (s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
+                {
+                    Flush();
+                }
+                s_Data->TextureSlots[texID] = texture;
+                s_Data->TextureSlotCount++;
+            }
+
+            float texIDF = (float)texID;
+
+            DrawQuadIR(prop, texIDF, subTexture->GetTextureCoords(), rotationAngle);
+        }
+
+        void DrawQuadT(const QuadProp& prop, const AssetID& texture)
+        {
+            if (s_Data->QuadIndexCount >= s_Data->MaxIndexCount)
+            {
+                Flush();
+            }
+
+            int texID = s_Data->TextureSlotCount;
+            for (int i = 0; i < s_Data->TextureSlotCount; i++)
+            {
+                if (s_Data->TextureSlots[i] == texture)
+                {
+                    texID = i;
+                    break;
+                }
+            }
+
+            if (texID >= s_Data->TextureSlotCount)
+            {
+                if (s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
+                {
+                    Flush();
+                }
+                s_Data->TextureSlots[texID] = texture;
+                s_Data->TextureSlotCount++;
+            }
+
+            float texIDF = (float)texID;
+
+            glm::vec2 texCoords[4] = { {0, 0}, {1, 0}, {1, 1}, {0, 1} };
+            DrawQuadI(prop, texIDF, texCoords);
+        }
+
+        
+
+        void DrawQuadST(const QuadProp& prop, const Reference<Graphics::SubTexture2D>& subTexture)
+        {
+            if (s_Data->QuadIndexCount >= s_Data->MaxIndexCount)
+            {
+                Flush();
+            }
+
+            const AssetID texture = subTexture->GetTextureID();
+
+            int texID = s_Data->TextureSlotCount;
+            for (int i = 0; i < s_Data->TextureSlotCount; i++)
+            {
+                if (s_Data->TextureSlots[i] == texture)
+                {
+                    texID = i;
+                    break;
+                }
+            }
+
+            if (texID >= s_Data->TextureSlotCount)
+            {
+                if (s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
+                {
+                    Flush();
+                }
                 s_Data->TextureSlots[texID] = texture;
                 s_Data->TextureSlotCount++;
             }
@@ -233,6 +337,8 @@ namespace GCrisp
 
             DrawQuadI(prop, texIDF, subTexture->GetTextureCoords());
         }
+
+        
 
 
     }

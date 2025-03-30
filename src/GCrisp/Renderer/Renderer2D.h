@@ -34,6 +34,8 @@ namespace GCrisp
             QuadVertex* Vertices;
             QuadVertex* CurrentVertex;
 
+            glm::vec4 VertexPositions[4];
+
             AssetID* TextureSlots = nullptr;
             AssetID WhiteTexture;
 
@@ -71,14 +73,29 @@ namespace GCrisp
         void DrawQuad(const QuadProp& prop);
 
         /*
+        * Draws a normal quad with an xy-axis rotation in radians
+        */
+        void DrawQuadR(const QuadProp& prop, const float rotation);
+
+        /*
         * Draws a textured quad 
         */
         void DrawQuadT(const QuadProp& prop, const AssetID& texture);
 
         /*
+        * Draws a textured quad with an xy-axis rotation in radians
+        */
+        void DrawQuadRT(const QuadProp& prop, const AssetID& texture, const float rotation);
+
+        /*
         * Draws a quad textured from a sub texture region
         */
         void DrawQuadST(const QuadProp& prop, const Reference<Graphics::SubTexture2D>& subTexture);
+
+        /*
+        * Draws a quad textured from a sub texture region with an xy-axis rotation in radians
+        */
+        void DrawQuadRST(const QuadProp& prop, const Reference<Graphics::SubTexture2D>& subTexture, const float rotation);
 
 
         static Data* s_Data;
