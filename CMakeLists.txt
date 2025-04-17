@@ -26,7 +26,6 @@ add_library(${PROJECT_NAME} STATIC
         src/GCrisp/Assets/Assets.h
         src/GCrisp/Assets/AssetsManager.cpp
         src/GCrisp/Assets/AssetsManager.h
-        src/GCrisp/Assets/GraphicsAsset.h
         src/GCrisp/Core/Application.cpp
         src/GCrisp/Core/Timing.cpp
         src/GCrisp/Core/Timing.h

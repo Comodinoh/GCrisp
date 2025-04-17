@@ -17,17 +17,17 @@ namespace GCrisp::Graphics2D
         GC_PROFILE_FUNC();
         Graphics2D::s_Data = new Data();
 
-        s_Data->MaxQuadCount = prop.MaxQuadCount;
-        s_Data->MaxVertexCount = prop.MaxQuadCount*4;
-        s_Data->MaxIndexCount = prop.MaxQuadCount*6;
+        s_Data->RendererLimits.MaxQuadCount = prop.MaxQuadCount;
+        s_Data->RendererLimits.MaxVertexCount = prop.MaxQuadCount*4;
+        s_Data->RendererLimits.MaxIndexCount = prop.MaxQuadCount*6;
 
         auto& app = Application::Get();
         s_Data->QuadVA.reset(Graphics::VertexArray::Create());
         s_Data->QuadVA->Bind();
 
-        s_Data->Vertices = new QuadVertex[s_Data->MaxVertexCount];
+        s_Data->Vertices = new QuadVertex[GetLimits().MaxVertexCount];
 
-        const uint32_t size = s_Data->MaxVertexCount*sizeof(QuadVertex);
+        const uint32_t size = GetLimits().MaxVertexCount*sizeof(QuadVertex);
         s_Data->QuadVB.reset(Graphics::VertexBuffer::Create(
             {nullptr, size, Graphics::DrawType::Dynamic}
             ));
@@ -43,10 +43,10 @@ namespace GCrisp::Graphics2D
         );
         s_Data->QuadVA->AddVertexBuffer(s_Data->QuadVB);
 
-        uint32_t* quadIndices = new uint32_t[s_Data->MaxIndexCount];
+        uint32_t* quadIndices = new uint32_t[GetLimits().MaxIndexCount];
 
         int offset = 0;
-        for (int i = 0;i < s_Data->MaxIndexCount; i+= 6)
+        for (int i = 0;i < GetLimits().MaxIndexCount; i+= 6)
         {
             quadIndices[i] = offset;
             quadIndices[i+1] = 1+offset;
@@ -59,7 +59,7 @@ namespace GCrisp::Graphics2D
             offset += 4;
         }
 
-        uint32_t indicesSize = s_Data->MaxIndexCount * sizeof(uint32_t);
+        uint32_t indicesSize = GetLimits().MaxIndexCount * sizeof(uint32_t);
         Reference<Graphics::IndexBuffer> quadIB;
         quadIB.reset(Graphics::IndexBuffer::Create({quadIndices, indicesSize}));
         s_Data->QuadVA->SetIndexBuffer(quadIB);
@@ -184,7 +184,7 @@ namespace GCrisp::Graphics2D
 
     void DrawQuad(const QuadProp& prop)
     {
-        if (s_Data->QuadIndexCount >= s_Data->MaxIndexCount || s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
+        if (s_Data->QuadIndexCount >= GetLimits().MaxIndexCount || s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
         {
             Flush();
         }
@@ -199,7 +199,7 @@ namespace GCrisp::Graphics2D
 
     void DrawQuadR(const QuadProp& prop, const float rotationAngle)
     {
-        if (s_Data->QuadIndexCount >= s_Data->MaxIndexCount || s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
+        if (s_Data->QuadIndexCount >= GetLimits().MaxIndexCount || s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS)
         {
             Flush();
         }
@@ -210,7 +210,7 @@ namespace GCrisp::Graphics2D
 
     void DrawQuadRT(const QuadProp& prop, const AssetID& texture, const float rotationAngle)
     {
-        if (s_Data->QuadIndexCount >= s_Data->MaxIndexCount)
+        if (s_Data->QuadIndexCount >= GetLimits().MaxIndexCount)
         {
             Flush();
         }
@@ -243,7 +243,7 @@ namespace GCrisp::Graphics2D
 
     void DrawQuadRST(const QuadProp& prop, const Reference<Graphics::SubTexture2D>& subTexture, const float rotationAngle)
     {
-        if (s_Data->QuadIndexCount >= s_Data->MaxIndexCount)
+        if (s_Data->QuadIndexCount >= GetLimits().MaxIndexCount)
         {
             Flush();
         }
@@ -277,7 +277,7 @@ namespace GCrisp::Graphics2D
 
     void DrawQuadT(const QuadProp& prop, const AssetID& texture)
     {
-        if (s_Data->QuadIndexCount >= s_Data->MaxIndexCount)
+        if (s_Data->QuadIndexCount >= GetLimits().MaxIndexCount)
         {
             Flush();
         }
@@ -312,7 +312,7 @@ namespace GCrisp::Graphics2D
 
     void DrawQuadST(const QuadProp& prop, const Reference<Graphics::SubTexture2D>& subTexture)
     {
-        if (s_Data->QuadIndexCount >= s_Data->MaxIndexCount)
+        if (s_Data->QuadIndexCount >= GetLimits().MaxIndexCount)
         {
             Flush();
         }

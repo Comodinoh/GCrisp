@@ -23,6 +23,13 @@ namespace GCrisp::Graphics2D
         float TextureID;
     };
 
+    struct Limits
+    {
+        uint32_t MaxVertexCount = 0;
+        uint32_t MaxIndexCount = 0;
+        uint32_t MaxQuadCount = 0;
+    };
+
     struct Data
     {
         Reference<Graphics::VertexArray> QuadVA;
@@ -41,15 +48,10 @@ namespace GCrisp::Graphics2D
         int TextureSlotCount = 1;
         uint32_t DrawCalls = 0;
 
-        uint32_t MaxVertexCount = 0;
-        uint32_t MaxIndexCount = 0;
-        uint32_t MaxQuadCount = 0;
+        Limits RendererLimits;
     };
 
-    struct Renderer2DProp
-    {
-        uint32_t MaxQuadCount = 1000;
-    };
+
 
     struct QuadProp
     {
@@ -61,8 +63,15 @@ namespace GCrisp::Graphics2D
         glm::vec4 Tint;
     };
 
+    static Data* s_Data;
+
     void Init(const Graphics::RendererProp& prop);
     void Shutdown();
+
+    inline const Limits& GetLimits()
+    {
+        return s_Data->RendererLimits;
+    }
 
     void BeginRender(Graphics::Camera& camera);
     void EndRender();
@@ -96,5 +105,4 @@ namespace GCrisp::Graphics2D
     void DrawQuadRST(const QuadProp& prop, const Reference<Graphics::SubTexture2D>& subTexture, const float rotation);
 
 
-    static Data* s_Data;
 }
