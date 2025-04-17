@@ -1,7 +1,7 @@
 #include <gcpch.h>
 #include "GLShader.h"
 
-#include <GCrisp/Renderer/GraphicsConstants.h>
+#include <GCrisp/Renderer/GraphicsCore.h>
 #include <glad/glad.h>
 #include <GCrisp/Core/Log.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -20,7 +20,7 @@ namespace GCrisp
             }
         }
 
-        GLShader::GLShader(const ShaderSpec& spec)
+        GLShader::GLShader(const ShaderSpecification& spec)
         {
             GC_PROFILE_FUNC();
             uint32_t programID = glCreateProgram();

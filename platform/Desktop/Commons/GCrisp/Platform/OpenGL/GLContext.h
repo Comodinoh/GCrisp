@@ -9,19 +9,24 @@ namespace GCrisp
 {
     namespace Graphics
     {
+        struct GLContextSpecification
+        {
+            GLFWwindow* WindowHandle;
+        };
+
         class GLContext : public Context
         {
         public:
-            GLContext(GLFWwindow* windowHandle) : m_WindowHandle(windowHandle)
+            GLContext(const ContextSpecification& spec) : m_Spec((GLFWwindow*)spec.WindowHandle)
             {
-                GC_CORE_ASSERT(windowHandle, "Provided invalid window handle! (nullptr)");
+                GC_CORE_ASSERT(spec.WindowHandle, "Provided invalid window handle! (nullptr)");
             };
 
             virtual void Init() const override;
             virtual void SwapBuffers() const override;
 
         private:
-            GLFWwindow* m_WindowHandle;
+            GLContextSpecification m_Spec;
         };
     }
 }

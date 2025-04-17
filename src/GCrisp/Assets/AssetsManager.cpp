@@ -2,7 +2,6 @@
 
 #include "AssetsManager.h"
 #include <GCrisp/Core/Application.h>
-#include <uuids.h>
 
 #include <stb_image.h>
 
@@ -145,20 +144,14 @@ namespace GCrisp
         stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
         GC_CORE_VERIFY(data, "Failed to load '{0}' image!", name);
 
-        return Application::Get().GetGraphicsCreator()->CreateTexture2D(data,
-                                                                             {
-
-                                                                                 {(uint32_t)width, (uint32_t)height},
-                                                                                 (uint32_t)channels
-                                                                             });
+        return Graphics::Texture2D::Create({data, {width, height}, (uint32_t)channels});
     }
 
-    Graphics::Texture2D* AssetsManager::LoadRawTexture2D(const stbi_uc* data,
-                                         const Graphics::TextureSpec& spec) const
+    Graphics::Texture2D* AssetsManager::LoadRawTexture2D(const Graphics::TextureSpecification& spec) const
     {
         GC_PROFILE_FUNC();
-        GC_CORE_ASSERT(data, "Provided null image to load!");
-        return Application::Get().GetGraphicsCreator()->CreateTexture2D(data, spec);
+        GC_CORE_ASSERT(spec.Data, "Provided null image to load!");
+        return Graphics::Texture2D::Create(spec);
     }
 
     Graphics::Shader* AssetsManager::LoadShader(const std::string& name) const
@@ -226,13 +219,13 @@ namespace GCrisp
                 };
                 i++;
             }
-            shader = Application::Get().GetGraphicsCreator()->CreateShader({pairs, sizeI});
+            shader = Graphics::Shader::Create({pairs, sizeI});
         }
         else
         {
             if (path.ends_with(".vert"))
             {
-                shader = Application::Get().GetGraphicsCreator()->CreateShader(
+                shader = Graphics::Shader::Create(
                     {
                         {Graphics::SHADER_VERTEX, source}
                     }
@@ -240,7 +233,7 @@ namespace GCrisp
             }
             else if (path.ends_with(".frag"))
             {
-                shader = Application::Get().GetGraphicsCreator()->CreateShader(
+                shader = Graphics::Shader::Create(
                     {
                         {Graphics::SHADER_FRAGMENT, source}
                     }
@@ -259,8 +252,8 @@ namespace GCrisp
         return shader;
     }
 
-    Graphics::Shader* AssetsManager::LoadShader(const Graphics::ShaderSpec& spec) const
+    Graphics::Shader* AssetsManager::LoadShader(const Graphics::ShaderSpecification& spec) const
     {
-        return Application::Get().GetGraphicsCreator()->CreateShader(spec);
+        return Graphics::Shader::Create(spec);
     }
 }

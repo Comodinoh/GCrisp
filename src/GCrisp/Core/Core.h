@@ -9,16 +9,16 @@
 #define GC_CONCAT(x, y) x##y
 
 #ifndef GC_RELEASE
-#if defined(GC_WIN32)
-#define GC_BREAKPOINT() __debugbreak()
-#elif defined(GC_POSIX)
+  #if defined(GC_WIN32)
+    #define GC_BREAKPOINT() __debugbreak()
+  #elif defined(GC_POSIX)
     #include <signal.h>
     #define GC_BREAKPOINT() raise(SIGTRAP)
-#else
+  #else
     #error "Platform doesn't support debugbreak!"
-#endif
-#define GC_ASSERT(condition, ...) if(!(condition)) {GC_ERROR("Assertion Failed: {0}", __VA_ARGS__); GC_BREAKPOINT();}
-#define GC_CORE_ASSERT(condition, ...) if(!(condition)) {GC_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); GC_BREAKPOINT();}
+  #endif
+  #define GC_ASSERT(condition, ...) if(!(condition)) {GC_ERROR("Assertion Failed: {0}", __VA_ARGS__); GC_BREAKPOINT();}
+  #define GC_CORE_ASSERT(condition, ...) if(!(condition)) {GC_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); GC_BREAKPOINT();}
 #else
   #define GC_ASSERT(condition, ...)
   #define GC_CORE_ASSERT(condition, ...)
@@ -59,7 +59,7 @@
     #define GC_PROFILE_END()
     #define GC_PROFILE_SCOPE2(name, line)
     #define GC_PROFILE_SCOPE(name)
-    #define GC_PROFILE_FUNC() GC_PROFILE_SCOPE(__PRETTY_FUNCTION__) // TODO: Test if ____PRETTY_FUNCTION__ works for all compilers
+    #define GC_PROFILE_FUNC() GC_PROFILE_SCOPE(__PRETTY_FUNCTION__)
 #endif
 
 

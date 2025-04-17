@@ -22,7 +22,8 @@ cmake_dependent_option(GCRISP_BUILD_ANDROID "Build support for Android" ON "ANDR
 
 file(GLOB_RECURSE SRC_FILES src/GCrisp/*.cpp src/GCrisp/*.h)
 
-add_library(${PROJECT_NAME} STATIC ${SRC_FILES})
+add_library(${PROJECT_NAME} STATIC ${SRC_FILES} "src/GCrisp/Renderer/VertexArray.cpp" "src/GCrisp/Core/Window.cpp" "src/GCrisp/Renderer/Texture.cpp" "src/GCrisp/Renderer/Context.cpp"
+        src/GCrisp/Renderer/Shader.cpp)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_RELEASE)
@@ -44,7 +45,7 @@ function(link_vulkan)
   if(NOT ${Vulkan_FOUND})
     include(FetchContent)
     message(FATAL_ERROR "${PROJECT_NAME}: Vulkan SDK not found.
-    Please follow this guide https://vulkan-tutorial.com/Development_environment  to setup the SDK based on your OS 
+    Please follow this guide https://vulkan-tutorial.com/Development_environment to setup the SDK based on your OS 
     (Be sure to install glslc too)")
   else()
     target_include_directories(${PROJECT_NAME} PUBLIC ${Vulkan_INCLUDE_DIRS})
@@ -58,9 +59,11 @@ if(GCRISP_BUILD_WIN32 OR GCRISP_BUILD_POSIX)
   add_definitions(-DGLFW_INCLUDE_NONE)
 
   file(GLOB_RECURSE COMMONS_SRC platform/Desktop/Commons/*.cpp)
-  target_sources(${PROJECT_NAME} PRIVATE ${COMMONS_SRC})
+  target_sources(${PROJECT_NAME} PRIVATE ${COMMONS_SRC}) 
   target_include_directories(${PROJECT_NAME} PRIVATE platform/Desktop/Commons)
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_DESKTOP)
+
+   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_VULKAN GC_OPENGL)
 endif()
 
 if(GCRISP_BUILD_WIN32)
@@ -71,7 +74,7 @@ if(GCRISP_BUILD_WIN32)
   target_sources(${PROJECT_NAME} PRIVATE ${WIN32_SRC})
   target_include_directories(${PROJECT_NAME} PRIVATE platform/Desktop/Win32)
 
-  target_compile_definitions(${PROJECT_NAME} PUBLIC GC_WIN32)
+  target_compile_definitions(${PROJECT_NAME} PUBLIC GC_WIN32 GC_DIRECTX)
 elseif(GCRISP_BUILD_POSIX)
   message(STATUS "${PROJECT_NAME}: Building for Posix systems")
   

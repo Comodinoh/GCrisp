@@ -7,10 +7,11 @@ namespace GCrisp
 {
     namespace Graphics
     {
-        GLTexture::GLTexture(const stbi_uc* data, const TextureSpec& spec)
+        GLTexture2D::GLTexture2D(const TextureSpecification& spec)
         {
             GC_PROFILE_FUNC();
-            m_Spec.Size = spec.Size;
+
+            m_Spec = spec;
 
             glGenTextures(1, &m_RendererID);
             glBindTexture(GL_TEXTURE_2D, m_RendererID);
@@ -21,23 +22,23 @@ namespace GCrisp
 
             GLenum format = spec.channels > 3 ? GL_RGBA : GL_RGB;
 
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, spec.Size.x, spec.Size.y, 0, format, GL_UNSIGNED_BYTE, data);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, spec.Size.x, spec.Size.y, 0, format, GL_UNSIGNED_BYTE, spec.Data);
             glGenerateMipmap(GL_TEXTURE_2D); 
         }
 
-        GLTexture::~GLTexture()
+        GLTexture2D::~GLTexture2D()
         {
             GC_PROFILE_FUNC();
             glDeleteTextures(1, &m_RendererID);
         }
 
-        void GLTexture::Bind(int slot) const
+        void GLTexture2D::Bind(int slot) const
         {
             glActiveTexture(GL_TEXTURE0 + slot);
             glBindTexture(GL_TEXTURE_2D, m_RendererID);
         }
 
-        void GLTexture::SetMagFiltering(TextureFilter filtering = TextureFilter::None) const
+        void GLTexture2D::SetMagFiltering(TextureFilter filtering = TextureFilter::None) const
         {
             GLenum glFiltering;
             switch (filtering)
@@ -60,7 +61,7 @@ namespace GCrisp
             glTexParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, glFiltering);
         }
 
-        void GLTexture::SetMinFiltering(TextureFilter filtering = TextureFilter::None) const
+        void GLTexture2D::SetMinFiltering(TextureFilter filtering = TextureFilter::None) const
         {
             GLenum glFiltering;
             switch (filtering)

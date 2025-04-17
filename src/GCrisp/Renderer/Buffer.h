@@ -1,9 +1,9 @@
 #pragma once
 
-namespace GCrisp
+#include "GraphicsCore.h"
+
+namespace GCrisp::Graphics
 {
-    namespace Graphics
-    {
         enum class ShaderDataType : uint8_t
         {
             None = 0, Float, Float2, Float3, Float4, Mat3, Mat4, Int, Int2, Int3, Int4, Bool,
@@ -105,14 +105,14 @@ namespace GCrisp
             uint32_t m_Stride = 0;
         };
 
-        struct VertexBufferSpec
+        struct VertexBufferSpecification
         {
             float* Vertices;
             uint32_t Size;
             DrawType DrawType = DrawType::Static;
         };
 
-        struct IndexBufferSpec
+        struct IndexBufferSpecification
         {
             uint32_t* Indices;
             uint32_t Size;
@@ -131,6 +131,8 @@ namespace GCrisp
 
             virtual const BufferLayout& GetLayout() const = 0;
             virtual void SetLayout(const BufferLayout& layout) = 0;
+
+            GC_GRAPHICS_CREATE_DECL_WITH_SPEC(VertexBuffer);
         };
 
         class IndexBuffer
@@ -142,6 +144,7 @@ namespace GCrisp
             virtual void UnBind() const = 0;
 
             inline virtual uint32_t GetCount() const = 0;
+
+            GC_GRAPHICS_CREATE_DECL_WITH_SPEC(IndexBuffer);
         };
-    }
 }

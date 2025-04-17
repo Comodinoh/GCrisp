@@ -4,7 +4,6 @@
 using namespace GCrisp;
 
 
-#define PI 3.14159265358979323846
 
 class TestLayer : public Layer
 {
@@ -101,13 +100,25 @@ public:
             // }
             //GC_CORE_INFO("delta: {0}", delta.GetMillis());
             i += 3.0f * delta;
-            for (float x = -20.0f; x < 20.0f; x += 0.5f)
+            for (float x = -5.0f; x < 5.0f; x += 0.5f)
             {
-                for (float y = -20.0f; y < 20.0f; y += 0.5f)
+                for (float y = -5.0f; y < 5.0f; y += 0.5f)
                 {
                     Graphics2D::DrawQuadRST({ {x, y}, {0.25f, 0.25f} }, m_SubTexture, i);
                 }
             }
+            auto& app = Application::Get();
+            auto [mx, my] = Input::GetMousePosition();
+            GC_CORE_INFO("{0}, {1}", mx, my);
+
+            mx = ((mx / app.GetWindow().GetWidth()) * 2 - 1) * m_CameraController.GetCamera().GetScale();
+            my = ((1 - (my / app.GetWindow().GetHeight())) * 2 - 1) * m_CameraController.GetCamera().GetScale();
+            GC_CORE_INFO("{0}, {1}", mx, my);
+
+            glm::vec3 pos = { mx*m_CameraController.GetCamera().GetAspectRatio(), my, 0.0f};
+            pos += m_CameraController.GetCamera().GetPosition();
+
+            Graphics2D::DrawQuadT({ pos, {1.0f, 1.0f} }, AssetsManager::GetDefaultTexture());
             //Graphics2D::DrawQuad({ { 0.5f, 0.5f, 1.0f }, { 1.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 0.9f } });
 
         }

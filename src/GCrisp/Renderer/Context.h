@@ -1,15 +1,24 @@
 #pragma once
 
-namespace GCrisp
-{
-    namespace Graphics
-    {
-        class Context
-        {
-        public:
-            virtual void Init() const = 0;
+#include "GraphicsCore.h"
 
-            virtual void SwapBuffers() const = 0;
-        };
-    }
+namespace GCrisp::Graphics
+{
+    struct ContextSpecification
+    {
+        void* WindowHandle;
+    };
+
+    class Context
+    {
+    public:
+        Context() = default;
+        virtual ~Context() {}
+
+        virtual void Init() const = 0;
+
+        virtual void SwapBuffers() const = 0;
+
+        GC_GRAPHICS_CREATE_DECL_WITH_SPEC(Context);
+    };
 }

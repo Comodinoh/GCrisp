@@ -19,26 +19,13 @@ namespace GCrisp
         GC_CORE_ERROR("GLFW Error: {0}: {1}", error, desc);
     }
 
-    VKWindow::VKWindow(const Graphics::Backend& backend, const WindowProps& props) : Window(backend)
-    {
-        VKWindow::Init(props);
-    }
-
-    VKWindow::~VKWindow()
-    {
-        VKWindow::Shutdown();
-    }
-
-    void VKWindow::Init(const WindowProps& props)
+    void VKWindow::Init()
     {
         GC_PROFILE_FUNC();
-        m_Data.Title = props.Title;
-        m_Data.Width = props.Width;
-        m_Data.Height = props.Height;
-        m_Data.Resizable = props.Resizable;
 
+        WindowData& data = m_Spec.Data;
 
-        GC_CORE_INFO("Creating GLFW window {0} ({1}, {2})", props.Title, props.Width, props.Height);
+        GC_CORE_INFO("Creating GLFW window {0} ({1}, {2})", data.Title, data.Width, data.Height);
 
 
         if (!s_GLFWInitialized)
@@ -52,17 +39,17 @@ namespace GCrisp
             s_GLFWInitialized = true;
         }
 
-        glfwWindowHint(GLFW_RESIZABLE, props.Resizable);
+        glfwWindowHint(GLFW_RESIZABLE, data.Resizable);
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
         {
             GC_PROFILE_SCOPE("glfwCreateWindow - OpenVKWindow");
-            m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+            m_Window = glfwCreateWindow((int)data.Width, (int)data.Height, data.Title.c_str(), nullptr, nullptr);
         }
 
         VkApplicationInfo appInfo = {
             .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
-            .pApplicationName = m_Data.Title.c_str(),
+            .pApplicationName = data.Title.c_str(),
             .applicationVersion = VK_MAKE_API_VERSION(1, 1, 0, 0),
             .pEngineName = ENGINE_NAME,
             .engineVersion = VK_MAKE_API_VERSION(1, 1, 0, 0),
@@ -163,8 +150,8 @@ namespace GCrisp
         //     (char*)glGetString(GL_VERSION),
         //     (char*)glGetString(GL_SHADING_LANGUAGE_VERSION), (uint32_t)textureSlots};
 
-        glfwSetWindowUserPointer(m_Window, &m_Data);
-        SetVSync(true);
+        glfwSetWindowUserPointer(m_Window, &m_Spec.Data);
+        SetVSync(data.VSync);
 
         //Set up GLFW callbacks
         glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
@@ -262,8 +249,6 @@ namespace GCrisp
             MouseMovedEvent event((float)xPos, (float)yPos);
             data.EventCallback(event);
         });
-
-        m_GraphicsCreator = new Graphics::VKCreator();
     }
 
 
@@ -289,7 +274,7 @@ namespace GCrisp
     {
         GC_PROFILE_FUNC();
         glfwWindowHint(GLFW_RESIZABLE, enabled ? GLFW_TRUE : GLFW_FALSE);
-        m_Data.Resizable = enabled;
+        m_Spec.Data.Resizable = enabled;
     }
 
     void VKWindow::SetVSync(bool enabled)
@@ -304,7 +289,7 @@ namespace GCrisp
             glfwSwapInterval(0);
         }
 
-        m_Data.VSync = enabled;
+        m_Spec.Data.VSync = enabled;
     }
 }
 

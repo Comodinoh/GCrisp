@@ -27,7 +27,6 @@ namespace GCrisp
         static inline Application& Get() { return *s_Instance; }
         inline Window& GetWindow() const { return *m_Window; }
         inline Timer& GetFrameTimer() { return m_FrameTimer; }
-        inline Graphics::Creator* GetGraphicsCreator() const { return m_Window->GetCreator(); }
         inline AssetsManager& GetAssetsManager() { return *m_AssetsManager; }
 
     private:

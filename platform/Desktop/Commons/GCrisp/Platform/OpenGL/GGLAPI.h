@@ -8,7 +8,7 @@ namespace GCrisp
 {
     namespace Graphics
     {
-        class GGLAPI : public API
+        class GLAPI : public API
         {
         public:
             virtual void Init() override;

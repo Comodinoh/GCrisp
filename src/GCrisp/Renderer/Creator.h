@@ -20,11 +20,18 @@ namespace GCrisp
 
             virtual API* CreateAPI() = 0;
 
-            virtual Shader* CreateShader(const ShaderSpec& spec) = 0;
-            virtual VertexBuffer* CreateVertexBuffer(const VertexBufferSpec& spec) = 0;
-            virtual IndexBuffer* CreateIndexBuffer(const IndexBufferSpec& spec) = 0;
+            virtual Shader* CreateShader(const ShaderSpecification& spec) = 0;
+            virtual VertexBuffer* CreateVertexBuffer(const VertexBufferSpecification& spec) = 0;
+            virtual IndexBuffer* CreateIndexBuffer(const IndexBufferSpecification& spec) = 0;
             virtual VertexArray* CreateVertexArray() = 0;
-            virtual Texture2D* CreateTexture2D(const stbi_uc* data, const TextureSpec& spec) = 0;
+            virtual Texture2D* CreateTexture2D(const stbi_uc* data, const TextureSpecification& spec) = 0;
         };
+
+        static Creator* s_GraphicsCreator = nullptr;
+
+        static inline Creator* GetCreator()
+        {
+            return s_GraphicsCreator;
+        }
     }
 }

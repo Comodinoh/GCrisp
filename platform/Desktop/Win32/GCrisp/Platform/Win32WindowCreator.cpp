@@ -4,13 +4,13 @@
 
 namespace GCrisp
 {
-    Window* Window::Create(const Graphics::Backend& backend, const WindowProps& props)
+    Window* Window::Create(const WindowSpecification& spec)
     {
-        switch (backend)
+        switch (spec.Backend)
         {
-        case Graphics::Backend::OpenGL:
+        case Backend::OpenGL:
             {
-                return new GLWindow(backend, props);
+                return new GLWindow(spec);
             }
         default:
             {

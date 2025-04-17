@@ -1,21 +1,20 @@
 #include <GCrisp/Core/Core.h>
-#include <GCrisp/Renderer/Renderer.h>
 #include <GCrisp/Core/GWindow.h>
-#include <GCrisp/Platform/OpenGL/OpenGLWindow.h>
+#include <GCrisp/Platform/OpenGL/GLWindow.h>
 
 namespace GCrisp
 {
 
-Window* Window::Create(const Graphics::Backend& backend, const WindowProps& props)
+Window* Window::Create(const WindowSpecification& spec)
 {
   switch(backend)
   {
-    case Graphics::Backend::None:
+    case Backend::None:
       {
       }
-    case Graphics::Backend::OpenGL:
+    case Backend::OpenGL:
       {
-        return new OpenGLWindow(backend, props);
+        return new GLWindow(spec);
       }
     default:
       GC_CORE_ASSERT(false, "Unknown Backend!");

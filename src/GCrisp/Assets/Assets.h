@@ -54,5 +54,4 @@ namespace GCrisp
     protected:
         AssetID m_ID = UUID(0);
     };
-
 }

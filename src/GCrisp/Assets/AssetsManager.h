@@ -39,10 +39,10 @@ namespace GCrisp
         void UnloadMetadata(const AssetID& asset) const;
 
         Graphics::Texture2D* LoadTexture2D(const std::string& path) const;
-        Graphics::Texture2D* LoadRawTexture2D(const unsigned char* data, const Graphics::TextureSpec& spec) const;
+        Graphics::Texture2D* LoadRawTexture2D(const Graphics::TextureSpecification& spec) const;
 
         Graphics::Shader* LoadShader(const std::string& path) const;
-        Graphics::Shader* LoadShader(const Graphics::ShaderSpec& spec) const;
+        Graphics::Shader* LoadShader(const Graphics::ShaderSpecification& spec) const;
     private:
         void FetchAssetInternal(const AssetID& id, Reference<Asset>& asset);
     private:

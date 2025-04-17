@@ -12,14 +12,14 @@ namespace GCrisp
         void GLContext::Init() const
         {
             GC_PROFILE_FUNC();
-            glfwMakeContextCurrent(m_WindowHandle);
+            glfwMakeContextCurrent(m_Spec.WindowHandle);
             int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
             GC_CORE_ASSERT(status, "Could not load glad from GLFW!");
         }
 
         void GLContext::SwapBuffers() const
         {
-            glfwSwapBuffers(m_WindowHandle);
+            glfwSwapBuffers(m_Spec.WindowHandle);
         }
     }
 }

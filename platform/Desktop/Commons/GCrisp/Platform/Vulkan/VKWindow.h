@@ -5,6 +5,8 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
+#include "GCrisp/Renderer/Context.h"
+
 namespace GCrisp{
 
     // TODO: Implement vulkan window backend
@@ -17,14 +19,12 @@ namespace GCrisp{
     class VKWindow : Window
     {
     public:
-        VKWindow(const Graphics::Backend& backend, const WindowProps& props);
-        virtual ~VKWindow() override;
 
         virtual void OnUpdate() override;
         virtual void TransferContext() override;
 
         inline virtual void* GetWindowPointer() override { return m_Window; };
-        inline virtual Graphics::Context* GetContext() override { return m_Context; };
+        // inline virtual Graphics::Context* GetContext() override { return m_Context; };
 
         virtual void SetResizable(bool enabled) override;
 
@@ -41,8 +41,8 @@ namespace GCrisp{
         static VkInstance s_VulkanInstance;
         static VKData s_VulkanData;
 
-        virtual void Init(const WindowProps& props);
-        virtual void Shutdown();
+        virtual void Init() override;
+        virtual void Shutdown() override;
     };
 
 

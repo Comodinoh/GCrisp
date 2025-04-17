@@ -1,7 +1,7 @@
 #include <gcpch.h>
 #include "GLWindow.h"
 
-#include <GCrisp/Platform/OpenGL/GLCreator.h>
+#include <GCrisp/Core/Application.h>
 #include <GCrisp/Platform/OpenGL/GLContext.h>
 #include <GCrisp/Events/ApplicationEvent.h>
 #include <GCrisp/Events/MouseEvent.h>
@@ -19,26 +19,13 @@ namespace GCrisp
         GC_CORE_ERROR("GLFW Error: {0}: {1}", error, desc);
     }
 
-    GLWindow::GLWindow(const Graphics::Backend& backend, const WindowProps& props) : Window(backend)
-    {
-        Init(props);
-    }
-
-    GLWindow::~GLWindow()
-    {
-        Shutdown();
-    }
-
-    void GLWindow::Init(const WindowProps& props)
+    void GLWindow::Init()
     {
         GC_PROFILE_FUNC();
-        m_Data.Title = props.Title;
-        m_Data.Width = props.Width;
-        m_Data.Height = props.Height;
-        m_Data.Resizable = props.Resizable;
 
+        WindowData& data = m_Spec.Data;
 
-        GC_CORE_INFO("Creating GLFW window {0} ({1}, {2})", props.Title, props.Width, props.Height);
+        GC_CORE_INFO("Creating GLFW window {0} ({1}, {2})", data.Title, data.Width, data.Height);
 
 
         if (!s_GLFWInitialized)
@@ -52,14 +39,14 @@ namespace GCrisp
             s_GLFWInitialized = true;
         }
 
-        glfwWindowHint(GLFW_RESIZABLE, props.Resizable);
+        glfwWindowHint(GLFW_RESIZABLE, data.Resizable);
 
         {
             GC_PROFILE_SCOPE("glfwCreateWindow - OpenGLWindow");
-            m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+            m_Window = glfwCreateWindow((int)data.Width, (int)data.Height, data.Title.c_str(), nullptr, nullptr);
         }
 
-        m_Context = new Graphics::GLContext(m_Window);
+        m_Context = new Graphics::GLContext({m_Window});
         m_Context->Init();
 
         int textureSlots = 0;
@@ -82,8 +69,8 @@ namespace GCrisp
         GC_CORE_INFO("   OpenGL Version: {0}", m_GraphicsSpec.APIVersion.GetNameNoVariant());
         GC_CORE_INFO("   GLSL Version: {0}", m_GraphicsSpec.SLVersion);
 
-        glfwSetWindowUserPointer(m_Window, &m_Data);
-        SetVSync(true);
+        glfwSetWindowUserPointer(m_Window, &m_Spec.Data);
+        SetVSync(data.VSync);
 
         //Set up GLFW callbacks
         glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
@@ -181,8 +168,6 @@ namespace GCrisp
             MouseMovedEvent event((float)xPos, (float)yPos);
             data.EventCallback(event);
         });
-
-        m_GraphicsCreator = new Graphics::GLCreator();
     }
 
 
@@ -204,11 +189,18 @@ namespace GCrisp
         glfwMakeContextCurrent(m_Window);
     }
 
+    /*void GLWindow::ConvertWindowCoords(glm::vec3& coords)
+    {
+        auto& app = Application::Get();
+        coords.x = (coords.x / app.GetWindow().GetWidth()) * 2 - 1;
+        coords.y = (1 - (coords.y / app.GetWindow().GetHeight())) * 2 - 1;
+    }*/
+
     void GLWindow::SetResizable(bool enabled)
     {
         GC_PROFILE_FUNC();
         glfwWindowHint(GLFW_RESIZABLE, enabled ? GLFW_TRUE : GLFW_FALSE);
-        m_Data.Resizable = enabled;
+        m_Spec.Data.Resizable = enabled;
     }
 
     void GLWindow::SetVSync(bool enabled)
@@ -223,6 +215,6 @@ namespace GCrisp
             glfwSwapInterval(0);
         }
 
-        m_Data.VSync = enabled;
+        m_Spec.Data.VSync = enabled;
     }
 }

@@ -21,7 +21,7 @@ namespace GCrisp
             GC_CORE_ASSERT(!s_Instance, "Application should not be initalized twice!")
             s_Instance = this;
           
-            m_Window = std::unique_ptr<Window>(Window::Create(Graphics::Backend::OpenGL));
+            m_Window = std::unique_ptr<Window>(Window::Create({Backend::OpenGL}));
             m_Window->SetEventCallback(GC_BIND_FN1(Application::OnEvent));
 
             m_AssetsManager = std::make_unique<AssetsManager>();

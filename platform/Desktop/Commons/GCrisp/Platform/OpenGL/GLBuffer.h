@@ -6,11 +6,11 @@ namespace GCrisp {
 
 namespace Graphics{
 
-class OpenGLVertexBuffer : public VertexBuffer 
+class GLVertexBuffer : public VertexBuffer 
 {
 public:
-  OpenGLVertexBuffer(const VertexBufferSpec& spec);
-  virtual ~OpenGLVertexBuffer() override;
+  GLVertexBuffer(const VertexBufferSpecification& spec);
+  virtual ~GLVertexBuffer() override;
 
   virtual void Bind() const override;
   virtual void UnBind() const override;
@@ -24,11 +24,11 @@ private:
   uint32_t m_RendererID;
 };
 
-class OpenGLIndexBuffer : public IndexBuffer
+class GLIndexBuffer : public IndexBuffer
 {
 public:
-  OpenGLIndexBuffer(const IndexBufferSpec& spec);
-  virtual ~OpenGLIndexBuffer() override;
+  GLIndexBuffer(const IndexBufferSpecification& spec);
+  virtual ~GLIndexBuffer() override;
 
   virtual void Bind() const override;
   virtual void UnBind() const override;

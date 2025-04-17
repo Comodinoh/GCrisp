@@ -11,7 +11,7 @@ namespace GCrisp
             typedef unsigned int GLenum;
 
         public:
-            GLShader(const ShaderSpec& spec);
+            GLShader(const ShaderSpecification& spec);
             virtual ~GLShader();
 
             virtual void Bind() const override;

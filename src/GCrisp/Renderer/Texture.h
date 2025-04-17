@@ -2,39 +2,45 @@
 
 #include "GCrisp/Assets/Assets.h"
 #include <glm/glm.hpp>
+#include "GraphicsCore.h"
+#include <stb_image.h>
+//using namespace GCrisp::Graphics;
 
-namespace GCrisp
+namespace GCrisp::Graphics
 {
-    namespace Graphics
+    struct TextureSpecification
     {
-        struct TextureSpec
-        {
-            glm::vec2 Size;
-            uint32_t channels;
-        };
+        stbi_uc* Data;
+        glm::vec2 Size;
+        uint32_t channels;
+    };
 
-        enum class TextureFilter
-        {
-            None = 0, Nearest, Linear
-        };
+    enum class TextureFilter
+    {
+        None = 0, Nearest, Linear
+    };
 
-        class Texture : public Asset
-        {
-        public:
-            virtual ~Texture() = default;
+    class Texture : public Asset
+    {
+    public: 
+        virtual ~Texture() = default;
 
-            inline const TextureSpec& GetSpec() const { return m_Spec; }
+        inline const TextureSpecification& GetSpec() const { return m_Spec; }
 
-            virtual void Bind(int slot = 0) const = 0;
+        virtual void Bind(int slot = 0) const = 0;
 
-            virtual void SetMagFiltering(TextureFilter filtering) const = 0;
-            virtual void SetMinFiltering(TextureFilter filtering) const = 0;
+        virtual void SetMagFiltering(TextureFilter filtering) const = 0;
+        virtual void SetMinFiltering(TextureFilter filtering) const = 0;
 
-            virtual AssetType GetType() const override {return AssetType::Texture2D;};
-        protected:
-            TextureSpec m_Spec;
-        };
+        virtual AssetType GetType() const override { return AssetType::Texture2D; };
 
-        class Texture2D : public Texture {};
-    }
+    protected:
+        TextureSpecification m_Spec;
+    };
+
+    class Texture2D : public Texture
+    {
+    public:
+        GC_GRAPHICS_CREATE_DECL_WITH_SPEC2(Texture2D, Texture);
+    };
 }
