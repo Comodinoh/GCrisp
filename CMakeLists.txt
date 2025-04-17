@@ -22,8 +22,58 @@ cmake_dependent_option(GCRISP_BUILD_ANDROID "Build support for Android" ON "ANDR
 
 file(GLOB_RECURSE SRC_FILES src/GCrisp/*.cpp src/GCrisp/*.h)
 
-add_library(${PROJECT_NAME} STATIC ${SRC_FILES} "src/GCrisp/Renderer/VertexArray.cpp" "src/GCrisp/Core/Window.cpp" "src/GCrisp/Renderer/Texture.cpp" "src/GCrisp/Renderer/Context.cpp"
-        src/GCrisp/Renderer/Shader.cpp)
+add_library(${PROJECT_NAME} STATIC
+        src/GCrisp/Assets/Assets.h
+        src/GCrisp/Assets/AssetsManager.cpp
+        src/GCrisp/Assets/AssetsManager.h
+        src/GCrisp/Assets/GraphicsAsset.h
+        src/GCrisp/Core/Application.cpp
+        src/GCrisp/Core/Timing.cpp
+        src/GCrisp/Core/Timing.h
+        src/GCrisp/Core/UUID.h
+        src/GCrisp/Core/CameraController.h
+        src/GCrisp/Core/Input.h
+        src/GCrisp/Core/Application.h
+        src/GCrisp/Core/LayerStack.cpp
+        src/GCrisp/Core/Core.h
+        src/GCrisp/Core/Layer.cpp
+        src/GCrisp/Core/Entry.h
+        src/GCrisp/Core/GWindow.h
+        src/GCrisp/Core/Log.h
+        src/GCrisp/Core/Log.cpp
+        src/GCrisp/Core/LayerStack.h
+        src/GCrisp/Core/Layer.h
+        src/GCrisp/Core/CameraController.cpp
+        src/GCrisp/Core/UUID.cpp
+        src/GCrisp/Core/Window.cpp
+        src/GCrisp/Events/ApplicationEvent.h
+        src/GCrisp/Events/MouseEvent.h
+        src/GCrisp/Events/Event.h
+        src/GCrisp/Events/KeyEvent.h
+        src/GCrisp/Renderer/Buffer.cpp
+        src/GCrisp/Renderer/OrthoCamera.cpp
+        src/GCrisp/Renderer/Camera.h
+        src/GCrisp/Renderer/OrthoCamera.h
+        src/GCrisp/Renderer/Renderer2D.cpp
+        src/GCrisp/Renderer/Renderer.h
+        src/GCrisp/Renderer/Texture.h
+        src/GCrisp/Renderer/Renderer2D.h
+        src/GCrisp/Renderer/Texture.cpp
+        src/GCrisp/Renderer/Renderer.cpp
+        src/GCrisp/Renderer/Creator.h
+        src/GCrisp/Renderer/Context.cpp
+        src/GCrisp/Renderer/VertexArray.cpp
+        src/GCrisp/Renderer/Buffer.h
+        src/GCrisp/Renderer/Context.h
+        src/GCrisp/Renderer/Shader.h
+        src/GCrisp/Renderer/VertexArray.h
+        src/GCrisp/Renderer/Shader.cpp
+        src/GCrisp/Renderer/SubTexture.h
+        src/GCrisp/Renderer/GraphicsCore.h
+        src/GCrisp/Renderer/SubTexture.cpp
+        src/GCrisp/GCrisp.h
+        src/gcpch.cpp
+        src/gcpch.h)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
   target_compile_definitions(${PROJECT_NAME} PUBLIC GC_RELEASE)
