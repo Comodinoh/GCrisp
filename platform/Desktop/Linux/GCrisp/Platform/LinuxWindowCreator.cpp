@@ -7,7 +7,7 @@ namespace GCrisp
 
 Window* Window::Create(const WindowSpecification& spec)
 {
-  switch(backend)
+  switch(spec.Backend)
   {
     case Backend::None:
       {

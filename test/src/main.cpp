@@ -109,11 +109,11 @@ public:
             }
             auto& app = Application::Get();
             auto [mx, my] = Input::GetMousePosition();
-            GC_CORE_INFO("{0}, {1}", mx, my);
+            // GC_CORE_INFO("{0}, {1}", mx, my);
 
             mx = ((mx / app.GetWindow().GetWidth()) * 2 - 1) * m_CameraController.GetCamera().GetScale();
             my = ((1 - (my / app.GetWindow().GetHeight())) * 2 - 1) * m_CameraController.GetCamera().GetScale();
-            GC_CORE_INFO("{0}, {1}", mx, my);
+            // GC_CORE_INFO("{0}, {1}", mx, my);
 
             glm::vec3 pos = { mx*m_CameraController.GetCamera().GetAspectRatio(), my, 0.0f};
             pos += m_CameraController.GetCamera().GetPosition();

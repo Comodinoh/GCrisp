@@ -109,14 +109,16 @@ namespace GCrisp::Graphics
         {
             float* Vertices;
             uint32_t Size;
-            DrawType DrawType = DrawType::Static;
+            // Hack: Type can't have the same name as the variable
+            // otherwise it will not compile on gcc
+            ::GCrisp::Graphics::DrawType DrawType = DrawType::Static;
         };
 
         struct IndexBufferSpecification
         {
             uint32_t* Indices;
             uint32_t Size;
-            DrawType DrawType = DrawType::Static;
+            ::GCrisp::Graphics::DrawType DrawType = DrawType::Static;
         };
 
         class VertexBuffer

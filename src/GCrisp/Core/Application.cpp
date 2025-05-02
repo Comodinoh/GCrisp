@@ -1,5 +1,5 @@
-#include <gcpch.h>
 #include "Application.h"
+#include <gcpch.h>
 
 #include <GCrisp/Core/GWindow.h>
 #include <GCrisp/Events/Event.h>
@@ -20,7 +20,7 @@ namespace GCrisp
             ScopedTimer timer(start, delta);
             GC_CORE_ASSERT(!s_Instance, "Application should not be initalized twice!")
             s_Instance = this;
-          
+
             m_Window = std::unique_ptr<Window>(Window::Create({Backend::OpenGL}));
             m_Window->SetEventCallback(GC_BIND_FN1(Application::OnEvent));
 

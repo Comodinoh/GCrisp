@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 
 if not [ -d ./out/ ] || [ -n "$(find "./out/" -maxdepth 0 -type d -empty 2>/dev/null)" ]; then
@@ -8,4 +8,4 @@ if not [ -d ./out/ ] || [ -n "$(find "./out/" -maxdepth 0 -type d -empty 2>/dev/
 fi
 
 cd out
-cmake --build . -j 
+cmake --build . -j

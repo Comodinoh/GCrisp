@@ -51,7 +51,7 @@ namespace GCrisp
     {
         std::string_view Renderer;
         std::string_view Vendor;
-        std::string_view SLVersion; 
+        std::string_view SLVersion;
 
         Version APIVersion;
 
@@ -77,7 +77,7 @@ namespace GCrisp
 
     struct WindowSpecification
     {
-        Backend Backend;
+        ::GCrisp::Backend Backend;
         WindowData Data = {};
     };
 
@@ -103,7 +103,7 @@ namespace GCrisp
         inline virtual void* GetWindowPointer() = 0;
         // inline virtual Graphics::Context* GetContext() = 0;
 
-        virtual void SetVSync(bool enabled) = 0; 
+        virtual void SetVSync(bool enabled) = 0;
         inline bool HasVSync() const { return m_Spec.Data.VSync; }
 
         void SetEventCallback(const EventCallbackFunc& callback) { m_Spec.Data.EventCallback = callback; };

@@ -23,12 +23,12 @@ namespace GCrisp::Graphics
         uint32_t MaxQuadCount = 0;
     };
 
-    struct RenderCommand
-    {
-        Reference<Shader> Shader;
-        Reference<VertexArray> VertexArray;
-        glm::mat4 Transform;
-    };
+    // struct RenderCommand
+    // {
+    //     Reference<Shader> ShaderRef;
+    //     Reference<VertexArray> VA;
+    //     glm::mat4 Transform;
+    // };
 
     class API
     {
@@ -57,7 +57,6 @@ namespace GCrisp::Graphics
     void DrawIndexed(const Reference<VertexArray>& vertexArray, uint32_t count);
 
     void BeginRender(Camera& camera);
-    void EndRender();
 
     void Submit(const Reference<VertexArray>& vertexArray, const Reference<Shader>& shader, const glm::mat4& transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)));
 
