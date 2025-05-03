@@ -4,5 +4,5 @@
 
 namespace GCrisp::Graphics
 {
-    GC_GRAPHICS_CREATE_IMPL_WITH_SPEC2(Texture2D, Texture);
+GC_GRAPHICS_CREATE_IMPL_WITH_SPEC2(Texture2D, Texture);
 }

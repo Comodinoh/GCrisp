@@ -4,5 +4,5 @@
 
 namespace GCrisp::Graphics
 {
-    GC_GRAPHICS_CREATE_IMPL_WITH_SPEC(Shader);
+GC_GRAPHICS_CREATE_IMPL_WITH_SPEC(Shader);
 }

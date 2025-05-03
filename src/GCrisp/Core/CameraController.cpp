@@ -1,4 +1,3 @@
-#include "gcpch.h"
 #include "CameraController.h"
 
 #include <GCrisp/Renderer/Camera.h>

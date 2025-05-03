@@ -4,5 +4,5 @@
 
 namespace GCrisp::Graphics
 {
-	GC_GRAPHICS_CREATE_IMPL(VertexArray);
+GC_GRAPHICS_CREATE_IMPL(VertexArray);
 }

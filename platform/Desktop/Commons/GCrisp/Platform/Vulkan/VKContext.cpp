@@ -6,18 +6,17 @@
 
 namespace GCrisp
 {
- namespace Graphics
- {
+namespace Graphics
+{
 
-  void VKContext::Init() const
-  {
-   GC_PROFILE_FUNC();
-  }
-
-  void VKContext::SwapBuffers() const
-  {
-
-  }
-
- }
+void VKContext::Init() const
+{
+	GC_PROFILE_FUNC();
 }
+
+void VKContext::SwapBuffers() const
+{
+}
+
+} // namespace Graphics
+} // namespace GCrisp

@@ -1,36 +1,28 @@
 #pragma once
 
-#include <GCrisp/Events/Event.h>
 #include <GCrisp/Core/Timing.h>
+#include <GCrisp/Events/Event.h>
 
 namespace GCrisp
 {
-    class Layer
-    {
-    public:
-        Layer(const std::string& name = "Layer");
-        virtual ~Layer();
+class Layer
+{
+  public:
+	Layer(const std::string& name = "Layer");
+	virtual ~Layer();
 
-        virtual void OnAttach()
-        {
-        }
+	virtual void OnAttach() {}
 
-        virtual void OnDetach()
-        {
-        }
+	virtual void OnDetach() {}
 
-        virtual void OnUpdate(const ProcessedTime& elapsed)
-        {
-        }
+	virtual void OnUpdate(const ProcessedTime& elapsed) {}
 
-        virtual void OnEvent(Event& e)
-        {
-        }
+	virtual void OnEvent(Event& e) {}
 
-        inline const std::string& GetName() const { return m_DebugName; }
+	inline const std::string& GetName() const { return m_DebugName; }
 
-    private:
-        std::string m_DebugName;
-        float m_Time;
-    };
-}
+  private:
+	std::string m_DebugName;
+	float		m_Time;
+};
+} // namespace GCrisp

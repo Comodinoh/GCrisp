@@ -1,11 +1,11 @@
-#include <gcpch.h>
 #include "GLCreator.h"
+#include <gcpch.h>
 
 #include "GGLAPI.h"
-#include "GLShader.h"
 #include "GLBuffer.h"
-#include "GLVertexArray.h"
+#include "GLShader.h"
 #include "GLTexture.h"
+#include "GLVertexArray.h"
 //
 // namespace GCrisp
 // {
@@ -23,13 +23,15 @@
 //             return new GLShader(spec);
 //         }
 //
-//         VertexBuffer* GLCreator::CreateVertexBuffer(const VertexBufferSpecification& spec)
+//         VertexBuffer* GLCreator::CreateVertexBuffer(const
+//         VertexBufferSpecification& spec)
 //         {
 //             GC_PROFILE_FUNC();
 //             return new GLVertexBuffer(spec);
 //         }
 //
-//         IndexBuffer* GLCreator::CreateIndexBuffer(const IndexBufferSpecification& spec)
+//         IndexBuffer* GLCreator::CreateIndexBuffer(const
+//         IndexBufferSpecification& spec)
 //         {
 //             GC_PROFILE_FUNC();
 //             return new GLIndexBuffer(spec);
@@ -41,7 +43,8 @@
 //             return new GLVertexArray();
 //         }
 //
-//         Texture2D* GLCreator::CreateTexture2D(const stbi_uc* data, const TextureSpecification& spec)
+//         Texture2D* GLCreator::CreateTexture2D(const stbi_uc* data, const
+//         TextureSpecification& spec)
 //         {
 //             GC_PROFILE_FUNC();
 //             return new GLTexture2D(data, spec);
