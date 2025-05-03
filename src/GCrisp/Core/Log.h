@@ -1,8 +1,10 @@
 #pragma once
 
 #include <GCrisp/Core/Core.h>
-#include <spdlog/fmt/ostr.h>
+// clang-format off
 #include <spdlog/spdlog.h>
+#include <spdlog/fmt/ostr.h>
+// clang-format on
 
 namespace GCrisp
 {
