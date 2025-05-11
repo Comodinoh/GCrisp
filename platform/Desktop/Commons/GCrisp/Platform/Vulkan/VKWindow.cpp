@@ -13,6 +13,9 @@ namespace GCrisp
 {
 static bool s_GLFWInitialized = false;
 
+VkInstance VKWindow::s_VulkanInstance = nullptr;
+VKData VKWindow::s_VulkanData = {};
+
 static void GLFWErrorCallback(int error, const char* desc)
 {
 	GC_CORE_ERROR("GLFW Error: {0}: {1}", error, desc);

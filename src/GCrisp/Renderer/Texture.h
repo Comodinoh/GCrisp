@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GCrisp/Assets/Assets.h"
+#include <GCrisp/Assets/Assets.h>
 #include "GraphicsCore.h"
 #include <glm/glm.hpp>
 #include <stb_image.h>

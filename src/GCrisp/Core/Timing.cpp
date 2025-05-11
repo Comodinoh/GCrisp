@@ -1,4 +1,5 @@
 #include "Timing.h"
+#include <iomanip>
 
 namespace GCrisp
 {

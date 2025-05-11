@@ -6,4 +6,4 @@ file(GLOB_RECURSE SRC src/*.cpp)
 add_executable(${PROJECT_NAME} ${SRC})
 
 #target_include_directories(${PROJECT_NAME} PRIVATE ../src)
-target_link_libraries(${PROJECT_NAME} gcrisp)
+target_link_libraries(${PROJECT_NAME} GCrisp-Source)

@@ -1,6 +1,4 @@
-
-#ifndef _VERTEX_ARRAY_
-#define _VERTEX_ARRAY_
+#pragma once
 #include <GCrisp/Renderer/Buffer.h>
 #include <GCrisp/Renderer/GraphicsCore.h>
 
@@ -24,4 +22,3 @@ class VertexArray
 };
 } // namespace GCrisp::Graphics
 
-#endif

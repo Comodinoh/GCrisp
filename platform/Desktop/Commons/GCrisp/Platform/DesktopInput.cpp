@@ -1,7 +1,8 @@
-#include <GCrisp/Core/Application.h>
-#include <GCrisp/Core/Input.h>
-#include <GLFW/glfw3.h>
 #include <gcpch.h>
+
+#include <GCrisp/Core/Input.h>
+#include <GCrisp/Core/Application.h>
+#include <GLFW/glfw3.h>
 
 namespace GCrisp
 {

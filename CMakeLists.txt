@@ -1,171 +1,24 @@
 cmake_minimum_required(VERSION 3.30.5)
 
-project(gcrisp CXX)
+project(GCrisp CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(GCRISP_VULKAN_VERSION 1.3.296.0)
 
-
-include(CMakeDependentOption)
-
-option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 option(GCRISP_BUILD_TESTS "Build tests" ON)
 option(GCRISP_PROFILING "Enable profiler" ON)
 option(GCRISP_FORCE_PROFILING "Force the use of the profiler regardless of build type" OFF)
 option(GCRISP_BUILD_DISTRIBUTABLE "Build GCrisp as a distributable" OFF)
 
-cmake_dependent_option(GCRISP_BUILD_WIN32 "Build support for Win32" ON "WIN32" OFF)
-cmake_dependent_option(GCRISP_BUILD_POSIX "Build support for Posix/Linux" ON "UNIX;NOT APPLE" OFF)
-cmake_dependent_option(GCRISP_BUILD_ANDROID "Build support for Android" ON "ANDROID" OFF)
-
-add_library(${PROJECT_NAME} STATIC
-        src/GCrisp/Core/Core.h
-        src/GCrisp/Assets/Assets.h
-        src/GCrisp/Assets/AssetsManager.cpp
-        src/GCrisp/Assets/AssetsManager.h
-        src/GCrisp/Core/Application.cpp
-        src/GCrisp/Core/Timing.cpp
-        src/GCrisp/Core/Timing.h
-        src/GCrisp/Core/UUID.h
-        src/GCrisp/Core/CameraController.h
-        src/GCrisp/Core/Input.h
-        src/GCrisp/Core/Application.h
-        src/GCrisp/Core/LayerStack.cpp
-        src/GCrisp/Core/Layer.cpp
-        src/GCrisp/Core/Entry.h
-        src/GCrisp/Core/GWindow.h
-        src/GCrisp/Core/Log.h
-        src/GCrisp/Core/Log.cpp
-        src/GCrisp/Core/LayerStack.h
-        src/GCrisp/Core/Layer.h
-        src/GCrisp/Core/CameraController.cpp
-        src/GCrisp/Core/UUID.cpp
-        src/GCrisp/Core/Window.cpp
-        src/GCrisp/Events/ApplicationEvent.h
-        src/GCrisp/Events/MouseEvent.h
-        src/GCrisp/Events/Event.h
-        src/GCrisp/Events/KeyEvent.h
-        src/GCrisp/Renderer/Buffer.cpp
-        src/GCrisp/Renderer/OrthoCamera.cpp
-        src/GCrisp/Renderer/Camera.h
-        src/GCrisp/Renderer/OrthoCamera.h
-        src/GCrisp/Renderer/Renderer2D.cpp
-        src/GCrisp/Renderer/Renderer.h
-        src/GCrisp/Renderer/Texture.h
-        src/GCrisp/Renderer/Renderer2D.h
-        src/GCrisp/Renderer/Texture.cpp
-        src/GCrisp/Renderer/Renderer.cpp
-        src/GCrisp/Renderer/Creator.h
-        src/GCrisp/Renderer/Context.cpp
-        src/GCrisp/Renderer/VertexArray.cpp
-        src/GCrisp/Renderer/Buffer.h
-        src/GCrisp/Renderer/Context.h
-        src/GCrisp/Renderer/Shader.h
-        src/GCrisp/Renderer/VertexArray.h
-        src/GCrisp/Renderer/Shader.cpp
-        src/GCrisp/Renderer/SubTexture.h
-        src/GCrisp/Renderer/GraphicsCore.h
-        src/GCrisp/Renderer/SubTexture.cpp
-        src/GCrisp/GCrisp.h
-        src/gcpch.cpp
-        src/gcpch.h)
-
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    target_compile_definitions(${PROJECT_NAME} PUBLIC GC_RELEASE)
-elseif(CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
-    set(GCRISP_BUILD_DISTRIBUTABLE ON)
-endif()
-
+add_subdirectory(platform)
+add_subdirectory(src)
 add_subdirectory(lib)
 
-target_include_directories(${PROJECT_NAME}
-  PUBLIC
-  lib/glfw/include
-  src
- )
 
-function(link_vulkan)
-    find_package(Vulkan ${GCRISP_VULKAN_VERSION} COMPONENTS glslc)
-
-    if(NOT ${Vulkan_FOUND})
-        include(FetchContent)
-        message(FATAL_ERROR "${PROJECT_NAME}: Vulkan SDK not found.
-    Please follow this guide https://vulkan-tutorial.com/Development_environment to setup the SDK based on your OS
-    (Be sure to install glslc too)")
-    else()
-        target_include_directories(${PROJECT_NAME} PUBLIC ${Vulkan_INCLUDE_DIRS})
-        target_link_libraries(${PROJECT_NAME} PRIVATE ${Vulkan_LIBRARIES})
-    endif()
-endfunction()
-
-if(GCRISP_BUILD_WIN32 OR GCRISP_BUILD_POSIX)
-    link_vulkan()
-
-    add_definitions(-DGLFW_INCLUDE_NONE)
-
-    file(GLOB_RECURSE COMMONS_SRC platform/Desktop/Commons/*.cpp)
-    target_sources(${PROJECT_NAME} PRIVATE ${COMMONS_SRC})
-    target_include_directories(${PROJECT_NAME} PRIVATE platform/Desktop/Commons)
-    target_compile_definitions(${PROJECT_NAME} PUBLIC GC_DESKTOP)
-
-    target_compile_definitions(${PROJECT_NAME} PUBLIC GC_VULKAN GC_OPENGL)
-endif()
-
-if(GCRISP_BUILD_WIN32)
-    message(STATUS "${PROJECT_NAME}: Building for Windows systems")
-
-    file(GLOB_RECURSE WIN32_SRC platform/Desktop/Win32/*.cpp)
-
-    target_sources(${PROJECT_NAME} PRIVATE ${WIN32_SRC})
-    target_include_directories(${PROJECT_NAME} PRIVATE platform/Desktop/Win32)
-
-    target_compile_definitions(${PROJECT_NAME} PUBLIC GC_WIN32 GC_DIRECTX)
-elseif(GCRISP_BUILD_POSIX)
-    message(STATUS "${PROJECT_NAME}: Building for Posix systems")
-
-    set(CMAKE_CXX_FLAGS "-fdiagnostics-color=always")
-
-    file(GLOB_RECURSE LINUX_SRC platform/Desktop/Linux/*.cpp)
-
-    target_sources(${PROJECT_NAME} PRIVATE ${LINUX_SRC})
-    target_include_directories(${PROJECT_NAME} PRIVATE platform/Desktop/Linux)
-
-    target_compile_definitions(${PROJECT_NAME} PUBLIC GC_POSIX)
-elseif(GCRISP_BUILD_ANDROID)
-    message(FATAL_ERROR "${PROJECT_NAME}: Building for Android systems isn't supported yet!")
-    # Support still in progress
-endif()
-
-
-target_link_libraries(${PROJECT_NAME}
-  PUBLIC
-  glad
-  glfw
-  spdlog::spdlog_header_only
-  glm::glm-header-only
-  stb
-)
-
-if(GCRISP_BUILD_DISTRIBUTABLE)
-    target_compile_definitions(${PROJECT_NAME} PUBLIC GC_DIST=1)
-    set(GCRISP_PROFILING OFF)
-endif()
-
-if(GCRISP_PROFILING)
-    target_compile_definitions(${PROJECT_NAME} PUBLIC GC_PROFILING=1)
-    message(STATUS "Profiling enabled")
-else()
-    if(GCRISP_FORCE_PROFILING)
-        target_compile_definitions(${PROJECT_NAME} PUBLIC GC_PROFILING=1)
-    endif()
-    target_compile_definitions(${PROJECT_NAME} PUBLIC GC_PROFILING=0)
-    message(STATUS "Profiling disabled")
-endif()
-
-target_precompile_headers(${PROJECT_NAME} PUBLIC src/gcpch.h)
-
+target_link_libraries(GCrisp-Platform INTERFACE GCrisp-Vendor)
+target_link_libraries(GCrisp-Source PUBLIC GCrisp-Platform)
 
 if(GCRISP_BUILD_TESTS)
     add_subdirectory(test)

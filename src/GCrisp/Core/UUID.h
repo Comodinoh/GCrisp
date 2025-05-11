@@ -16,7 +16,9 @@ class UUID
 
 	operator uint32_t() const { return m_ID; }
 
+	// clang-format off
 	auto operator<=>(const UUID&) const = default;
+	// clang-format on
 
 	static UUID Generate()
 	{
