@@ -5,8 +5,6 @@ set(GCRISP_DESKTOP_COMMON_SOURCE
     GCrisp/Platform/OpenGL/GLBuffer.h
     GCrisp/Platform/OpenGL/GLContext.cpp
     GCrisp/Platform/OpenGL/GLContext.h
-    GCrisp/Platform/OpenGL/GLCreator.cpp
-    GCrisp/Platform/OpenGL/GLCreator.h
     GCrisp/Platform/OpenGL/GLShader.cpp
     GCrisp/Platform/OpenGL/GLShader.h
     GCrisp/Platform/OpenGL/GLTexture.cpp
@@ -21,8 +19,6 @@ set(GCRISP_DESKTOP_COMMON_SOURCE
     #GCrisp/Platform/Vulkan/VulkanBuffer.h
     GCrisp/Platform/Vulkan/VKContext.cpp
     GCrisp/Platform/Vulkan/VKContext.h
-    GCrisp/Platform/Vulkan/VKCreator.cpp
-    GCrisp/Platform/Vulkan/VKCreator.h
     #GCrisp/Platform/Vulkan/VulkanShader.cpp
     #GCrisp/Platform/Vulkan/VulkanShader.h
     #GCrisp/Platform/Vulkan/VulkanTexture.cpp

@@ -35,7 +35,6 @@ GCrisp/Renderer/Texture.h
 GCrisp/Renderer/Renderer2D.h
 GCrisp/Renderer/Texture.cpp
 GCrisp/Renderer/Renderer.cpp
-GCrisp/Renderer/Creator.h
 GCrisp/Renderer/Context.cpp
 GCrisp/Renderer/VertexArray.cpp
 GCrisp/Renderer/Buffer.h

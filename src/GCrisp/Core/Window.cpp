@@ -1,6 +1,5 @@
 #include "GWindow.h"
 
-namespace GCrisp
-{
+namespace GCrisp {
 Backend Window::s_Backend = Backend::None;
 }

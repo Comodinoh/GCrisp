@@ -2,51 +2,44 @@
 
 #include <gcpch.h>
 
-namespace GCrisp
-{
-class UUID
-{
+namespace GCrisp {
+class UUID {
   public:
-	UUID() : UUID(0) {};
-	UUID(const UUID& id) = default;
+    UUID() : UUID(0) {};
 
-	explicit UUID(const uint32_t& id) : m_ID(id) {}
+    explicit UUID(const uint32_t& id) : m_ID(id) {}
 
-	inline uint32_t Get() const { return m_ID; }
+    inline uint32_t Get() const { return m_ID; }
 
-	operator uint32_t() const { return m_ID; }
+    operator uint32_t() const { return m_ID; }
 
-	// clang-format off
+    // clang-format off
 	auto operator<=>(const UUID&) const = default;
-	// clang-format on
+    // clang-format on
 
-	static UUID Generate()
-	{
-		s_Counter++;
-		return UUID(s_Counter);
-	}
+    static UUID Generate() {
+        s_Counter++;
+        return UUID(s_Counter);
+    }
 
-	static void Destroy(const UUID& uuid)
-	{
-		s_Counter--;
-		// TODO: IDK if to reset the provided UUID to 0
-		// uuid = UUID();
-	}
+    static void Destroy(const UUID&) {
+        s_Counter--;
+        // TODO: IDK if to reset the provided UUID to 0
+        // uuid = UUID();
+    }
 
   private:
-	uint32_t m_ID = 0;
+    uint32_t m_ID = 0;
 
-	static uint32_t s_Counter;
+    static uint32_t s_Counter;
 };
 
 } // namespace GCrisp
 
-namespace std
-{
+namespace std {
 template <> struct hash<GCrisp::UUID> {
-	size_t operator()(const GCrisp::UUID& cmp) const noexcept
-	{
-		return std::hash<uint32_t>()(cmp.Get());
-	}
+    size_t operator()(const GCrisp::UUID& cmp) const noexcept {
+        return std::hash<uint32_t>()(cmp.Get());
+    }
 };
 } // namespace std

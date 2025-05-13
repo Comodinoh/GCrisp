@@ -4,9 +4,9 @@
 
 #include <memory>
 
-#define BIT(x)			  (1 << x)
+#define BIT(x) (1 << x)
 #define GC_BIND_FN1(func) std::bind(&func, this, std::placeholders::_1)
-#define GC_CONCAT(x, y)	  x##y
+#define GC_CONCAT(x, y) x##y
 
 #ifndef GC_RELEASE
 
@@ -19,17 +19,17 @@
 #error "Platform doesn't support debugbreak!"
 #endif
 
-#define GC_ASSERT(condition, ...)                       \
-	if (!(condition)) {                                 \
-		GC_ERROR("Assertion Failed: {0}", __VA_ARGS__); \
-		GC_BREAKPOINT();                                \
-	}
+#define GC_ASSERT(condition, ...)                                              \
+    if (!(condition)) {                                                        \
+        GC_ERROR("Assertion Failed: {0}", __VA_ARGS__);                        \
+        GC_BREAKPOINT();                                                       \
+    }
 
-#define GC_CORE_ASSERT(condition, ...)                       \
-	if (!(condition)) {                                      \
-		GC_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); \
-		GC_BREAKPOINT();                                     \
-	}
+#define GC_CORE_ASSERT(condition, ...)                                         \
+    if (!(condition)) {                                                        \
+        GC_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__);                   \
+        GC_BREAKPOINT();                                                       \
+    }
 
 #else
 
@@ -40,15 +40,15 @@
 
 #ifndef GC_DIST
 
-#define GC_VERIFY(condition, msg, ...) \
-	if (!(condition)) {                \
-		GC_ERROR(msg, __VA_ARGS__);    \
-	}
+#define GC_VERIFY(condition, msg, ...)                                         \
+    if (!(condition)) {                                                        \
+        GC_ERROR(msg, __VA_ARGS__);                                            \
+    }
 
-#define GC_CORE_VERIFY(condition, msg, ...) \
-	if (!(condition)) {                     \
-		GC_CORE_ERROR(msg, __VA_ARGS__);    \
-	}
+#define GC_CORE_VERIFY(condition, msg, ...)                                    \
+    if (!(condition)) {                                                        \
+        GC_CORE_ERROR(msg, __VA_ARGS__);                                       \
+    }
 
 #else
 
@@ -65,17 +65,17 @@
 #ifndef __JETBRAINS_IDE__
 
 #define GC_PROFILE_START(name) ::GCrisp::TimingsProfiler::StartProfiler(name);
-#define GC_PROFILE_END()	   ::GCrisp::TimingsProfiler::EndProfiler();
+#define GC_PROFILE_END() ::GCrisp::TimingsProfiler::EndProfiler();
 
-#define GC_PROFILE_SCOPE2(name, line)                                               \
-	ProfileResult			GC_CONCAT(result, line) = {name,                        \
-													   std::this_thread::get_id()}; \
-	::GCrisp::ProfilerTimer GC_CONCAT(timer, line)(GC_CONCAT(result, line));
+#define GC_PROFILE_SCOPE2(name, line)                                          \
+    ProfileResult GC_CONCAT(result, line) = {name,                             \
+                                             std::this_thread::get_id()};      \
+    ::GCrisp::ProfilerTimer GC_CONCAT(timer, line)(GC_CONCAT(result, line));
 
 #define GC_PROFILE_SCOPE(name) GC_PROFILE_SCOPE2(name, __LINE__)
 
-#if defined(_MSC_VER) && !defined(__llvm__) && !defined(__GNUC__) && \
-	!defined(__clang__)
+#if defined(_MSC_VER) && !defined(__llvm__) && !defined(__GNUC__) &&           \
+    !defined(__clang__)
 
 #define GC_PROFILE_FUNC() GC_PROFILE_SCOPE(__FUNCSIG__)
 
@@ -105,8 +105,7 @@
 
 #endif
 
-namespace GCrisp
-{
+namespace GCrisp {
 template <typename T> using Reference = std::shared_ptr<T>;
 
 template <typename T> using ScopedPtr = std::unique_ptr<T>;

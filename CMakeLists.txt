@@ -20,6 +20,12 @@ add_subdirectory(lib)
 target_link_libraries(GCrisp-Platform INTERFACE GCrisp-Vendor)
 target_link_libraries(GCrisp-Source PUBLIC GCrisp-Platform)
 
+if(MSVC)
+  target_compile_options(GCrisp-Source PRIVATE /W4 /Wall /sdl /external:anglebrackets /external:W2 /fsanitizer=address)
+else()
+  target_compile_options(GCrisp-Source PRIVATE -Wall -Wextra -Wpedantic )
+endif()
+
 if(GCRISP_BUILD_TESTS)
     add_subdirectory(test)
 endif()
