@@ -6,20 +6,6 @@ using AssetID = UUID;
 
 enum class AssetType { Unknown = 0, Texture2D, Shader };
 
-static std::string_view StringFromAssetType(AssetType type) {
-    switch (type) {
-    case AssetType::Texture2D: {
-        return "Texture2D";
-    }
-    case AssetType::Shader: {
-        return "Shader";
-    }
-    default: {
-        return "Unknown";
-    };
-    }
-}
-
 struct AssetMetadata {
     AssetType Type;
     std::string Path;

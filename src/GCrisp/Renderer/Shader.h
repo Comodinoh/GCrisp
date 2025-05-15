@@ -7,30 +7,6 @@
 namespace GCrisp::Graphics {
 enum ShaderType { SHADER_NONE = 0, SHADER_VERTEX, SHADER_FRAGMENT };
 
-static std::string StringFromShaderType(const ShaderType& type) {
-    switch (type) {
-    case SHADER_VERTEX: {
-        return "vertex";
-    }
-    case SHADER_FRAGMENT: {
-        return "fragment";
-    }
-    default: {
-        GC_CORE_ASSERT(false, "Unknown shader type!");
-        return "";
-    }
-    }
-}
-
-static ShaderType ShaderTypeFromString(const std::string& type) {
-    if (type == "vertex")
-        return SHADER_VERTEX;
-    if (type == "fragment" || type == "pixel")
-        return SHADER_FRAGMENT;
-    GC_CORE_ASSERT(false, "Unknown shader type!");
-    return SHADER_NONE;
-}
-
 struct ShaderSpecification {
     std::unordered_map<ShaderType, std::string> shaders;
 

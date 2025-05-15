@@ -1,8 +1,9 @@
 #include "GLShader.h"
 #include <gcpch.h>
 
-#include <GCrisp/Core/Log.h>
-#include <GCrisp/Renderer/GraphicsCore.h>
+#include "GCrisp/Core/Log.h"
+#include "GCrisp/Renderer/GraphicsCore.h"
+#include "GCrisp/Renderer/Utils.h"
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 

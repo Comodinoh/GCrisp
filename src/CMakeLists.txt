@@ -45,6 +45,7 @@ GCrisp/Renderer/Shader.cpp
 GCrisp/Renderer/SubTexture.h
 GCrisp/Renderer/GraphicsCore.h
 GCrisp/Renderer/SubTexture.cpp
+GCrisp/Renderer/Utils.h
 GCrisp/GCrisp.h
 gcpch.cpp
 gcpch.h)

@@ -1,7 +1,7 @@
 #include <gcpch.h>
 
 #include "AssetsManager.h"
-#include <GCrisp/Core/Application.h>
+#include "GCrisp/Renderer/Utils.h"
 
 #include <stb_image.h>
 
@@ -56,7 +56,8 @@ AssetID AssetsManager::LoadAsset(const AssetMetadata& metadata) {
     GC_CORE_TRACE(
         "AssetsManager::LoadAsset - Loaded Asset with ID: {0}, Path: {1} and "
         "Type: {2}",
-        uuid.Get(), metadata.Path, StringFromAssetType(metadata.Type));
+        uuid.Get(), metadata.Path,
+        Graphics::StringFromAssetType(metadata.Type));
 
     return uuid;
 }

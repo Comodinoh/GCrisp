@@ -9,23 +9,15 @@ namespace Graphics {
 static GLenum FromShaderDataTypeToOpenGLType(ShaderDataType type) {
     switch (type) {
     case ShaderDataType::Float:
-        return GL_FLOAT;
     case ShaderDataType::Float2:
-        return GL_FLOAT;
     case ShaderDataType::Float3:
-        return GL_FLOAT;
     case ShaderDataType::Float4:
-        return GL_FLOAT;
     case ShaderDataType::Mat3:
-        return GL_FLOAT;
     case ShaderDataType::Mat4:
         return GL_FLOAT;
     case ShaderDataType::Int:
-        return GL_INT;
     case ShaderDataType::Int2:
-        return GL_INT;
     case ShaderDataType::Int3:
-        return GL_INT;
     case ShaderDataType::Int4:
         return GL_INT;
     case ShaderDataType::Bool:
@@ -66,10 +58,10 @@ void GLVertexArray::AddVertexBuffer(
         GC_CORE_INFO("{0}, {1}, {2}", element.Count, layout.GetStride(),
                      element.Offset);
         glEnableVertexAttribArray(i);
-        glVertexAttribPointer(i, element.Count,
-                              FromShaderDataTypeToOpenGLType(element.Type),
-                              element.Normalized ? GL_TRUE : GL_FALSE,
-                              layout.GetStride(), (void*)element.Offset);
+        glVertexAttribPointer(
+            i, element.Count, FromShaderDataTypeToOpenGLType(element.Type),
+            element.Normalized ? GL_TRUE : GL_FALSE, layout.GetStride(),
+            reinterpret_cast<const void*>(element.Offset));
         i++;
     }
     m_VertexBuffers.push_back(vertexBuffer);

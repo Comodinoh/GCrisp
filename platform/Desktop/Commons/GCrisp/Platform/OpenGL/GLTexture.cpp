@@ -35,7 +35,7 @@ void GLTexture2D::Bind(int slot) const {
 
 void GLTexture2D::SetMagFiltering(
     TextureFilter filtering = TextureFilter::None) const {
-    GLenum glFiltering;
+    GLenum glFiltering = GL_NEAREST;
     switch (filtering) {
     case TextureFilter::Linear: {
         glFiltering = GL_LINEAR;
@@ -45,7 +45,7 @@ void GLTexture2D::SetMagFiltering(
         glFiltering = GL_NEAREST;
         break;
     }
-    case TextureFilter::None: {
+    default: {
         glFiltering = GL_NEAREST;
     }
     }
@@ -54,7 +54,7 @@ void GLTexture2D::SetMagFiltering(
 
 void GLTexture2D::SetMinFiltering(
     TextureFilter filtering = TextureFilter::None) const {
-    GLenum glFiltering;
+    GLenum glFiltering = GL_NEAREST;
     switch (filtering) {
     case TextureFilter::Linear: {
         glFiltering = GL_LINEAR;
