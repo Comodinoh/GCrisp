@@ -1,7 +1,7 @@
 #pragma once
 
 #include "gcpch.h"
-#include <GCrisp/Core/Core.h>
+#include <GCrisp/Core/Base.h>
 
 namespace GCrisp {
 enum class EventType {

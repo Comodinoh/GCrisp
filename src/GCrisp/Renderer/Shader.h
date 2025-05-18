@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GraphicsCore.h"
+#include "RendererBase.h"
 #include <GCrisp/Assets/Assets.h>
 #include <glm/matrix.hpp>
 

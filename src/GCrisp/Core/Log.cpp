@@ -15,4 +15,11 @@ void Log::Init() {
     s_ClientLogger = spdlog::stdout_color_mt("App");
     s_ClientLogger->set_level(spdlog::level::trace);
 }
+
+void Log::Shutdown() {
+    spdlog::shutdown();
+
+    s_CoreLogger.reset();
+    s_ClientLogger.reset();
+}
 }; // namespace GCrisp

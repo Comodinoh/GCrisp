@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GCrisp/Core/Core.h>
+#include <GCrisp/Core/Base.h>
 // clang-format off
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>
@@ -8,16 +8,20 @@
 
 namespace GCrisp {
 class Log {
-  public:
+public:
     static void Init();
+
+    static void Shutdown();
+
     inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() {
         return s_CoreLogger;
     }
+
     inline static std::shared_ptr<spdlog::logger>& GetClientLogger() {
         return s_ClientLogger;
     }
 
-  private:
+private:
     static std::shared_ptr<spdlog::logger> s_CoreLogger;
     static std::shared_ptr<spdlog::logger> s_ClientLogger;
 };

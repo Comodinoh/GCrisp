@@ -1,6 +1,6 @@
 #pragma once
 #include <GCrisp/Renderer/Buffer.h>
-#include <GCrisp/Renderer/GraphicsCore.h>
+#include <GCrisp/Renderer/RendererBase.h>
 
 namespace GCrisp::Graphics {
 class VertexArray {

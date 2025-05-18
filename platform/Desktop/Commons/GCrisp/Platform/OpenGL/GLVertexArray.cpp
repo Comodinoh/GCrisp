@@ -1,7 +1,7 @@
 #include "GLVertexArray.h"
 #include <gcpch.h>
 
-#include <GCrisp/Core/Core.h>
+#include <GCrisp/Core/Base.h>
 #include <glad/glad.h>
 
 namespace GCrisp {

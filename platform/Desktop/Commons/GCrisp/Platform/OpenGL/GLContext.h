@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GCrisp/Core/Core.h>
+#include <GCrisp/Core/Base.h>
 #include <GCrisp/Renderer/Context.h>
 #include <GLFW/glfw3.h>
 

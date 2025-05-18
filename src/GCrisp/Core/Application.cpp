@@ -6,14 +6,14 @@
 #include <GCrisp/Events/ApplicationEvent.h>
 #include <GCrisp/Events/Event.h>
 #include <GCrisp/Renderer/Renderer.h>
+#include "Core.h"
 
 namespace GCrisp {
 Application* Application::s_Instance = nullptr;
 
 Application::Application() {
     GC_PROFILE_FUNC();
-    ProcessedTime delta;
-    {
+    ProcessedTime delta; {
         auto start = steady_clock::now();
         ScopedTimer timer(start, delta);
         GC_CORE_ASSERT(!s_Instance,
@@ -38,6 +38,15 @@ Application::~Application() {
     GC_PROFILE_FUNC();
     s_Instance = nullptr;
     Graphics::Shutdown();
+}
+
+void Application::Exit() {
+    m_Running = false;
+    Core::SetRunning(false);
+}
+
+void Application::Restart() {
+    m_Running = false;
 }
 
 void Application::Run() {
@@ -77,7 +86,7 @@ void Application::OnEvent(Event& e) {
 }
 
 bool Application::OnWindowClose(WindowCloseEvent&) {
-    m_Running = false;
+    Exit();
     return true;
 }
 

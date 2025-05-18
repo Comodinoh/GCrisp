@@ -1,7 +1,7 @@
 #include "GLContext.h"
 #include <gcpch.h>
 
-#include <GCrisp/Core/Core.h>
+#include <GCrisp/Core/Base.h>
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 

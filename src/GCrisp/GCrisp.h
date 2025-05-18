@@ -18,4 +18,4 @@
 #include <GCrisp/Assets/AssetsManager.h>
 
 // Entry point
-#include "GCrisp/Core/Entry.h"
+#include "Entry.h"

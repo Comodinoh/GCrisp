@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Event.h"
-#include <GCrisp/Core/Core.h>
+#include <GCrisp/Core/Base.h>
 
 namespace GCrisp {
 class MouseMovedEvent : public Event {

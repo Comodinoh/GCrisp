@@ -16,15 +16,8 @@ struct RendererProp {
     uint32_t MaxQuadCount = 0;
 };
 
-// struct RenderCommand
-// {
-//     Reference<Shader> ShaderRef;
-//     Reference<VertexArray> VA;
-//     glm::mat4 Transform;
-// };
-
 class API {
-  public:
+public:
     virtual ~API() = default;
 
     virtual void Init() = 0;
@@ -43,12 +36,15 @@ class API {
 };
 
 void Init(const RendererProp& prop);
+
 void Shutdown();
 
 void Clear(const glm::vec4& color);
+
 void SetViewport(const glm::vec2& pos, const glm::vec2& size);
 
 void DrawIndexed(const Reference<VertexArray>& vertexArray);
+
 void DrawIndexed(uint32_t count);
 
 void BeginRender(Camera& camera);
@@ -60,25 +56,4 @@ void Submit(const Reference<VertexArray>& vertexArray,
 
 static ScopedPtr<API> s_RenderAPI = std::unique_ptr<API>();
 static ScopedPtr<Data> s_Data = std::make_unique<Data>();
-// static std::mutex s_Mutex;
-
-// static std::mutex& GetMutex()
-// {
-//     return s_Mutex;
-// }
-
-// class RenderThread
-// {
-// public:
-//     RenderThread() {};
-//     ~RenderThread();
-//
-//     void Queue(const RenderCommand& command);
-// protected:
-//     void Update();
-// private:
-//     std::vector<RenderCommand> m_Queue;
-//     std::mutex m_Mutex;
-//     std::thread m_Thread;
-// };
 } // namespace GCrisp::Graphics

@@ -1,13 +1,11 @@
 #include "gcpch.h"
 
 #include "Renderer2D.h"
-
-#include "GraphicsCore.h"
-
-#include <GCrisp/Core/Application.h>
-
+#include "RendererBase.h"
+#include "GCrisp/Core/Application.h"
 #include "Buffer.h"
 #include "Renderer.h"
+
 #include <glm/glm.hpp>
 
 namespace GCrisp::Graphics2D {

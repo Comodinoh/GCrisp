@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GraphicsCore.h"
+#include "RendererBase.h"
 
 namespace GCrisp::Graphics {
 enum class ShaderDataType : uint8_t {

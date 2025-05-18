@@ -34,9 +34,10 @@ void GLWindow::Init() {
         s_GLFWInitialized = true;
     }
 
-    glfwWindowHint(GLFW_RESIZABLE, data.Resizable);
+    // Will only be set on linux
+    glfwWindowHintString(GLFW_WAYLAND_APP_ID, "gcrisp");
 
-    {
+    glfwWindowHint(GLFW_RESIZABLE, data.Resizable); {
         GC_PROFILE_SCOPE("glfwCreateWindow - OpenGLWindow");
         m_Window = glfwCreateWindow((int)data.Width, (int)data.Height,
                                     data.Title.c_str(), nullptr, nullptr);

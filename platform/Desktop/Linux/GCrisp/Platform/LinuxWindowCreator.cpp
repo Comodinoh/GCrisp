@@ -1,4 +1,4 @@
-#include <GCrisp/Core/Core.h>
+#include <GCrisp/Core/Base.h>
 #include <GCrisp/Core/GWindow.h>
 #include <GCrisp/Platform/OpenGL/GLWindow.h>
 

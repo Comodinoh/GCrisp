@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GraphicsCore.h"
+#include "RendererBase.h"
 
 namespace GCrisp::Graphics {
 struct ContextSpecification {

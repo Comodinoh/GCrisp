@@ -4,7 +4,7 @@
 #include "Renderer2D.h"
 
 #include <GCrisp/Core/Application.h>
-#include <GCrisp/Core/Core.h>
+#include <GCrisp/Core/Base.h>
 #include <GLFW/glfw3.h>
 #include <memory>
 
