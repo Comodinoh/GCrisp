@@ -3,8 +3,12 @@ IndentWidth: 4
 UseTab: Never
 
 Language: Cpp
-DerivePointerAlignment: false
+DerivePointerAlignment: true
 PointerAlignment: Left
+AllowShortIfStatementsOnASingleLine: false
+IndentCaseLabels: false
+BreakBeforeBraces: Linux
+
 #
 # AlignAfterOpenBracket: Align
 # AlignArrayOfStructures: Right

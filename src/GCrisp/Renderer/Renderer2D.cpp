@@ -5,11 +5,14 @@
 #include "GCrisp/Core/Application.h"
 #include "Buffer.h"
 #include "Renderer.h"
+#include "GCrisp/Core/Memory/Allocator.h"
 
 #include <glm/glm.hpp>
 
-namespace GCrisp::Graphics2D {
-void Init(const Graphics::RendererProp& prop) {
+namespace GCrisp::Graphics2D
+{
+void Init(const Graphics::RendererProp& prop)
+{
     GC_PROFILE_FUNC();
     Graphics2D::s_Data = new Data();
 
@@ -21,7 +24,8 @@ void Init(const Graphics::RendererProp& prop) {
     s_Data->QuadVA.reset(Graphics::VertexArray::Create());
     s_Data->QuadVA->Bind();
 
-    s_Data->Vertices = new QuadVertex[GetLimits().MaxVertexCount];
+    s_Data->Vertices = Memory::GetGlobalAllocator()->ConstructArray<QuadVertex>(
+        GetLimits().MaxVertexCount);
 
     const uint32_t size = GetLimits().MaxVertexCount * sizeof(QuadVertex);
     s_Data->QuadVB.reset(Graphics::VertexBuffer::Create(
@@ -62,7 +66,8 @@ void Init(const Graphics::RendererProp& prop) {
     // app.GetAssetsManager().LoadRawTexture2D("WhiteTexture", whitePixel, {1,
     // 1, 4});
 
-    s_Data->TextureSlots = (AssetID*)calloc(MAX_TEXTURE_SLOTS, sizeof(AssetID));
+    s_Data->TextureSlots = Memory::GetGlobalAllocator()->
+        ConstructArray<AssetID>(MAX_TEXTURE_SLOTS);
     s_Data->WhiteTexture = app.GetAssetsManager().LoadAsset(
         {AssetType::Texture2D, "WhiteTexture.png"});
     s_Data->TextureSlots[0] = s_Data->WhiteTexture;
@@ -77,12 +82,15 @@ void Init(const Graphics::RendererProp& prop) {
     s_Data->VertexPositions[3] = glm::vec4(-0.5f, 0.5f, 0.0f, 1.0f);
 }
 
-void Shutdown() {
+void Shutdown()
+{
     GC_PROFILE_FUNC();
-    delete s_Data;
+    Memory::GetGlobalAllocator()->Delete(s_Data->Vertices);
+    Memory::GetGlobalAllocator()->Delete(s_Data->TextureSlots);
 }
 
-void BeginRender(Graphics::Camera& camera) {
+void BeginRender(Graphics::Camera& camera)
+{
     auto shader =
         Application::Get().GetAssetsManager().FetchAsset<Graphics::Shader>(
             s_Data->TextureShader);
@@ -90,7 +98,8 @@ void BeginRender(Graphics::Camera& camera) {
     shader->UploadMat4("u_ViewProj", camera.GetViewProj());
 }
 
-void Flush() {
+void Flush()
+{
     uint32_t size =
         (uint8_t*)s_Data->CurrentVertex - (uint8_t*)s_Data->Vertices;
     s_Data->QuadVB->UploadSubData(size, s_Data->Vertices);
@@ -122,13 +131,15 @@ void Flush() {
     s_Data->CurrentVertex = s_Data->Vertices;
 }
 
-void EndRender() {
+void EndRender()
+{
     Flush();
     s_Data->DrawCalls = 0;
 }
 
 void DrawQuadI(const QuadProp& prop, float textureID,
-               const glm::vec2 texCoords[4]) {
+               const glm::vec2 texCoords[4])
+{
     GC_PROFILE_FUNC();
 
     glm::mat4 transform =
@@ -148,7 +159,8 @@ void DrawQuadI(const QuadProp& prop, float textureID,
 }
 
 void DrawQuadIR(const QuadProp& prop, float textureID,
-                const glm::vec2 texCoords[4], const float rotationAngle) {
+                const glm::vec2 texCoords[4], const float rotationAngle)
+{
     GC_PROFILE_FUNC();
 
     glm::mat4 transform =
@@ -171,7 +183,8 @@ void DrawQuadIR(const QuadProp& prop, float textureID,
     s_Data->QuadIndexCount += 6;
 }
 
-void DrawQuad(const QuadProp& prop) {
+void DrawQuad(const QuadProp& prop)
+{
     if (s_Data->QuadIndexCount >= GetLimits().MaxIndexCount ||
         s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS) {
         Flush();
@@ -184,7 +197,8 @@ void DrawQuad(const QuadProp& prop) {
     DrawQuadI(prop, 0.0f, texCoords);
 }
 
-void DrawQuadR(const QuadProp& prop, const float rotationAngle) {
+void DrawQuadR(const QuadProp& prop, const float rotationAngle)
+{
     if (s_Data->QuadIndexCount >= GetLimits().MaxIndexCount ||
         s_Data->TextureSlotCount >= MAX_TEXTURE_SLOTS) {
         Flush();
@@ -195,7 +209,8 @@ void DrawQuadR(const QuadProp& prop, const float rotationAngle) {
 }
 
 void DrawQuadRT(const QuadProp& prop, const AssetID& texture,
-                const float rotationAngle) {
+                const float rotationAngle)
+{
     if (s_Data->QuadIndexCount >= GetLimits().MaxIndexCount) {
         Flush();
     }
@@ -224,7 +239,8 @@ void DrawQuadRT(const QuadProp& prop, const AssetID& texture,
 
 void DrawQuadRST(const QuadProp& prop,
                  const Reference<Graphics::SubTexture2D>& subTexture,
-                 const float rotationAngle) {
+                 const float rotationAngle)
+{
     if (s_Data->QuadIndexCount >= GetLimits().MaxIndexCount) {
         Flush();
     }
@@ -252,7 +268,8 @@ void DrawQuadRST(const QuadProp& prop,
     DrawQuadIR(prop, texIDF, subTexture->GetTextureCoords(), rotationAngle);
 }
 
-void DrawQuadT(const QuadProp& prop, const AssetID& texture) {
+void DrawQuadT(const QuadProp& prop, const AssetID& texture)
+{
     if (s_Data->QuadIndexCount >= GetLimits().MaxIndexCount) {
         Flush();
     }
@@ -280,7 +297,8 @@ void DrawQuadT(const QuadProp& prop, const AssetID& texture) {
 }
 
 void DrawQuadST(const QuadProp& prop,
-                const Reference<Graphics::SubTexture2D>& subTexture) {
+                const Reference<Graphics::SubTexture2D>& subTexture)
+{
     if (s_Data->QuadIndexCount >= GetLimits().MaxIndexCount) {
         Flush();
     }

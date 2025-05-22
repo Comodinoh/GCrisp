@@ -1,16 +1,22 @@
 #pragma once
 
-namespace GCrisp {
-class Core {
+namespace GCrisp
+{
+class Core
+{
 public:
-    static void Init() {
+    static void Init()
+    {
         GCrisp::Log::Init();
         GCrisp::Log::GetCoreLogger()->info("Initialized Logger!");
+
         GCrisp::TimingsProfiler::Init();
     }
 
-    static void Shutdown() {
+    static void Shutdown()
+    {
         GCrisp::TimingsProfiler::Shutdown();
+
         GCrisp::Log::Shutdown();
     }
 

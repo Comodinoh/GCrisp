@@ -47,16 +47,12 @@ set(GCRISP_SOURCE GCrisp/Core/Base.h
         GCrisp/Renderer/SubTexture.cpp
         GCrisp/Renderer/Utils.h
         GCrisp/GCrisp.h
-        gcpch.cpp
-        gcpch.h
-        GCrisp/Renderer/Parallel.h
-        GCrisp/Renderer/RenderCommand.cpp
-        GCrisp/Renderer/RenderCommand.h
-        GCrisp/Core/Memory/Allocator.cpp
         GCrisp/Core/Memory/Allocator.h
+        GCrisp/Core/Memory/Allocator.cpp
         GCrisp/Core/Memory/Statistics.h
         GCrisp/Core/Core.h
         GCrisp/Core/Core.cpp
+        GCrisp/Core/Memory/Allocable.h
 )
 
 add_library(GCrisp-Source STATIC ${GCRISP_SOURCE})
