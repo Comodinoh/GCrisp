@@ -12,6 +12,7 @@ option(GCRISP_BUILD_TESTS "Build tests" ON)
 option(GCRISP_PROFILING "Enable profiler" ON)
 option(GCRISP_FORCE_PROFILING "Force the use of the profiler regardless of build type" OFF)
 option(GCRISP_BUILD_DISTRIBUTABLE "Build GCrisp as a distributable" OFF)
+option(GCRISP_BUILD_VULKAN "Build with Vulkan support" OFF)
 
 add_subdirectory(platform)
 add_subdirectory(src)

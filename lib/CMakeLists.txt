@@ -28,4 +28,6 @@ target_link_libraries(GCrisp-Vendor INTERFACE
     stb
 )
 
-link_vulkan()
+if(GCRISP_BUILD_VULKAN)
+    link_vulkan()
+endif()

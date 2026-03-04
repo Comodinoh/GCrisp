@@ -1,7 +1,7 @@
 
 //type vertex
 
-#version 330 core
+#version 400 core
 
 in vec3 a_Position;
 in vec4 a_Color;
@@ -25,7 +25,7 @@ void main()
 
 //type fragment
 
-#version 330 core
+#version 400 core
 
 in vec4 color;
 in vec2 texCoord;
