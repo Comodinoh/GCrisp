@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.30.4)
 
-project(GCrisp-Test)
+project(Vane-Test)
 
 file(GLOB_RECURSE SRC src/*.cpp)
 add_executable(${PROJECT_NAME} ${SRC})

@@ -1,4 +1,5 @@
-set(VANE_SOURCE Vane/Assets/Assets.h
+set(VANE_SOURCES
+        Vane/Assets/Assets.h
         Vane/Assets/AssetsManager.cpp
         Vane/Assets/AssetsManager.h
         Vane/Core/Application.cpp
@@ -55,7 +56,7 @@ set(VANE_SOURCE Vane/Assets/Assets.h
         Vane/Vane.h
 )
 
-add_library(Vane-Source STATIC ${VANE_SOURCE})
+add_library(Vane-Source STATIC ${VANE_SOURCES})
 
 target_include_directories(Vane-Source PUBLIC .)
 

@@ -1,6 +1,6 @@
 add_library(Vane-OpenGL INTERFACE)
 
-set(GCRISP_OPENGL_SOURCES 
+set(VANE_OPENGL_SOURCES 
     Vane/Platform/OpenGL/GGLAPI.h
     Vane/Platform/OpenGL/GLBuffer.h
     Vane/Platform/OpenGL/GLContext.h
@@ -17,6 +17,6 @@ set(GCRISP_OPENGL_SOURCES
     Vane/Platform/OpenGL/GLWindow.cpp
 )
 
-target_sources(Vane-OpenGL INTERFACE ${GCRISP_OPENGL_SOURCES})
+target_sources(Vane-OpenGL INTERFACE ${VANE_OPENGL_SOURCES})
 
 target_include_directories(Vane-OpenGL INTERFACE .)

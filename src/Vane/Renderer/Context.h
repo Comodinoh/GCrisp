@@ -1,0 +1,21 @@
+#pragma once
+
+#include "RendererBase.h"
+
+namespace Vane::Graphics {
+struct ContextSpecification {
+    void* WindowHandle;
+};
+
+class Context {
+  public:
+    Context() = default;
+    virtual ~Context() {}
+
+    virtual void Init() const = 0;
+
+    virtual void SwapBuffers() const = 0;
+
+    VANE_GRAPHICS_CREATE_DECL_WITH_SPEC(Context)
+};
+} // namespace Vane::Graphics
