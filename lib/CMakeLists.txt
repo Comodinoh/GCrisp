@@ -1,4 +1,4 @@
-add_library(GCrisp-Vendor INTERFACE)
+add_library(Vane-Vendor INTERFACE)
 
 add_subdirectory(spdlog)
 add_subdirectory(glfw)
@@ -7,7 +7,7 @@ add_subdirectory(glm EXCLUDE_FROM_ALL)
 add_subdirectory(stb_impl)
 
 function(link_vulkan)
-    find_package(Vulkan ${GCRISP_VULKAN_VERSION} COMPONENTS glslc)
+    find_package(Vulkan ${VANE_VULKAN_VERSION} COMPONENTS glslc)
 
     if(NOT ${Vulkan_FOUND})
         include(FetchContent)
@@ -15,12 +15,12 @@ function(link_vulkan)
     Please follow this guide https://vulkan-tutorial.com/Development_environment to setup the SDK based on your OS
     (Be sure to install glslc too)")
     else()
-        target_include_directories(GCrisp-Vendor INTERFACE ${Vulkan_INCLUDE_DIRS})
-        target_link_libraries(GCrisp-Vendor INTERFACE ${Vulkan_LIBRARIES})
+        target_include_directories(Vane-Vendor INTERFACE ${Vulkan_INCLUDE_DIRS})
+        target_link_libraries(Vane-Vendor INTERFACE ${Vulkan_LIBRARIES})
     endif()
 endfunction()
 
-target_link_libraries(GCrisp-Vendor INTERFACE
+target_link_libraries(Vane-Vendor INTERFACE
     spdlog::spdlog
     glfw
     glad
@@ -28,6 +28,6 @@ target_link_libraries(GCrisp-Vendor INTERFACE
     stb
 )
 
-if(GCRISP_BUILD_VULKAN)
+if(VANE_BUILD_VULKAN)
     link_vulkan()
 endif()

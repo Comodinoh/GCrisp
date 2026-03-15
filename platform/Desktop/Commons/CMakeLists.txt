@@ -1,25 +1,25 @@
-target_sources(GCrisp-Platform INTERFACE GCrisp/Platform/DesktopInput.cpp)
+target_sources(Vane-Platform INTERFACE Vane/Platform/DesktopInput.cpp)
 
-target_compile_definitions(GCrisp-Platform INTERFACE
-    GC_DESKTOP
-    GC_OPENGL
+target_compile_definitions(Vane-Platform INTERFACE
+    VANE_DESKTOP
+    VANE_OPENGL
 )
 
-target_compile_definitions(GCrisp-Platform INTERFACE GLFW_INCLUDE_NONE)
+target_compile_definitions(Vane-Platform INTERFACE GLFW_INCLUDE_NONE)
 
 if(NOT MSVC)
-    target_compile_options(GCrisp-Platform INTERFACE
+    target_compile_options(Vane-Platform INTERFACE
         -fdiagnostics-color=always
     )
 endif()
 
 add_subdirectory(OpenGL)
-target_link_libraries(GCrisp-Platform INTERFACE GCrisp-OpenGL)
+target_link_libraries(Vane-Platform INTERFACE Vane-OpenGL)
 
-if(GCRISP_BUILD_VULKAN)
+if(VANE_BUILD_VULKAN)
     add_subdirectory(Vulkan)
-    target_link_libraries(GCrisp-Platform INTERFACE GCrisp-Vulkan)
-    target_compile_definitions(GCrisp-Platform INTERFACE
-        GC_VULKAN
+    target_link_libraries(Vane-Platform INTERFACE Vane-Vulkan)
+    target_compile_definitions(Vane-Platform INTERFACE
+        VANE_VULKAN
     )
 endif()

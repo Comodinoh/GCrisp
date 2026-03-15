@@ -1,22 +1,22 @@
-add_library(GCrisp-OpenGL INTERFACE)
+add_library(Vane-OpenGL INTERFACE)
 
 set(GCRISP_OPENGL_SOURCES 
-    GCrisp/Platform/OpenGL/GGLAPI.h
-    GCrisp/Platform/OpenGL/GLBuffer.h
-    GCrisp/Platform/OpenGL/GLContext.h
-    GCrisp/Platform/OpenGL/GLShader.h
-    GCrisp/Platform/OpenGL/GLTexture.h
-    GCrisp/Platform/OpenGL/GLVertexArray.h
-    GCrisp/Platform/OpenGL/GLWindow.h
-    GCrisp/Platform/OpenGL/GGLAPI.cpp
-    GCrisp/Platform/OpenGL/GLBuffer.cpp
-    GCrisp/Platform/OpenGL/GLContext.cpp
-    GCrisp/Platform/OpenGL/GLShader.cpp
-    GCrisp/Platform/OpenGL/GLTexture.cpp
-    GCrisp/Platform/OpenGL/GLVertexArray.cpp
-    GCrisp/Platform/OpenGL/GLWindow.cpp
+    Vane/Platform/OpenGL/GGLAPI.h
+    Vane/Platform/OpenGL/GLBuffer.h
+    Vane/Platform/OpenGL/GLContext.h
+    Vane/Platform/OpenGL/GLShader.h
+    Vane/Platform/OpenGL/GLTexture.h
+    Vane/Platform/OpenGL/GLVertexArray.h
+    Vane/Platform/OpenGL/GLWindow.h
+    Vane/Platform/OpenGL/GGLAPI.cpp
+    Vane/Platform/OpenGL/GLBuffer.cpp
+    Vane/Platform/OpenGL/GLContext.cpp
+    Vane/Platform/OpenGL/GLShader.cpp
+    Vane/Platform/OpenGL/GLTexture.cpp
+    Vane/Platform/OpenGL/GLVertexArray.cpp
+    Vane/Platform/OpenGL/GLWindow.cpp
 )
 
-target_sources(GCrisp-OpenGL INTERFACE ${GCRISP_OPENGL_SOURCES})
+target_sources(Vane-OpenGL INTERFACE ${GCRISP_OPENGL_SOURCES})
 
-target_include_directories(GCrisp-OpenGL INTERFACE .)
+target_include_directories(Vane-OpenGL INTERFACE .)

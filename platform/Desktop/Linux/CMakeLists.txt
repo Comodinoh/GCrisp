@@ -1,9 +1,9 @@
-set(GCRISP_LINUX_SOURCE
-    GCrisp/Platform/LinuxWindowCreator.cpp
+set(VANE_LINUX_SOURCE
+    Vane/Platform/LinuxWindowCreator.cpp
 )
 
-target_sources(GCrisp-Platform INTERFACE ${GCRISP_LINUX_SOURCE})
+target_sources(Vane-Platform INTERFACE ${VANE_LINUX_SOURCE})
 
-target_compile_definitions(GCrisp-Platform INTERFACE
-    GC_POSIX
+target_compile_definitions(Vane-Platform INTERFACE
+    VANE_POSIX
 )

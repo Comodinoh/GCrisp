@@ -1,5 +1,5 @@
 # Overview
-2D/3D Game engine written in the latest C++ standards.
+2D/3D (Visual Novel) Game engine written in the latest C++ standards.
 
 If you want to see the past archived version of this repository, check out the [old](https://github.com/Comodinoh/GCrisp/tree/old) branch.
 
